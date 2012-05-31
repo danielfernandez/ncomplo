@@ -1,0 +1,67 @@
+<html>
+<body>
+
+  <h1>DETALLE DE APUESTAS</h1>
+  
+  <h2>Datos</h2>
+  
+  <table class="betDetailSummary">
+   <tbody>
+    <tr class="ownerName">
+      <th>Apostante</th>
+      <td wicket:id="ownerName">[ownerName]</td>
+    </tr>
+    <tr class="groupStagepoints">
+      <th>Puntos en fase de grupos</th>
+      <td wicket:id="groupStagePoints">[group stage points]</td>
+    </tr>
+    <tr class="totalPoints">
+      <th>Total Puntos</th>
+      <td wicket:id="totalPoints">[total points]</td>
+    </tr>
+   </tbody>
+  </table>
+  
+  
+  <h2>Apuestas</h2>
+  
+  <table class="listing betsDetail">
+   <thead>
+    <tr>
+      <th rowspan="2">Ronda</th>
+      <th rowspan="2">Fecha</th>
+      <th colspan="2">Equipos</th>
+      <th colspan="2">Ganador</th>
+      <th colspan="2">Goles</th>
+      <th rowspan="2">Puntos</th>
+    </tr>
+    <tr>
+      <th>Equipo A</th>
+      <th>Equipo B</th>
+      <th>Apuesta</th>
+      <th>Real</th>
+      <th>Apuesta</th>
+      <th>Real</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr wicket:id="bet">
+      <td wicket:id="round">[round]</td>
+      <td wicket:id="date">[date]</td>
+      <td wicket:id="teamA">[team A]</td>
+      <td wicket:id="teamB">[team B]</td>
+      <td wicket:id="matchWinner">[match winner]</td>
+      <td wicket:id="realMatchWinner">[real match winner]</td>
+      <td wicket:id="score" class="score">[score]</td>
+      <td wicket:id="realScore" class="score">[real score]</td>
+      <td wicket:id="points" class="points">[points]</td>
+    </tr>
+   </tbody>
+  </table>
+
+  <div id="backToScoreboard">
+    <input type="button" wicket:id="linkToScoreboard" value="VOLVER A LA CLASIFICACI&Oacute;N" />
+  </div> 
+  
+</body>
+</html>

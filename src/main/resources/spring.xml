@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
+
+
+
+    <context:property-placeholder location="classpath:business.properties" />
+
+    <context:component-scan annotation-config="true" base-package="org.eleventhlabs.ncomplo" />
+
+    <!-- In non-cloud environments, a lazy proxy should be used -->
+    <!-- Also, a JNDI datasource cannot be used because CloudFoundry would not be able to -->
+    <!-- reconfigure it (it does so by modifying the driver, url, username and password properties) -->    
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${datasource.driver}" />
+        <property name="url" value="${datasource.url}" />
+        <property name="username" value="${datasource.username}" />
+        <property name="password" value="${datasource.password}" />
+    </bean>
+        
+        
+    <bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+        p:persistenceUnitName="persistenceUnit" 
+        p:dataSource-ref="dataSource" />
+
+    
+    <bean id="transactionManager"
+        class="org.springframework.orm.jpa.JpaTransactionManager"
+        p:entityManagerFactory-ref="entityManagerFactory" />
+    
+        
+    <jpa:repositories base-package="org.eleventhlabs.ncomplo.business.entities.repositories" />
+    
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+
+</beans>

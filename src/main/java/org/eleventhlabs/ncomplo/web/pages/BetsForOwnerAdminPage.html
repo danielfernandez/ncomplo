@@ -1,0 +1,79 @@
+<html>
+<body>
+
+  <div>
+    Ir a: <a href="#" wicket:id="linkBetAdmin">Atr&aacute;s (Administraci&oacute;n de Apuestas)</a> | <a href="#" wicket:id="linkMatchAdmin">Administraci&oacute;n de Partidos</a>
+  </div> 
+
+  <h1>Administraci&oacute;n de Apuestas</h1>
+  
+  <div wicket:id="feedbackPanel"></div>
+  
+  <form wicket:id="betForm">
+
+  <h2>Datos</h2>
+  
+  <fieldset>
+      
+      <table>
+        <tr>
+          <td>Nombre:</td>
+          <td wicket:id="ownerName">[ownerName]</td>
+        </tr>
+        <tr>
+          <td>Google Account:</td>
+          <td><input type="text" wicket:id="ownerAccountId"/></td>
+        </tr>
+      </table>
+      
+  </fieldset>
+  
+  
+  <h2>Apuestas</h2>
+  
+  <table class="listing">
+   <thead>
+    <tr>
+      <th>Ronda</th>
+      <th>Fecha</th>
+      <th>Nombre</th>
+      <th>Equipo A</th>
+      <th>Equipo B</th>
+      <th>Goles A</th>
+      <th>Goles B</th>
+      <th>Ganador</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr wicket:id="match">
+      <td wicket:id="round">[round]</td>
+      <td wicket:id="date">[date]</td>
+      <td wicket:id="name">[name]</td>
+      <td>
+        <span wicket:id="teamA"></span>
+        <select size="1" wicket:id="teamAInput" />
+      </td>
+      <td>
+        <span wicket:id="teamB"></span>
+        <select size="1" wicket:id="teamBInput" />
+      </td>
+      <td class="score">
+        <input type="text" wicket:id="scoreAInput" />
+      </td>
+      <td class="score">
+        <input type="text" wicket:id="scoreBInput" />
+      </td>
+      <td>
+        <select size="1" wicket:id="matchWinnerInput" />
+      </td>
+    </tr>
+   </tbody>
+  </table>
+  
+  <input type="submit" value="ENVIAR" />
+  <input type="button" wicket:id="removeBets" value="BORRAR APUESTAS" />
+  
+  </form>
+  
+</body>
+</html>
