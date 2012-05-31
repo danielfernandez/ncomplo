@@ -10,7 +10,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.HttpSessionStore;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.session.ISessionStore;
-import org.eleventhlabs.ncomplo.business.services.AAAService;
+import org.eleventhlabs.ncomplo.business.services.UserService;
 import org.eleventhlabs.ncomplo.business.services.BetService;
 import org.eleventhlabs.ncomplo.business.services.MatchService;
 import org.eleventhlabs.ncomplo.web.pages.BetAdminPage;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 public class NComploApplication extends WebApplication {
 
     @Autowired
-    private AAAService aaaService;
+    private UserService aaaService;
     
     @Autowired
     private BetService betService;
@@ -75,7 +75,7 @@ public class NComploApplication extends WebApplication {
 
     
 
-    public final AAAService getAaaService() {
+    public final UserService getAaaService() {
         return this.aaaService;
     }
 

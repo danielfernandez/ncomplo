@@ -7,12 +7,12 @@
   <artifactId>ncomplo</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>NComplo football competition bet manager</name>
+  <name>NComplo</name>
   <url>http://maven.apache.org</url>
   
   <build>
   
-    <finalName>truluru</finalName>
+    <finalName>ncomplo</finalName>
     
     <resources>
       <resource>
@@ -101,6 +101,12 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
+      <version>3.1.1.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
       <version>3.1.1.RELEASE</version>
       <scope>compile</scope>
     </dependency>
