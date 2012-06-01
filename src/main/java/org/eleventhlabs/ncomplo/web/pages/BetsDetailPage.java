@@ -16,6 +16,7 @@ import org.eleventhlabs.ncomplo.business.entities.MatchWinner;
 import org.eleventhlabs.ncomplo.business.entities.Round;
 import org.eleventhlabs.ncomplo.business.entities.Team;
 import org.eleventhlabs.ncomplo.business.services.BetService;
+import org.eleventhlabs.ncomplo.business.util.DateUtils;
 import org.eleventhlabs.ncomplo.web.application.NComploApplication;
 
 public class BetsDetailPage extends BasePage {
@@ -60,7 +61,8 @@ public class BetsDetailPage extends BasePage {
             final BetResult betResult = item.getModelObject();
             
             item.add(new Label("round", new Model<Round>(betResult.getRound())));
-            item.add(new Label("date", new Model<String>(betResult.getDate())));
+            
+            item.add(new Label("date", new Model<String>(DateUtils.toString(betResult.getDate()))));
             
             final Label teamA = new Label("teamA", new Model<Team>(betResult.getTeamA())); 
             if (betResult.getBetWins().contains(BetFragment.TEAM_A)) {

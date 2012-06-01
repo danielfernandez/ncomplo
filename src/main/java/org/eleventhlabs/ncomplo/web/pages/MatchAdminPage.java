@@ -1,5 +1,6 @@
 package org.eleventhlabs.ncomplo.web.pages;
 
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +21,8 @@ import org.eleventhlabs.ncomplo.business.entities.Match;
 import org.eleventhlabs.ncomplo.business.entities.Round;
 import org.eleventhlabs.ncomplo.business.entities.Team;
 import org.eleventhlabs.ncomplo.business.services.MatchService;
+import org.eleventhlabs.ncomplo.business.util.DateUtils;
+import org.eleventhlabs.ncomplo.exceptions.InternalErrorException;
 import org.eleventhlabs.ncomplo.web.application.NComploApplication;
 import org.eleventhlabs.ncomplo.web.utils.JavascriptEventConfirmation;
 
@@ -75,7 +78,7 @@ public class MatchAdminPage extends BaseAdminPage {
             final Integer matchId = match.getId();
             
             item.add(new Label("round", new Model<Round>(match.getRound())));
-            item.add(new Label("date", match.getDate()));
+            item.add(new Label("date", DateUtils.toString(match.getDate())));
             item.add(new Label("name", match.getName()));
             item.add(new Label("betType", new Model<BetType>(match.getBetType())));
             
@@ -204,7 +207,7 @@ public class MatchAdminPage extends BaseAdminPage {
                 this.name.setModelObject(match.getName());
                 this.betType.setModelObject(match.getBetType());
                 this.round.setModelObject(match.getRound());
-                this.date.setModelObject(match.getDate());
+                this.date.setModelObject(DateUtils.toString(match.getDate()));
                 this.teamA.setModelObject(match.getTeamA());
                 this.teamB.setModelObject(match.getTeamB());
                 this.scoreA.setModelObject(match.getScoreA());
@@ -223,7 +226,9 @@ public class MatchAdminPage extends BaseAdminPage {
             super.onSubmit();
             
             final MatchService matchService = NComploApplication.get().getMatchService();
-            
+
+            try {
+                
             if (this.matchId != null) {
                 
                 matchService.updateMatch(
@@ -231,7 +236,7 @@ public class MatchAdminPage extends BaseAdminPage {
                         this.name.getModelObject(), 
                         this.betType.getModelObject(), 
                         this.round.getModelObject(), 
-                        this.date.getModelObject(), 
+                        DateUtils.toCalendar(this.date.getModelObject()), 
                         this.teamA.getModelObject(), 
                         this.teamB.getModelObject(), 
                         this.scoreA.getModelObject(), 
@@ -243,12 +248,16 @@ public class MatchAdminPage extends BaseAdminPage {
                         this.name.getModelObject(), 
                         this.betType.getModelObject(), 
                         this.round.getModelObject(), 
-                        this.date.getModelObject(), 
+                        DateUtils.toCalendar(this.date.getModelObject()), 
                         this.teamA.getModelObject(), 
                         this.teamB.getModelObject(), 
                         this.scoreA.getModelObject(), 
                         this.scoreB.getModelObject());
                 
+            }
+            
+            } catch (final ParseException e) {
+                throw new InternalErrorException("Error parsing date", e);
             }
             
             setResponsePage(MatchAdminPage.class);

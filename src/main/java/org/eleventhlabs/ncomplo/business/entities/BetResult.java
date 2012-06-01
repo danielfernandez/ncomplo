@@ -1,6 +1,7 @@
 package org.eleventhlabs.ncomplo.business.entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ public class BetResult implements Serializable {
     private static final long serialVersionUID = -688318849853967583L;
     
     private final Round round;
-    private final String date;
+    private final Calendar date;
     private final String name;
     private final Team teamA;
     private final Team teamB;
@@ -24,7 +25,7 @@ public class BetResult implements Serializable {
     private final Integer points;
 
 
-    public BetResult(final Round round, final String date, final String name, 
+    public BetResult(final Round round, final Calendar date, final String name, 
             final Team teamA, final Team teamB, final String score, final String realScore, 
             final MatchWinner matchWinner, final MatchWinner realMatchWinner, final Boolean closed, 
             final Set<BetFragment> betFragments, final Set<BetFragment> betWins, final Set<BetFragment> betLoses, 
@@ -54,7 +55,7 @@ public class BetResult implements Serializable {
     }
 
 
-    public String getDate() {
+    public Calendar getDate() {
         return this.date;
     }
 

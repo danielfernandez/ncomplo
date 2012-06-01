@@ -1,5 +1,6 @@
 package org.eleventhlabs.ncomplo.business.services;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.eleventhlabs.ncomplo.business.entities.BetType;
@@ -43,7 +44,7 @@ public class MatchService {
     @Transactional
     public Match addMatch(
             final String name, final BetType betType, final Round round,
-            final String date, final Team teamA, final Team teamB, 
+            final Calendar date, final Team teamA, final Team teamB, 
             final Integer scoreA, final Integer scoreB) {
         
         final Match match = new Match();
@@ -65,7 +66,7 @@ public class MatchService {
     public Match updateMatch(
             final Integer id,
             final String name, final BetType betType, final Round round,
-            final String date, final Team teamA, final Team teamB, 
+            final Calendar date, final Team teamA, final Team teamB, 
             final Integer scoreA, final Integer scoreB) {
         
         final Match match = this.matchRepository.findOne(id);

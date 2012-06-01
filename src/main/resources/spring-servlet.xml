@@ -20,7 +20,9 @@
   <!--  SPRING ANNOTATION PROCESSING                                    -->
   <!-- **************************************************************** -->
   <mvc:annotation-driven />
-  <context:component-scan base-package="org.eleventhlabs.ncomplo.web" />
+  <context:component-scan base-package="org.eleventhlabs.ncomplo">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+  </context:component-scan>
 
 
   <!-- **************************************************************** -->

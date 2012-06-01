@@ -37,27 +37,27 @@
 
 
 
-<!--     <filter> -->
-<!--         <filter-name>wicketFilter</filter-name> -->
-<!--         <filter-class> -->
-<!--             org.apache.wicket.protocol.http.WicketFilter -->
-<!--         </filter-class> -->
-<!--         <init-param> -->
-<!--             <param-name>applicationFactoryClassName</param-name> -->
-<!--             <param-value> -->
-<!--                 org.apache.wicket.spring.SpringWebApplicationFactory -->
-<!--             </param-value> -->
-<!--         </init-param> -->
-<!--         <init-param> -->
-<!--             <param-name>configuration</param-name> -->
-<!--             <param-value>development</param-value> -->
-<!--         </init-param> -->
-<!--     </filter> -->
+    <filter>
+        <filter-name>wicketFilter</filter-name>
+        <filter-class>
+            org.apache.wicket.protocol.http.WicketFilter
+        </filter-class>
+        <init-param>
+            <param-name>applicationFactoryClassName</param-name>
+            <param-value>
+                org.apache.wicket.spring.SpringWebApplicationFactory
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>configuration</param-name>
+            <param-value>development</param-value>
+        </init-param>
+    </filter>
 
-<!--     <filter-mapping> -->
-<!--         <filter-name>wicketFilter</filter-name> -->
-<!--         <url-pattern>/*</url-pattern> -->
-<!--     </filter-mapping>  -->
+    <filter-mapping>
+        <filter-name>wicketFilter</filter-name>
+        <url-pattern>/old/*</url-pattern>
+    </filter-mapping> 
 
 
 
@@ -68,6 +68,10 @@
     <servlet>
       <servlet-name>spring</servlet-name>
       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+      <init-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-servlet.xml</param-value>
+      </init-param>
       <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -95,7 +99,7 @@
     
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring.xml</param-value>
+        <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
 
 

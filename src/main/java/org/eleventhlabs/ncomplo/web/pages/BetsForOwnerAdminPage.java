@@ -25,6 +25,7 @@ import org.eleventhlabs.ncomplo.business.entities.MatchWinner;
 import org.eleventhlabs.ncomplo.business.entities.Round;
 import org.eleventhlabs.ncomplo.business.entities.Team;
 import org.eleventhlabs.ncomplo.business.services.BetService;
+import org.eleventhlabs.ncomplo.business.util.DateUtils;
 import org.eleventhlabs.ncomplo.web.application.NComploApplication;
 import org.eleventhlabs.ncomplo.web.utils.JavascriptEventConfirmation;
 
@@ -247,7 +248,7 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
             this.betTypeByMatchId.put(matchId, match.getBetType());
             
             item.add(new Label("round", new Model<Round>(match.getRound())));
-            item.add(new Label("date", match.getDate()));
+            item.add(new Label("date", DateUtils.toString(match.getDate())));
             item.add(new Label("name", match.getName()));
 
             

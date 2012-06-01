@@ -19,7 +19,7 @@ public class Bet {
     private Integer id;
     
     @ManyToOne
-    @JoinColumn(name = "MATCH_KEY")
+    @JoinColumn(name = "MATCH_ID")
     private Match match;
     
     @Column(name = "OWNER_NAME")

@@ -1,11 +1,18 @@
 package org.eleventhlabs.ncomplo.business.entities;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 
 @Entity
@@ -16,17 +23,27 @@ public class Match implements Comparable<Match> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
+    @ManyToOne
+    @JoinColumn(name="COMPETITION_ID")
+    @NotNull
+    private Competition competition; 
+    
     @Column(name="NAME")
+    @NotNull
+    @Length(min=1, max=30)
     private String name;
     
     @Column(name="BET_TYPE")
+    @NotNull
     private BetType betType;
 
     @Column(name="ROUND")
+    @NotNull
     private Round round;
     
     @Column(name="DATE")
-    private String date;
+    @NotNull
+    private Calendar date;
     
     @Column(name="TEAM_A")
     private Team teamA;
@@ -107,15 +124,27 @@ public class Match implements Comparable<Match> {
         this.scoreB = scoreB;
     }
 
-    public String getDate() {
+    public Calendar getDate() {
         return this.date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 
     
+    public Competition getCompetition() {
+        return this.competition;
+    }
+
+
+    public void setCompetition(Competition competition) {
+        this.competition = competition;
+    }
+
+    
+    
+
     public boolean isTeamsDefined() {
         return (this.teamA != null && this.teamB != null);
     }
@@ -135,38 +164,6 @@ public class Match implements Comparable<Match> {
         return dateComp;
     }
 
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        return result;
-    }
-
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Match other = (Match) obj;
-        if (this.id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!this.id.equals(other.id)) {
-            return false;
-        }
-        return true;
-    }
     
     
 }

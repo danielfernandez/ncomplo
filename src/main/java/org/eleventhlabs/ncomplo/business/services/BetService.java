@@ -1,6 +1,7 @@
 package org.eleventhlabs.ncomplo.business.services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -205,7 +206,7 @@ public class BetService {
             final Bet bet = entry.getValue();
             
             final Round round = match.getRound();
-            final String date = match.getDate();
+            final Calendar date = match.getDate();
             final String name = match.getName();
             final Team realTeamA = match.getTeamA();
             final Team realTeamB = match.getTeamB();

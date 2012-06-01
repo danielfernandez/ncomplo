@@ -13,7 +13,9 @@
                            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
 
 
-    <context:component-scan annotation-config="true" base-package="org.eleventhlabs.ncomplo.business" />
+    <context:component-scan annotation-config="true" base-package="org.eleventhlabs.ncomplo">
+      <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
     <context:property-placeholder location="classpath:business.properties" />
 
