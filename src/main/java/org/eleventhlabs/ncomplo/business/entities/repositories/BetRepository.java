@@ -11,7 +11,8 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface BetRepository extends CrudRepository<Bet, Integer> {
+public interface BetRepository 
+        extends CrudRepository<Bet, Integer> {
     
     public List<Bet> findByOwnerName(final String ownerName);
     

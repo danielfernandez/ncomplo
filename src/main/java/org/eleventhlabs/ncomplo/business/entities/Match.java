@@ -72,7 +72,7 @@ public class Match implements Comparable<Match> {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -80,7 +80,7 @@ public class Match implements Comparable<Match> {
         return this.betType;
     }
 
-    public void setBetType(BetType betType) {
+    public void setBetType(final BetType betType) {
         this.betType = betType;
     }
 
@@ -88,7 +88,7 @@ public class Match implements Comparable<Match> {
         return this.round;
     }
 
-    public void setRound(Round round) {
+    public void setRound(final Round round) {
         this.round = round;
     }
 
@@ -96,7 +96,7 @@ public class Match implements Comparable<Match> {
         return this.teamA;
     }
 
-    public void setTeamA(Team teamA) {
+    public void setTeamA(final Team teamA) {
         this.teamA = teamA;
     }
 
@@ -104,7 +104,7 @@ public class Match implements Comparable<Match> {
         return this.teamB;
     }
 
-    public void setTeamB(Team teamB) {
+    public void setTeamB(final Team teamB) {
         this.teamB = teamB;
     }
 
@@ -112,7 +112,7 @@ public class Match implements Comparable<Match> {
         return this.scoreA;
     }
 
-    public void setScoreA(Integer scoreA) {
+    public void setScoreA(final Integer scoreA) {
         this.scoreA = scoreA;
     }
 
@@ -120,7 +120,7 @@ public class Match implements Comparable<Match> {
         return this.scoreB;
     }
 
-    public void setScoreB(Integer scoreB) {
+    public void setScoreB(final Integer scoreB) {
         this.scoreB = scoreB;
     }
 
@@ -128,7 +128,7 @@ public class Match implements Comparable<Match> {
         return this.date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(final Calendar date) {
         this.date = date;
     }
 
@@ -138,7 +138,7 @@ public class Match implements Comparable<Match> {
     }
 
 
-    public void setCompetition(Competition competition) {
+    public void setCompetition(final Competition competition) {
         this.competition = competition;
     }
 

@@ -6,48 +6,69 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:encryption="http://www.jasypt.org/schema/encryption"
        xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
                            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
-                           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
+                           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
+                           http://www.jasypt.org/schema/encryption
+                           http://www.jasypt.org/schema/encryption/jasypt-spring31-encryption-1.xsd">
 
 
-    <context:component-scan annotation-config="true" base-package="org.eleventhlabs.ncomplo">
+    <context:component-scan base-package="org.eleventhlabs.ncomplo">
       <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <context:property-placeholder location="classpath:business.properties" />
+    <context:property-placeholder location="classpath:business.properties"/>
 
 
     <!-- In non-cloud environments, a lazy proxy should be used -->
     <!-- Also, a JNDI datasource cannot be used because CloudFoundry would not be able to -->
     <!-- reconfigure it (it does so by modifying the driver, url, username and password properties) -->    
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${datasource.driver}" />
-        <property name="url" value="${datasource.url}" />
-        <property name="username" value="${datasource.username}" />
-        <property name="password" value="${datasource.password}" />
+        <property name="driverClassName" value="${datasource.driver}"/>
+        <property name="url" value="${datasource.url}"/>
+        <property name="username" value="${datasource.username}"/>
+        <property name="password" value="${datasource.password}"/>
     </bean>
-        
-        
-    <bean id="entityManagerFactory"
-        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-        p:persistenceUnitName="persistenceUnit" 
-        p:dataSource-ref="dataSource" />
 
+
+    <bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="persistenceProviderClass" value="org.hibernate.ejb.HibernatePersistence"/>
+        <property name="packagesToScan" value="org.eleventhlabs.ncomplo.business.entities"/>
+        <property name="jpaProperties">
+          <props>
+            <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+            <prop key="hibernate.connection.charSet">${hibernate.connection.charSet}</prop>
+            <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+            <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+            <prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop>
+            <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+            <prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
+            <prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+            <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+          </props>
+        </property>
+    </bean>
+
+    
+    <jpa:repositories base-package="org.eleventhlabs.ncomplo.business.entities.repositories"/>
     
     <bean id="transactionManager"
-        class="org.springframework.orm.jpa.JpaTransactionManager"
-        p:entityManagerFactory-ref="entityManagerFactory" />
+        class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
     
-        
-    <jpa:repositories base-package="org.eleventhlabs.ncomplo.business.entities.repositories" />
-    
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven transaction-manager="transactionManager" mode="proxy"/>
 
 
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+
+    <encryption:configurable-password-encryptor/>
 
 
 </beans>

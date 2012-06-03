@@ -67,7 +67,7 @@ public class User {
     }
 
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -77,7 +77,7 @@ public class User {
     }
 
 
-    public void setLeague(League league) {
+    public void setLeague(final League league) {
         this.league = league;
     }
 
@@ -87,7 +87,7 @@ public class User {
     }
 
 
-    public void setAdmin(boolean admin) {
+    public void setAdmin(final boolean admin) {
         this.admin = admin;
     }
     

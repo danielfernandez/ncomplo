@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>ncompl&oacute; :: manage competition</title>
+  </head>
+  
+  <body>
+  
+    <h1>Manage Competition</h1>
+    
+    <form th:action="@{/admin/competition/manage.do}" th:object="${competition}">
+      <fieldset>
+        <input type="hidden" th:field="*{id}" />
+        <div>
+          <label>Name</label>
+          <input type="text" th:field="*{names['*']}" required="required" />
+        </div>
+        <div>
+          <label>Name (es)</label>
+          <input type="text" th:field="*{names['es']}" />
+        </div>
+        <div>
+          <label>Name (en)</label>
+          <input type="text" th:field="*{names['en']}" />
+        </div>
+        <div>
+          <label>Active</label>
+          <input type="checkbox" th:field="*{active}" />
+        </div>
+      </fieldset>
+      <input type="submit" />
+    </form>
+    
+  </body>
+  
+</html>

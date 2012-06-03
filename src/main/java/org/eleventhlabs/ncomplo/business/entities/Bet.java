@@ -56,7 +56,7 @@ public class Bet {
     }
 
 
-    public void setMatch(Match match) {
+    public void setMatch(final Match match) {
         this.match = match;
     }
 
@@ -66,7 +66,7 @@ public class Bet {
     }
 
 
-    public void setOwnerName(String ownerName) {
+    public void setOwnerName(final String ownerName) {
         this.ownerName = ownerName;
     }
 
@@ -76,7 +76,7 @@ public class Bet {
     }
 
 
-    public void setTeamA(Team teamA) {
+    public void setTeamA(final Team teamA) {
         this.teamA = teamA;
     }
     
@@ -86,7 +86,7 @@ public class Bet {
     }
 
 
-    public void setTeamB(Team teamB) {
+    public void setTeamB(final Team teamB) {
         this.teamB = teamB;
     }
 
@@ -96,7 +96,7 @@ public class Bet {
     }
 
 
-    public void setScoreA(Integer scoreA) {
+    public void setScoreA(final Integer scoreA) {
         this.scoreA = scoreA;
     }
 
@@ -106,7 +106,7 @@ public class Bet {
     }
 
 
-    public void setScoreB(Integer scoreB) {
+    public void setScoreB(final Integer scoreB) {
         this.scoreB = scoreB;
     }
 
@@ -116,7 +116,7 @@ public class Bet {
     }
 
 
-    public void setMatchWinner(MatchWinner matchWinner) {
+    public void setMatchWinner(final MatchWinner matchWinner) {
         this.matchWinner = matchWinner;
     }
 
@@ -130,7 +130,7 @@ public class Bet {
         return this.ownerAccountId;
     }
 
-    public void setOwnerAccountId(String ownerAccountId) {
+    public void setOwnerAccountId(final String ownerAccountId) {
         this.ownerAccountId = ownerAccountId;
     }
     

@@ -19,9 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MatchService {
 
-
+    private static Sort SORT_BY_DATE = new Sort("date");
+    
+    
     @Autowired
     private MatchRepository matchRepository;
+    
     
     
     public MatchService() {
@@ -31,7 +34,7 @@ public class MatchService {
     
     @Transactional
     public List<Match> findAllMatchesOrderByDate() {
-        return IterableUtils.toList(this.matchRepository.findAll(new Sort("date")));
+        return IterableUtils.toList(this.matchRepository.findAll(SORT_BY_DATE));
     }
 
     

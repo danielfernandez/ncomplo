@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>ncompl&oacute; :: user list</title>
+  </head>
+  
+  <body>
+  
+    <h1>User List</h1>
+    
+    <table>
+      <tr th:each="user : ${allUsers}">
+        <td th:text="${user.login}">login</td>
+        <td th:text="${user.name}">name</td>
+        <td th:text="${user.admin}">admin</td>
+      </tr>
+    </table>
+    
+  </body>
+  
+</html>

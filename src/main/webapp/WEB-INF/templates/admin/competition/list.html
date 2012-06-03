@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>ncompl&oacute; :: competition list</title>
+  </head>
+  
+  <body>
+  
+    <h1>Competitions</h1>
+    
+    <a th:href="@{manage}">Create new</a>
+    <table>
+      <tr th:each="c : ${allCompetitions}">
+        <td th:text="${c.getName(#locale)}">Liga BBVA</td>
+        <td><a th:href="@{manage(id=${c.id})}">manage</a></td>
+      </tr>
+    </table> 
+    
+  </body>
+  
+</html>
