@@ -16,26 +16,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 @Controller
+@RequestMapping("/admin/competition")
 public class CompetitionController {
 
+    private static final String VIEW_BASE = "/admin/competition/";
+    
+    
     @Autowired
     private CompetitionService competitionService;
+
+    
+    
+    public CompetitionController() {
+        super();
+    }
     
     
     @ModelAttribute("allCompetitions")
     public List<Competition> allCompetitions(final HttpServletRequest request) {
-        System.out.println("LOCALE IS: " + RequestContextUtils.getLocale(request));
         return this.competitionService.findAllOrderByName(RequestContextUtils.getLocale(request));
-    }
-    
-    
-    @RequestMapping("/admin/competition/list")
-    public String list() {
-        return "admin/competition/list";
     }
 
     
-    @RequestMapping("/admin/competition/manage")
+    
+    @RequestMapping("/list")
+    public String list() {
+        return VIEW_BASE + "list";
+    }
+
+    
+    
+    @RequestMapping("/manage")
     public String manage(
             @ModelAttribute("competition") 
             final CompetitionBean competitionBean,
@@ -49,26 +60,39 @@ public class CompetitionController {
             competitionBean.setActive(competition.isActive());
         }
         
-        return "admin/competition/manage";
+        return VIEW_BASE + "manage";
         
     }
 
     
-    @RequestMapping("/admin/competition/manage.do")
+    
+    @RequestMapping("/manage.do")
     public String doManage(
             final CompetitionBean competitionBean,
             final BindingResult bindingResult) {
         
         if (competitionBean.getId() == null) {
-            this.competitionService.addCompetition(
+            this.competitionService.add(
                     competitionBean.getNames(), competitionBean.isActive());
         } else {
-            this.competitionService.modifyCompetition(
+            this.competitionService.modify(
                     competitionBean.getId(), competitionBean.getNames(),
                     competitionBean.isActive());
         }
         
-        return "redirect:/admin/competition/list";
+        return "redirect:" + VIEW_BASE + "list";
+        
+    }
+
+    
+    
+    @RequestMapping("/delete")
+    public String delete(
+            @RequestParam(value="id")
+            final Integer id) {
+
+        this.competitionService.delete(id);
+        return "redirect:" + VIEW_BASE + "list";
         
     }
     

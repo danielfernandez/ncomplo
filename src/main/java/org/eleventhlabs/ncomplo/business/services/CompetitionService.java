@@ -57,26 +57,24 @@ public class CompetitionService {
 
     
     @Transactional
-    public Competition addCompetition(final Map<String,String> names, final boolean active) {
+    public Competition add(final Map<String,String> names, final boolean active) {
         
         final Competition competition = new Competition();
         competition.getNames().putAll(names);
         competition.setActive(active);
         
-        final Competition result = this.competitionRepository.save(competition);
-
-        throw new RuntimeException("Boooom!!");
+        return this.competitionRepository.save(competition);
+        
     }
     
 
     @Transactional
-    public Competition modifyCompetition(final Integer competitionId, final Map<String,String> names,
+    public Competition modify(final Integer competitionId, final Map<String,String> names,
             final boolean active) {
         
         final Competition competition = 
                 this.competitionRepository.findOne(competitionId);
         competition.getNames().clear();
-System.out.println("PUTTING NAMES: " + names);
         competition.getNames().putAll(names);
         competition.setActive(active);
         
@@ -86,7 +84,7 @@ System.out.println("PUTTING NAMES: " + names);
     
     
     @Transactional
-    public void deleteCompetition(final Integer competitionId) {
+    public void delete(final Integer competitionId) {
         this.competitionRepository.delete(competitionId);
     }
 
