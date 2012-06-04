@@ -7,22 +7,21 @@ import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 
-public class CompetitionBean implements Serializable {
+public class BetTypeBean implements Serializable {
     
     private static final long serialVersionUID = 7297004126853517111L;
     
     @NotNull
     private Integer id;
+
+    @NotNull
+    private Integer competitionId;
     
     @NotNull
-    
     private Map<String,String> names = new HashMap<String, String>();
 
-    @NotNull
-    private boolean active = true;
-
     
-    public CompetitionBean() {
+    public BetTypeBean() {
         super();
     }
 
@@ -47,13 +46,13 @@ public class CompetitionBean implements Serializable {
     }
 
 
-    public boolean isActive() {
-        return this.active;
+    public Integer getCompetitionId() {
+        return this.competitionId;
     }
 
 
-    public void setActive(final boolean active) {
-        this.active = active;
+    public void setCompetitionId(final Integer competitionId) {
+        this.competitionId = competitionId;
     }
 
     

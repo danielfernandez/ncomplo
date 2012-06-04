@@ -13,8 +13,13 @@
     <table>
       <tr th:each="c : ${allCompetitions}">
         <td th:text="${c.getName(#locale)}">Liga BBVA</td>
-        <td><a th:href="@{manage(id=${c.id})}">manage</a></td>
-        <td><a th:href="@{delete(id=${c.id})}">delete</a></td>
+        <td th:text="${c.active}">Active</td>
+        <td>
+          <span th:text="${c.betTypes.size()}">Bet types</span>
+          <a th:href="@{bettype/list(competitionId=${c.id})}">manage bet types</a>
+        </td>
+        <td><a th:href="@{manage(id=${c.id})}">manage competition</a></td>
+        <td><a th:href="@{delete(id=${c.id})}">delete competition</a></td>
       </tr>
     </table> 
 

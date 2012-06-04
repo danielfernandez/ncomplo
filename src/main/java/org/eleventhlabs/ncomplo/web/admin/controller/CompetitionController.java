@@ -9,8 +9,8 @@ import org.eleventhlabs.ncomplo.business.services.CompetitionService;
 import org.eleventhlabs.ncomplo.web.admin.beans.CompetitionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -31,16 +31,14 @@ public class CompetitionController {
         super();
     }
     
-    
-    @ModelAttribute("allCompetitions")
-    public List<Competition> allCompetitions(final HttpServletRequest request) {
-        return this.competitionService.findAllOrderByName(RequestContextUtils.getLocale(request));
-    }
 
     
     
     @RequestMapping("/list")
-    public String list() {
+    public String list(final HttpServletRequest request, final ModelMap model) {
+        final List<Competition> competitions =
+                this.competitionService.findAllOrderByName(RequestContextUtils.getLocale(request));
+        model.addAttribute("allCompetitions", competitions);
         return VIEW_BASE + "list";
     }
 
@@ -48,17 +46,21 @@ public class CompetitionController {
     
     @RequestMapping("/manage")
     public String manage(
-            @ModelAttribute("competition") 
-            final CompetitionBean competitionBean,
             @RequestParam(value="id",required=false)
-            final Integer id) {
+            final Integer id,
+            final ModelMap model) {
+        
+        final CompetitionBean competitionBean = new CompetitionBean();
         
         if (id != null) {
             final Competition competition = this.competitionService.find(id);
+            competitionBean.setId(competition.getId());
+            competitionBean.setActive(competition.isActive());
             competitionBean.getNames().clear();
             competitionBean.getNames().putAll(competition.getNames());
-            competitionBean.setActive(competition.isActive());
         }
+        
+        model.addAttribute("competition", competitionBean);
         
         return VIEW_BASE + "manage";
         
@@ -66,19 +68,15 @@ public class CompetitionController {
 
     
     
-    @RequestMapping("/manage.do")
+    @RequestMapping("/save")
     public String doManage(
             final CompetitionBean competitionBean,
             final BindingResult bindingResult) {
-        
-        if (competitionBean.getId() == null) {
-            this.competitionService.add(
-                    competitionBean.getNames(), competitionBean.isActive());
-        } else {
-            this.competitionService.modify(
-                    competitionBean.getId(), competitionBean.getNames(),
-                    competitionBean.isActive());
-        }
+
+        this.competitionService.save(
+                competitionBean.getId(),
+                competitionBean.getNames(),
+                competitionBean.isActive());
         
         return "redirect:" + VIEW_BASE + "list";
         

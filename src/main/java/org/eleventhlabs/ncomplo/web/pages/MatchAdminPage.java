@@ -16,7 +16,6 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.validation.validator.NumberValidator.MinimumValidator;
-import org.eleventhlabs.ncomplo.business.entities.BetType;
 import org.eleventhlabs.ncomplo.business.entities.Match;
 import org.eleventhlabs.ncomplo.business.entities.Round;
 import org.eleventhlabs.ncomplo.business.entities.Team;
@@ -80,7 +79,7 @@ public class MatchAdminPage extends BaseAdminPage {
             item.add(new Label("round", new Model<Round>(match.getRound())));
             item.add(new Label("date", DateUtils.toString(match.getDate())));
             item.add(new Label("name", match.getName()));
-            item.add(new Label("betType", new Model<BetType>(match.getBetType())));
+//            item.add(new Label("betType", new Model<BetType>(match.getBetType())));
             
             String teams = "";
             if (match.isTeamsDefined()) {
@@ -140,7 +139,7 @@ public class MatchAdminPage extends BaseAdminPage {
         private final DropDownChoice<Round> round;
         private final TextField<String> date;
         private final TextField<String> name;
-        private final DropDownChoice<BetType> betType;
+//        private final DropDownChoice<BetType> betType;
         private final DropDownChoice<Team> teamA;
         private final DropDownChoice<Team> teamB;
         private final TextField<Integer> scoreA;
@@ -164,9 +163,9 @@ public class MatchAdminPage extends BaseAdminPage {
             this.name.setRequired(true);
             add(this.name);
 
-            this.betType = new DropDownChoice<BetType>("betType", new Model<BetType>(), Arrays.asList(BetType.ALL_BET_TYPES));
-            this.betType.setRequired(true);
-            add(this.betType);
+//            this.betType = new DropDownChoice<BetType>("betType", new Model<BetType>(), Arrays.asList(BetType.ALL_BET_TYPES));
+//            this.betType.setRequired(true);
+//            add(this.betType);
 
             this.teamA = new DropDownChoice<Team>("teamA", new Model<Team>(), Arrays.asList(Team.ALL_TEAMS));
             this.teamA.setNullValid(true);
@@ -205,7 +204,7 @@ public class MatchAdminPage extends BaseAdminPage {
                         NComploApplication.get().getMatchService().getMatch(matchId);
                 
                 this.name.setModelObject(match.getName());
-                this.betType.setModelObject(match.getBetType());
+//                this.betType.setModelObject(match.getBetType());
                 this.round.setModelObject(match.getRound());
                 this.date.setModelObject(DateUtils.toString(match.getDate()));
                 this.teamA.setModelObject(match.getTeamA());
@@ -234,7 +233,7 @@ public class MatchAdminPage extends BaseAdminPage {
                 matchService.updateMatch(
                         this.matchId,
                         this.name.getModelObject(), 
-                        this.betType.getModelObject(), 
+  null,//                      this.betType.getModelObject(), 
                         this.round.getModelObject(), 
                         DateUtils.toCalendar(this.date.getModelObject()), 
                         this.teamA.getModelObject(), 
@@ -246,7 +245,7 @@ public class MatchAdminPage extends BaseAdminPage {
                 
                 matchService.addMatch(
                         this.name.getModelObject(), 
-                        this.betType.getModelObject(), 
+null,//                        this.betType.getModelObject(), 
                         this.round.getModelObject(), 
                         DateUtils.toCalendar(this.date.getModelObject()), 
                         this.teamA.getModelObject(), 

@@ -57,31 +57,24 @@ public class CompetitionService {
 
     
     @Transactional
-    public Competition add(final Map<String,String> names, final boolean active) {
+    public Competition save(final Integer id,
+            final Map<String,String> names, final boolean active) {
         
-        final Competition competition = new Competition();
-        competition.getNames().putAll(names);
-        competition.setActive(active);
+        final Competition competition =
+                (id == null? new Competition() : this.competitionRepository.findOne(id));
         
-        return this.competitionRepository.save(competition);
-        
-    }
-    
-
-    @Transactional
-    public Competition modify(final Integer competitionId, final Map<String,String> names,
-            final boolean active) {
-        
-        final Competition competition = 
-                this.competitionRepository.findOne(competitionId);
         competition.getNames().clear();
         competition.getNames().putAll(names);
         competition.setActive(active);
         
+        if (id == null) {
+            return this.competitionRepository.save(competition);
+        }
         return competition;
         
     }
     
+
     
     @Transactional
     public void delete(final Integer competitionId) {

@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.eleventhlabs.ncomplo.business.util.I18nUtils;
 
@@ -39,8 +38,7 @@ public class BetType {
 
     
     @ManyToOne
-    @JoinColumn(name="COMPETITION_ID")
-    @NotNull
+    @JoinColumn(name="COMPETITION_ID",nullable=false)
     private Competition competition;
 
 
@@ -65,6 +63,12 @@ public class BetType {
 
     public Integer getId() {
         return this.id;
+    }
+
+
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -33,8 +34,9 @@ public class Match implements Comparable<Match> {
     @Length(min=1, max=30)
     private String name;
     
-    @Column(name="BET_TYPE")
+//    @Column(name="BET_TYPE")
     @NotNull
+@Transient
     private BetType betType;
 
     @Column(name="ROUND")

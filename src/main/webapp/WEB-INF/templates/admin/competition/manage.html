@@ -9,7 +9,7 @@
   
     <h1>Manage Competition</h1>
     
-    <form th:action="@{/admin/competition/manage.do}" th:object="${competition}">
+    <form th:action="@{/admin/competition/save}" th:object="${competition}">
       <fieldset>
         <input type="hidden" th:field="*{id}" />
         <div>

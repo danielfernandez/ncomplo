@@ -134,21 +134,21 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
                 final TextField<Integer> scoreBInput = this.scoreBByMatchId.get(matchId);
                 final DropDownChoice<MatchWinner> matchWinner = this.matchWinnerByMatchId.get(matchId);
 
-                switch (betType) {
-                
-                    case RESULT_AND_SCORE:
-                        betDefinitions.add(
-                            new BetDefinition(matchId, scoreAInput.getModelObject(), scoreBInput.getModelObject()));
-                        break;
-                    case PRESENCE_IN_ROUND:
-                        betDefinitions.add(
-                                new BetDefinition(matchId, teamAInput.getModelObject(), teamBInput.getModelObject()));
-                        break;
-                    case FINAL:
-                        betDefinitions.add(
-                                new BetDefinition(matchId, teamAInput.getModelObject(), teamBInput.getModelObject(), matchWinner.getModelObject()));
-                        break;
-                }
+//                switch (betType) {
+//                
+//                    case RESULT_AND_SCORE:
+//                        betDefinitions.add(
+//                            new BetDefinition(matchId, scoreAInput.getModelObject(), scoreBInput.getModelObject()));
+//                        break;
+//                    case PRESENCE_IN_ROUND:
+//                        betDefinitions.add(
+//                                new BetDefinition(matchId, teamAInput.getModelObject(), teamBInput.getModelObject()));
+//                        break;
+//                    case FINAL:
+//                        betDefinitions.add(
+//                                new BetDefinition(matchId, teamAInput.getModelObject(), teamBInput.getModelObject(), matchWinner.getModelObject()));
+//                        break;
+//                }
                 
             }
 
@@ -293,33 +293,33 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
             
             
             
-            switch (match.getBetType()) {
-                case RESULT_AND_SCORE :
-                    scoreAInput.setRequired(true);
-                    scoreBInput.setRequired(true);
-                    teamAInput.setVisible(false);
-                    teamBInput.setVisible(false);
-                    matchWinnerInput.setVisible(false);
-                    break;
-                case PRESENCE_IN_ROUND :
-                    teamAInput.setRequired(true);
-                    teamBInput.setRequired(true);
-                    teamA.setVisible(false);
-                    teamB.setVisible(false);
-                    scoreAInput.setVisible(false);
-                    scoreBInput.setVisible(false);
-                    matchWinnerInput.setVisible(false);
-                    break;
-                case FINAL :
-                    teamAInput.setRequired(true);
-                    teamBInput.setRequired(true);
-                    matchWinnerInput.setRequired(true);
-                    teamA.setVisible(false);
-                    teamB.setVisible(false);
-                    scoreAInput.setVisible(false);
-                    scoreBInput.setVisible(false);
-                    break;
-            }
+//            switch (match.getBetType()) {
+//                case RESULT_AND_SCORE :
+//                    scoreAInput.setRequired(true);
+//                    scoreBInput.setRequired(true);
+//                    teamAInput.setVisible(false);
+//                    teamBInput.setVisible(false);
+//                    matchWinnerInput.setVisible(false);
+//                    break;
+//                case PRESENCE_IN_ROUND :
+//                    teamAInput.setRequired(true);
+//                    teamBInput.setRequired(true);
+//                    teamA.setVisible(false);
+//                    teamB.setVisible(false);
+//                    scoreAInput.setVisible(false);
+//                    scoreBInput.setVisible(false);
+//                    matchWinnerInput.setVisible(false);
+//                    break;
+//                case FINAL :
+//                    teamAInput.setRequired(true);
+//                    teamBInput.setRequired(true);
+//                    matchWinnerInput.setRequired(true);
+//                    teamA.setVisible(false);
+//                    teamB.setVisible(false);
+//                    scoreAInput.setVisible(false);
+//                    scoreBInput.setVisible(false);
+//                    break;
+//            }
             
         }
         
