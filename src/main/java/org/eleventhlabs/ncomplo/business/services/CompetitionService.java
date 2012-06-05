@@ -57,14 +57,18 @@ public class CompetitionService {
 
     
     @Transactional
-    public Competition save(final Integer id,
-            final Map<String,String> names, final boolean active) {
+    public Competition save(
+            final Integer id,
+            final String name, 
+            final Map<String,String> namesByLang, 
+            final boolean active) {
         
         final Competition competition =
                 (id == null? new Competition() : this.competitionRepository.findOne(id));
-        
-        competition.getNames().clear();
-        competition.getNames().putAll(names);
+
+        competition.setName(name);
+        competition.getNamesByLang().clear();
+        competition.getNamesByLang().putAll(namesByLang);
         competition.setActive(active);
         
         if (id == null) {

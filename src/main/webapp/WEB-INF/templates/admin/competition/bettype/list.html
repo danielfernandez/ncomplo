@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head>
-    <title>ncompl&oacute; :: bet types for competition</title>
-  </head>
+  <head th:substituteby="admin/adminheader :: head"></head>
   
   <body>
-  
-    <h1>Bet Types for <span th:text="${competition.getName(#locale)}">competition</span></h1>
     
-    <a th:href="@{manage}">Create new</a>
-    <table>
-      <tr th:each="bt : ${allBetTypes}">
-        <td th:text="${bt.getName(#locale)}">Type of Bet</td>
-        <td><a th:href="@{manage(id=${bt.id})}">manage bet type</a></td>
-        <td><a th:href="@{delete(id=${bt.id})}">delete bet type</a></td>
-      </tr>
-    </table> 
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
+  
+        <h1>Bet Types for competition "<span th:text="${competition.getName(#locale)}">competition</span>"</h1>
+        
+        <a th:href="@{manage}">Create new</a>
+        <table>
+          <tr th:each="bt : ${allBetTypes}">
+            <td th:text="${bt.getName(#locale)}">Type of Bet</td>
+            <td><a th:href="@{manage(id=${bt.id})}">manage bet type</a></td>
+            <td><a th:href="@{delete(id=${bt.id})}">delete bet type</a></td>
+          </tr>
+        </table>
+        
+    </div> 
 
   </body>
   

@@ -7,15 +7,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.eleventhlabs.ncomplo.business.entities.BetType;
 import org.eleventhlabs.ncomplo.business.services.BetTypeService;
 import org.eleventhlabs.ncomplo.business.services.CompetitionService;
+import org.eleventhlabs.ncomplo.web.admin.beans.BetTypeBean;
+import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 @Controller
-@RequestMapping("/admin/competition/bettype")
+@RequestMapping("/admin/competition/{competitionId}/bettype")
 public class BetTypeController {
 
     private static final String VIEW_BASE = "/admin/competition/bettype/";
@@ -41,8 +45,9 @@ public class BetTypeController {
     
     @RequestMapping("/list")
     public String list(
-            @RequestParam(value="competitionId",required=true) final Integer competitionId, 
-            final HttpServletRequest request, final ModelMap model) {
+            @PathVariable("competitionId") final Integer competitionId, 
+            final HttpServletRequest request, 
+            final ModelMap model) {
         
         final List<BetType> betTypes =
                 this.betTypeService.findAllOrderByName(competitionId,RequestContextUtils.getLocale(request));
@@ -56,55 +61,61 @@ public class BetTypeController {
 
     
     
-//    @RequestMapping("/manage")
-//    public String manage(
-//            @RequestParam(value="id",required=false)
-//            final Integer id,
-//            final ModelMap model) {
-//        
-//        final CompetitionBean competitionBean = new CompetitionBean();
-//        
-//        if (id != null) {
-//            final Competition competition = this.competitionService.find(id);
-//            competitionBean.setId(competition.getId());
-//            competitionBean.setActive(competition.isActive());
-//            competitionBean.getNames().clear();
-//            competitionBean.getNames().putAll(competition.getNames());
-//        }
-//        
-//        model.addAttribute("competition", competitionBean);
-//        
-//        return VIEW_BASE + "manage";
-//        
-//    }
-//
-//    
-//    
-//    @RequestMapping("/save")
-//    public String doManage(
-//            final CompetitionBean competitionBean,
-//            final BindingResult bindingResult) {
-//
-//        this.competitionService.save(
-//                competitionBean.getId(),
-//                competitionBean.getNames(),
-//                competitionBean.isActive());
-//        
-//        return "redirect:" + VIEW_BASE + "list";
-//        
-//    }
-//
-//    
-//    
-//    @RequestMapping("/delete")
-//    public String delete(
-//            @RequestParam(value="id")
-//            final Integer id) {
-//
-//        this.competitionService.delete(id);
-//        return "redirect:" + VIEW_BASE + "list";
-//        
-//    }
+    @RequestMapping("/manage")
+    public String manage(
+            @RequestParam(value="id",required=false)
+            final Integer id,
+            @PathVariable("competitionId")
+            final Integer competitionId,
+            final ModelMap model) {
+
+        final BetTypeBean betTypeBean = new BetTypeBean();
+        
+        if (id != null) {
+            final BetType betType = this.betTypeService.find(id);
+            betTypeBean.setId(betType.getId());
+            betTypeBean.setName(betType.getName());
+            betTypeBean.getNamesByLang().clear();
+            betTypeBean.getNamesByLang().addAll(LangBean.listFromMap(betType.getNamesByLang()));
+        }
+        
+        model.addAttribute("betType", betTypeBean);
+        model.addAttribute("competition", this.competitionService.find(competitionId));
+        
+        return VIEW_BASE + "manage";
+        
+    }
+
+    
+    
+    @RequestMapping("/save")
+    public String save(
+            final BetTypeBean betTypeBean,
+            final BindingResult bindingResult,
+            @PathVariable("competitionId")
+            final Integer competitionId) {
+
+        this.betTypeService.save(
+                betTypeBean.getId(),
+                competitionId,
+                betTypeBean.getName(),
+                LangBean.mapFromList(betTypeBean.getNamesByLang()));
+        
+        return "redirect:list";
+        
+    }
+
+    
+    
+    @RequestMapping("/delete")
+    public String delete(
+            @RequestParam(value="id")
+            final Integer id) {
+
+        this.betTypeService.delete(id);
+        return "redirect:list";
+        
+    }
     
     
 }

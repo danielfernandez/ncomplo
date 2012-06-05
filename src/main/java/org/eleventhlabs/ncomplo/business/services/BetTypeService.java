@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eleventhlabs.ncomplo.business.entities.BetType;
+import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.repositories.BetTypeRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.CompetitionRepository;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
@@ -63,13 +64,28 @@ public class BetTypeService {
 
     
     @Transactional
-    public BetType add(final Map<String,String> names, final Integer competitionId) {
+    public BetType save(
+            final Integer id,
+            final Integer competitionId,
+            final String defaultName,
+            final Map<String,String> namesByLang) {
+
+        final Competition competition = 
+                this.competitionRepository.findOne(competitionId);
+                
+        final BetType betType =
+                (id == null? new BetType() : this.betTypeRepository.findOne(id));
         
-        final BetType betType = new BetType();
-        betType.getNames().putAll(names);
-        betType.setCompetition(this.competitionRepository.findOne(competitionId));
+        betType.setCompetition(competition);
+        betType.setName(defaultName);
+        betType.getNamesByLang().clear();
+        betType.getNamesByLang().putAll(namesByLang);
         
-        return this.betTypeRepository.save(betType);
+        if (id == null) {
+            competition.getBetTypes().add(betType);
+            return this.betTypeRepository.save(betType);
+        }
+        return betType;
         
     }
     
@@ -77,7 +93,13 @@ public class BetTypeService {
     
     @Transactional
     public void delete(final Integer betTypeId) {
-        this.betTypeRepository.delete(betTypeId);
+        
+        final BetType betType = 
+                this.betTypeRepository.findOne(betTypeId);
+        final Competition competition = betType.getCompetition();
+        
+        competition.getBetTypes().remove(betType);
+        
     }
 
     

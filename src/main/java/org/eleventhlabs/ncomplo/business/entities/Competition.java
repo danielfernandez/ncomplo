@@ -1,10 +1,10 @@
 package org.eleventhlabs.ncomplo.business.entities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.eleventhlabs.ncomplo.business.util.I18nUtils;
@@ -31,11 +32,16 @@ public class Competition {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
+    
+    @Column(name="NAME",nullable=false,length=200)
+    private String name;
+    
+    
     @ElementCollection(fetch=FetchType.EAGER,targetClass=java.lang.String.class)
-    @CollectionTable(name="COMPETITION_NAME",joinColumns=@JoinColumn(name="COMPETITION_ID"))
-    @MapKeyColumn(name="LANG",nullable=false,length=3)
+    @CollectionTable(name="COMPETITION_NAME_I18N",joinColumns=@JoinColumn(name="COMPETITION_ID"))
+    @MapKeyColumn(name="LANG",nullable=false,length=20)
     @Column(name="NAME", nullable=false,length=200)
-    private Map<String,String> names = new HashMap<String, String>();
+    private Map<String,String> namesByLang = new LinkedHashMap<String, String>();
 
     
     @Column(name="ACTIVE",nullable=false)
@@ -43,7 +49,7 @@ public class Competition {
 
     
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="competition")
-    private List<BetType> betTypes = new ArrayList<BetType>();
+    private Set<BetType> betTypes = new LinkedHashSet<BetType>();
     
     
     
@@ -53,23 +59,18 @@ public class Competition {
     }
 
 
-    public Map<String, String> getNames() {
-        return this.names;
+    public Map<String, String> getNamesByLang() {
+        return this.namesByLang;
     }
 
 
     public Integer getId() {
         return this.id;
     }
-    
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
 
     public String getName(final Locale locale) {
-        return I18nUtils.getTextForLocale(this.names, locale);
+        return I18nUtils.getTextForLocale(locale, this.namesByLang, this.name);
     }
 
 
@@ -84,8 +85,18 @@ public class Competition {
 
     
 
-    public List<BetType> getBetTypes() {
+    public Set<BetType> getBetTypes() {
         return this.betTypes;
+    }
+
+
+    public String getName() {
+        return this.name;
+    }
+
+
+    public void setName(final String name) {
+        this.name = name;
     }
     
     

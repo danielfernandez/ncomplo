@@ -1,6 +1,6 @@
 package org.eleventhlabs.ncomplo.business.entities;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -28,13 +28,17 @@ public class BetType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    
+    @Column(name="NAME",nullable=false,length=200)
+    private String name;
     
     
     @ElementCollection(fetch=FetchType.EAGER,targetClass=java.lang.String.class)
-    @CollectionTable(name="BET_TYPE_NAME",joinColumns=@JoinColumn(name="BET_TYPE_ID"))
-    @MapKeyColumn(name="LANG",nullable=false,length=3)
+    @CollectionTable(name="BET_TYPE_NAME_I18N",joinColumns=@JoinColumn(name="BET_TYPE_ID"))
+    @MapKeyColumn(name="LANG",nullable=false,length=20)
     @Column(name="NAME", nullable=false,length=200)
-    private Map<String,String> names = new HashMap<String, String>();
+    private Map<String,String> namesByLang = new LinkedHashMap<String, String>();
 
     
     @ManyToOne
@@ -49,26 +53,8 @@ public class BetType {
 
 
 
-    public Map<String, String> getNames() {
-        return this.names;
-    }
-
-
-
-    public void setNames(final Map<String, String> names) {
-        this.names = names;
-    }
-
-
-
     public Integer getId() {
         return this.id;
-    }
-
-
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
 
@@ -86,7 +72,25 @@ public class BetType {
     
     
     public String getName(final Locale locale) {
-        return I18nUtils.getTextForLocale(this.names, locale);
+        return I18nUtils.getTextForLocale(locale, this.namesByLang, this.name);
+    }
+
+
+
+    public String getName() {
+        return this.name;
+    }
+
+
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+
+
+    public Map<String, String> getNamesByLang() {
+        return this.namesByLang;
     }
 
 

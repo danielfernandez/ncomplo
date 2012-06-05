@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.services.CompetitionService;
 import org.eleventhlabs.ncomplo.web.admin.beans.CompetitionBean;
+import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -53,11 +54,16 @@ public class CompetitionController {
         final CompetitionBean competitionBean = new CompetitionBean();
         
         if (id != null) {
+            
             final Competition competition = this.competitionService.find(id);
+            
             competitionBean.setId(competition.getId());
+            competitionBean.setName(competition.getName());
             competitionBean.setActive(competition.isActive());
-            competitionBean.getNames().clear();
-            competitionBean.getNames().putAll(competition.getNames());
+            
+            competitionBean.getNamesByLang().clear();
+            competitionBean.getNamesByLang().addAll(LangBean.listFromMap(competition.getNamesByLang()));
+            
         }
         
         model.addAttribute("competition", competitionBean);
@@ -69,16 +75,17 @@ public class CompetitionController {
     
     
     @RequestMapping("/save")
-    public String doManage(
+    public String save(
             final CompetitionBean competitionBean,
             final BindingResult bindingResult) {
 
         this.competitionService.save(
                 competitionBean.getId(),
-                competitionBean.getNames(),
+                competitionBean.getName(),
+                LangBean.mapFromList(competitionBean.getNamesByLang()),
                 competitionBean.isActive());
         
-        return "redirect:" + VIEW_BASE + "list";
+        return "redirect:list";
         
     }
 
@@ -90,7 +97,7 @@ public class CompetitionController {
             final Integer id) {
 
         this.competitionService.delete(id);
-        return "redirect:" + VIEW_BASE + "list";
+        return "redirect:list";
         
     }
     

@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head>
-    <title>ncompl&oacute; :: manage competition</title>
+  <head th:substituteby="admin/adminheader :: head">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
+    <script src="../../../../js/ncomplo.js" type="text/javascript"></script>
   </head>
   
   <body>
   
-    <h1>Manage Competition</h1>
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
     
-    <form th:action="@{/admin/competition/save}" th:object="${competition}">
-      <fieldset>
-        <input type="hidden" th:field="*{id}" />
-        <div>
-          <label>Name</label>
-          <input type="text" th:field="*{names['*']}" required="required" />
-        </div>
-        <div>
-          <label>Name (es)</label>
-          <input type="text" th:field="*{names['es']}" />
-        </div>
-        <div>
-          <label>Name (en)</label>
-          <input type="text" th:field="*{names['en']}" />
-        </div>
-        <div>
-          <label>Active</label>
-          <input type="checkbox" th:field="*{active}" />
-        </div>
-      </fieldset>
-      <input type="submit" />
-    </form>
+        <h1>Manage C</h1>
+        
+        <form th:action="@{save}" th:object="${competition}">
+          <fieldset>
+            <input type="hidden" th:field="*{id}" />
+            <div id="name">
+              <label>Name</label>
+              <input type="text" th:field="*{name}" required="required" />
+              <a href="#" onclick="$.org.eleventhlabs.ncomplo.lang.add('name');">add language</a>
+            </div>
+            <div class="name-lang-existing" th:each="nameLang : *{namesByLang}">
+              <input class="langInput" type="text" th:field="*{namesByLang[__${nameLangStat.index}__].lang}" />
+              <input class="valueInput" type="text" th:field="*{namesByLang[__${nameLangStat.index}__].value}" />
+            </div>
+            <div id="name-lang-prototype">
+              <input class="langInput" type="text" name="namesByLang[$index$].lang" id="namesByLang$index$.lang" value="" />
+              <input class="valueInput" type="text" name="namesByLang[$index$].value" id="namesByLang$index$.value" value="" />
+            </div>
+            <div>
+              <label>Active</label>
+              <input type="checkbox" th:field="*{active}" />
+            </div>
+          </fieldset>
+          <input type="submit" />
+        </form>
+        
+    </div>
     
   </body>
   

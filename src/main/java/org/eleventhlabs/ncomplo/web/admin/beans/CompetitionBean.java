@@ -1,10 +1,12 @@
 package org.eleventhlabs.ncomplo.web.admin.beans;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 
 public class CompetitionBean implements Serializable {
@@ -15,17 +17,22 @@ public class CompetitionBean implements Serializable {
     private Integer id;
     
     @NotNull
+    @Length(min=3,max=200)
+    private String name;
     
-    private Map<String,String> names = new HashMap<String, String>();
+    @NotNull
+    private List<LangBean> namesByLang = new ArrayList<LangBean>();
 
     @NotNull
     private boolean active = true;
 
     
+    
     public CompetitionBean() {
         super();
     }
 
+    
 
     public Integer getId() {
         return this.id;
@@ -37,16 +44,6 @@ public class CompetitionBean implements Serializable {
     }
 
 
-    public Map<String, String> getNames() {
-        return this.names;
-    }
-
-
-    public void setNames(final Map<String, String> names) {
-        this.names = names;
-    }
-
-
     public boolean isActive() {
         return this.active;
     }
@@ -54,6 +51,24 @@ public class CompetitionBean implements Serializable {
 
     public void setActive(final boolean active) {
         this.active = active;
+    }
+
+
+
+    public String getName() {
+        return this.name;
+    }
+
+
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+
+
+    public List<LangBean> getNamesByLang() {
+        return this.namesByLang;
     }
 
     
