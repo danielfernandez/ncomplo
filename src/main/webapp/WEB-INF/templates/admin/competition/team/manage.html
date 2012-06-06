@@ -9,9 +9,9 @@
     
     <div id="content">
 
-        <h1>Manage Bet Type in competition "<span th:text="${competition.getName(#locale)}">One Competition</span>"</h1>
+        <h1>Manage Team in competition "<span th:text="${competition.getName(#locale)}">One Competition</span>"</h1>
         
-        <form th:action="@{save}" th:object="${betType}">
+        <form th:action="@{save}" th:object="${team}">
         
           <fieldset>
           
@@ -32,11 +32,6 @@
               <input class="langInput" type="text" name="namesByLang[$index$].lang" id="namesByLang$index$.lang" value="" />
               <input class="valueInput" type="text" name="namesByLang[$index$].value" id="namesByLang$index$.value" value="" />
               <a href="#" onclick="$.org.eleventhlabs.ncomplo.lang.remove(this);">delete</a>
-            </div>
-            
-            <div>
-              <label for="specInput">Specification</label>
-              <textarea id="specInput" th:field="*{spec}" required="required"></textarea>
             </div>
             
           </fieldset>

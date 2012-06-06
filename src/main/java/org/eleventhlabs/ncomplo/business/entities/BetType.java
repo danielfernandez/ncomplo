@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
@@ -22,7 +23,7 @@ import org.eleventhlabs.ncomplo.business.util.I18nUtils;
 
 @Entity
 @Table(name="BET_TYPE")
-public class BetType {
+public class BetType implements I18nNamedEntity {
 
     
     @Id
@@ -40,6 +41,11 @@ public class BetType {
     @Column(name="NAME", nullable=false,length=200)
     private Map<String,String> namesByLang = new LinkedHashMap<String, String>();
 
+    
+    @Column(name="SPEC",nullable=false)
+    @Lob
+    private String spec;
+    
     
     @ManyToOne
     @JoinColumn(name="COMPETITION_ID",nullable=false)
@@ -71,12 +77,14 @@ public class BetType {
 
     
     
+    @Override
     public String getName(final Locale locale) {
         return I18nUtils.getTextForLocale(locale, this.namesByLang, this.name);
     }
 
 
 
+    @Override
     public String getName() {
         return this.name;
     }
@@ -89,8 +97,21 @@ public class BetType {
 
 
 
+    @Override
     public Map<String, String> getNamesByLang() {
         return this.namesByLang;
+    }
+
+
+
+    public String getSpec() {
+        return this.spec;
+    }
+
+
+
+    public void setSpec(final String spec) {
+        this.spec = spec;
     }
 
 

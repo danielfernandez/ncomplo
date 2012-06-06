@@ -1,64 +1,101 @@
 package org.eleventhlabs.ncomplo.business.entities;
 
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
 
-public enum Team {
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.Table;
 
-    GERMANY("Alemania"),
-    ALGERIA("Argelia"),
-    ARGENTINA("Argentina"),
-    AUSTRALIA("Australia"),
-    BRAZIL("Brasil"),
-    CAMEROON("Camer\u00FAn"),
-    CHILE("Chile"),
-    KOREA_DPR("Corea del Norte"),
-    KOREA_REPUBLIC("Corea del Sur"),
-    COTE_DIVOIRE("Costa de Marfil"),
-    DENMARK("Dinamarca"),
-    SLOVAKIA("Eslovaquia"),
-    SLOVENIA("Eslovenia"),
-    SPAIN("Espa\u00F1a"),
-    UNITED_STATES("Estados Unidos"),
-    FRANCE("Francia"),
-    GHANA("Ghana"),
-    GREECE("Grecia"),
-    NETHERLANDS("Holanda"),
-    HONDURAS("Honduras"),
-    ENGLAND("Inglaterra"),
-    ITALY("Italia"),
-    JAPAN("Jap\u00F3n"),
-    MEXICO("M\u00E9xico"),
-    NIGERIA("Nigeria"),
-    NEW_ZEALAND("Nueva Zelanda"),
-    PARAGUAY("Paraguay"),
-    PORTUGAL("Portugal"),
-    SERBIA("Serbia"),
-    SOUTH_AFRICA("Sud\u00E1frica"),
-    SWITZERLAND("Suiza"),
-    URUGUAY("Uruguay");
+import org.eleventhlabs.ncomplo.business.util.I18nUtils;
+
+
+@Entity
+@Table(name="TEAM")
+public class Team implements I18nNamedEntity {
 
     
-    public static Team[] ALL_TEAMS = 
-        new Team[] { 
-            GERMANY, ALGERIA, ARGENTINA, AUSTRALIA, BRAZIL,
-            CAMEROON, CHILE, KOREA_DPR, KOREA_REPUBLIC, COTE_DIVOIRE,
-            DENMARK, SLOVAKIA, SLOVENIA, SPAIN, UNITED_STATES,
-            FRANCE, GHANA, GREECE, NETHERLANDS, HONDURAS,
-            ENGLAND, ITALY, JAPAN, MEXICO, NIGERIA,
-            NEW_ZEALAND, PARAGUAY, PORTUGAL, SERBIA, SOUTH_AFRICA,
-            SWITZERLAND, URUGUAY
-        };
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    
+    @Column(name="NAME",nullable=false,length=200)
+    private String name;
     
     
-    private final String localizedName;
+    @ElementCollection(fetch=FetchType.EAGER,targetClass=java.lang.String.class)
+    @CollectionTable(name="TEAM_NAME_I18N",joinColumns=@JoinColumn(name="TEAM_ID"))
+    @MapKeyColumn(name="LANG",nullable=false,length=20)
+    @Column(name="NAME", nullable=false,length=200)
+    private Map<String,String> namesByLang = new LinkedHashMap<String, String>();
     
-    private Team(final String localizedName) {
-        this.localizedName = localizedName;
+    
+    @ManyToOne
+    @JoinColumn(name="COMPETITION_ID",nullable=false)
+    private Competition competition;
+
+
+    
+    public Team() {
+        super();
+    }
+
+
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+
+
+    public Competition getCompetition() {
+        return this.competition;
+    }
+
+
+
+    public void setCompetition(final Competition competition) {
+        this.competition = competition;
+    }
+
+
+
+    public Integer getId() {
+        return this.id;
+    }
+
+
+
+    @Override
+    public Map<String, String> getNamesByLang() {
+        return this.namesByLang;
     }
 
 
     @Override
-    public String toString() {
-        return this.localizedName;
+    public String getName(final Locale locale) {
+        return I18nUtils.getTextForLocale(locale, this.namesByLang, this.name);
     }
+    
+    
+    
     
 }

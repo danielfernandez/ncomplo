@@ -15,27 +15,37 @@
         <h1>Manage C</h1>
         
         <form th:action="@{save}" th:object="${competition}">
+        
           <fieldset>
+          
             <input type="hidden" th:field="*{id}" />
+            
             <div id="name">
-              <label>Name</label>
-              <input type="text" th:field="*{name}" required="required" />
+              <label for="nameInput">Name</label>
+              <input id="nameInput" type="text" th:field="*{name}" required="required" />
               <a href="#" onclick="$.org.eleventhlabs.ncomplo.lang.add('name');">add language</a>
             </div>
-            <div class="name-lang-existing" th:each="nameLang : *{namesByLang}">
+            
+            <div class="name-lang-existing lang-element" th:each="nameLang : *{namesByLang}">
               <input class="langInput" type="text" th:field="*{namesByLang[__${nameLangStat.index}__].lang}" />
               <input class="valueInput" type="text" th:field="*{namesByLang[__${nameLangStat.index}__].value}" />
+              <a href="#" onclick="$.org.eleventhlabs.ncomplo.lang.remove(this);">delete</a>
             </div>
-            <div id="name-lang-prototype">
+            <div id="name-lang-prototype" class="lang-element">
               <input class="langInput" type="text" name="namesByLang[$index$].lang" id="namesByLang$index$.lang" value="" />
               <input class="valueInput" type="text" name="namesByLang[$index$].value" id="namesByLang$index$.value" value="" />
+              <a href="#" onclick="$.org.eleventhlabs.ncomplo.lang.remove(this);">delete</a>
             </div>
+            
             <div>
-              <label>Active</label>
-              <input type="checkbox" th:field="*{active}" />
+              <label for="activeCheck">Active</label>
+              <input id="activeCheck" type="checkbox" th:field="*{active}" />
             </div>
+            
           </fieldset>
+          
           <input type="submit" />
+          
         </form>
         
     </div>

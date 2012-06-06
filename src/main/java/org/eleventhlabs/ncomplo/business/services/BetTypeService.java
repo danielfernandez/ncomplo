@@ -1,7 +1,6 @@
 package org.eleventhlabs.ncomplo.business.services;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -10,6 +9,7 @@ import org.eleventhlabs.ncomplo.business.entities.BetType;
 import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.repositories.BetTypeRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.CompetitionRepository;
+import org.eleventhlabs.ncomplo.business.util.I18nNamedEntityComparator;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,20 +45,7 @@ public class BetTypeService {
     public List<BetType> findAllOrderByName(final Integer competitionId, final Locale locale) {
         final List<BetType> betTypes = 
                 IterableUtils.toList(this.betTypeRepository.findByCompetitionId(competitionId));
-        Collections.sort(betTypes, new Comparator<BetType>() {
-            @Override
-            public int compare(final BetType o1, final BetType o2) {
-                final String o1Name = o1.getName(locale);
-                final String o2Name = o2.getName(locale);
-                if (o1Name == null) {
-                    return 1;
-                }
-                if (o2Name == null) {
-                    return -1;
-                }
-                return o1Name.compareTo(o2Name);
-            }
-        });
+        Collections.sort(betTypes, new I18nNamedEntityComparator(locale));
         return betTypes;
     }
 
@@ -68,7 +55,8 @@ public class BetTypeService {
             final Integer id,
             final Integer competitionId,
             final String defaultName,
-            final Map<String,String> namesByLang) {
+            final Map<String,String> namesByLang,
+            final String spec) {
 
         final Competition competition = 
                 this.competitionRepository.findOne(competitionId);
@@ -80,6 +68,7 @@ public class BetTypeService {
         betType.setName(defaultName);
         betType.getNamesByLang().clear();
         betType.getNamesByLang().putAll(namesByLang);
+        betType.setSpec(spec);
         
         if (id == null) {
             competition.getBetTypes().add(betType);

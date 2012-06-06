@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.eleventhlabs.ncomplo.business.entities.BetType;
-import org.eleventhlabs.ncomplo.business.services.BetTypeService;
+import org.eleventhlabs.ncomplo.business.entities.Team;
 import org.eleventhlabs.ncomplo.business.services.CompetitionService;
-import org.eleventhlabs.ncomplo.web.admin.beans.BetTypeBean;
+import org.eleventhlabs.ncomplo.business.services.TeamService;
 import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
+import org.eleventhlabs.ncomplo.web.admin.beans.TeamBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,22 +19,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 @Controller
-@RequestMapping("/admin/competition/{competitionId}/bettype")
-public class BetTypeController {
+@RequestMapping("/admin/competition/{competitionId}/team")
+public class TeamController {
 
-    private static final String VIEW_BASE = "/admin/competition/bettype/";
+    private static final String VIEW_BASE = "/admin/competition/team/";
     
     
     @Autowired
     private CompetitionService competitionService;
     
     @Autowired
-    private BetTypeService betTypeService;
+    private TeamService teamService;
 
     
     
     
-    public BetTypeController() {
+    public TeamController() {
         super();
     }
     
@@ -49,10 +49,10 @@ public class BetTypeController {
             final HttpServletRequest request, 
             final ModelMap model) {
         
-        final List<BetType> betTypes =
-                this.betTypeService.findAllOrderByName(competitionId,RequestContextUtils.getLocale(request));
+        final List<Team> teams =
+                this.teamService.findAllOrderByName(competitionId,RequestContextUtils.getLocale(request));
         
-        model.addAttribute("allBetTypes", betTypes);
+        model.addAttribute("allTeams", teams);
         model.addAttribute("competition", this.competitionService.find(competitionId));
         
         return VIEW_BASE + "list";
@@ -69,18 +69,17 @@ public class BetTypeController {
             final Integer competitionId,
             final ModelMap model) {
 
-        final BetTypeBean betTypeBean = new BetTypeBean();
+        final TeamBean teamBean = new TeamBean();
         
         if (id != null) {
-            final BetType betType = this.betTypeService.find(id);
-            betTypeBean.setId(betType.getId());
-            betTypeBean.setName(betType.getName());
-            betTypeBean.getNamesByLang().clear();
-            betTypeBean.getNamesByLang().addAll(LangBean.listFromMap(betType.getNamesByLang()));
-            betTypeBean.setSpec(betType.getSpec());
+            final Team team = this.teamService.find(id);
+            teamBean.setId(team.getId());
+            teamBean.setName(team.getName());
+            teamBean.getNamesByLang().clear();
+            teamBean.getNamesByLang().addAll(LangBean.listFromMap(team.getNamesByLang()));
         }
         
-        model.addAttribute("betType", betTypeBean);
+        model.addAttribute("team", teamBean);
         model.addAttribute("competition", this.competitionService.find(competitionId));
         
         return VIEW_BASE + "manage";
@@ -91,17 +90,16 @@ public class BetTypeController {
     
     @RequestMapping("/save")
     public String save(
-            final BetTypeBean betTypeBean,
+            final TeamBean teamBean,
             final BindingResult bindingResult,
             @PathVariable("competitionId")
             final Integer competitionId) {
 
-        this.betTypeService.save(
-                betTypeBean.getId(),
+        this.teamService.save(
+                teamBean.getId(),
                 competitionId,
-                betTypeBean.getName(),
-                LangBean.mapFromList(betTypeBean.getNamesByLang()),
-                betTypeBean.getSpec());
+                teamBean.getName(),
+                LangBean.mapFromList(teamBean.getNamesByLang()));
         
         return "redirect:list";
         
@@ -114,7 +112,7 @@ public class BetTypeController {
             @RequestParam(value="id")
             final Integer id) {
 
-        this.betTypeService.delete(id);
+        this.teamService.delete(id);
         return "redirect:list";
         
     }

@@ -9,11 +9,11 @@ public class BetResult implements Serializable {
 
     private static final long serialVersionUID = -688318849853967583L;
     
-    private final Round round;
+    private final RoundNew round;
     private final Calendar date;
     private final String name;
-    private final Team teamA;
-    private final Team teamB;
+    private final TeamNew teamA;
+    private final TeamNew teamB;
     private final String score;
     private final String realScore;
     private final MatchWinner matchWinner;
@@ -25,8 +25,8 @@ public class BetResult implements Serializable {
     private final Integer points;
 
 
-    public BetResult(final Round round, final Calendar date, final String name, 
-            final Team teamA, final Team teamB, final String score, final String realScore, 
+    public BetResult(final RoundNew round, final Calendar date, final String name, 
+            final TeamNew teamA, final TeamNew teamB, final String score, final String realScore, 
             final MatchWinner matchWinner, final MatchWinner realMatchWinner, final Boolean closed, 
             final Set<BetFragment> betFragments, final Set<BetFragment> betWins, final Set<BetFragment> betLoses, 
             final Integer points) {
@@ -50,7 +50,7 @@ public class BetResult implements Serializable {
     }
 
 
-    public Round getRound() {
+    public RoundNew getRound() {
         return this.round;
     }
 
@@ -85,12 +85,12 @@ public class BetResult implements Serializable {
     }
 
 
-    public Team getTeamA() {
+    public TeamNew getTeamA() {
         return this.teamA;
     }
 
     
-    public Team getTeamB() {
+    public TeamNew getTeamB() {
         return this.teamB;
     }
 

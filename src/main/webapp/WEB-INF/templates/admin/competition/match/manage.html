@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="admin/adminheader :: head"></head>
+  
+  <body>
+  
+    <header th:substituteby="admin/adminheader :: header"></header>
+    
+    <div id="content">
+
+        <h1>Manage Match in competition "<span th:text="${competition.getName(#locale)}">One Competition</span>"</h1>
+        
+        <form th:action="@{save}" th:object="${match}">
+        
+          <fieldset>
+          
+            <input type="hidden" th:field="*{id}" />
+            
+            <div>
+              <label for="roundSelect">Round</label>
+              <select id="roundSelect" th:field="*{roundId}">
+                <option th:each="r : ${allRounds}" th:value="${r.id}" th:text="${r.getName(#locale)}">One round</option>
+              </select>
+            </div>
+            
+            <div>
+              <label for="dateInput">Date</label>
+              <input id="dateInput" type="date" th:field="*{date}" />
+            </div>
+            
+            <div id="name">
+              <label for="nameInput">Name</label>
+              <input id="nameInput" type="text" th:field="*{name}" required="required" />
+              <a href="#" onclick="$.org.eleventhlabs.ncomplo.lang.add('name');">add language</a>
+            </div>
+            
+            <div class="name-lang-existing lang-element" th:each="nameLang : *{namesByLang}">
+              <input class="langInput" type="text" th:field="*{namesByLang[__${nameLangStat.index}__].lang}" />
+              <input class="valueInput" type="text" th:field="*{namesByLang[__${nameLangStat.index}__].value}" />
+              <a href="#" onclick="$.org.eleventhlabs.ncomplo.lang.remove(this);">delete</a>
+            </div>
+            <div id="name-lang-prototype" class="lang-element">
+              <input class="langInput" type="text" name="namesByLang[$index$].lang" id="namesByLang$index$.lang" value="" />
+              <input class="valueInput" type="text" name="namesByLang[$index$].value" id="namesByLang$index$.value" value="" />
+              <a href="#" onclick="$.org.eleventhlabs.ncomplo.lang.remove(this);">delete</a>
+            </div>
+            
+            <div>
+              <label for="defaultBetTypeSelect">Round</label>
+              <select id="defaultBetTypeSelect" th:field="*{defaultBetTypeId}">
+                <option th:each="b : ${allBetTypes}" th:value="${b.id}" th:text="${b.getName(#locale)}">One bet type</option>
+              </select>
+            </div>
+            
+            <div>
+              <label for="teamASelect">Team A</label>
+              <select id="teamASelect" th:field="*{teamAId}">
+                <option value="">Undefined</option>
+                <option th:each="t : ${allTeams}" th:value="${t.id}" th:text="${t.getName(#locale)}">One team</option>
+              </select>
+            </div>
+            
+            <div>
+              <label for="teamBSelect">Team B</label>
+              <select id="teamBSelect" th:field="*{teamBId}">
+                <option value="">Undefined</option>
+                <option th:each="t : ${allTeams}" th:value="${t.id}" th:text="${t.getName(#locale)}">One team</option>
+              </select>
+            </div>
+            
+            <div>
+              <label for="scoreAInput">Score A</label>
+              <input id="scoreAInput" type="text" th:field="*{scoreA}" />
+            </div>
+            
+            <div>
+              <label for="scoreBInput">Score B</label>
+              <input id="scoreBInput" type="text" th:field="*{scoreB}" />
+            </div>
+            
+          </fieldset>
+          
+          <input type="submit" />
+          
+        </form>
+        
+    </div>
+    
+  </body>
+  
+</html>

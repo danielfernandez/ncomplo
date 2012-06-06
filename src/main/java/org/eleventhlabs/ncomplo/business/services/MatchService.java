@@ -1,16 +1,22 @@
 package org.eleventhlabs.ncomplo.business.services;
 
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
-import org.eleventhlabs.ncomplo.business.entities.BetType;
+import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.Match;
-import org.eleventhlabs.ncomplo.business.entities.Round;
 import org.eleventhlabs.ncomplo.business.entities.Team;
+import org.eleventhlabs.ncomplo.business.entities.repositories.BetTypeRepository;
+import org.eleventhlabs.ncomplo.business.entities.repositories.CompetitionRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.MatchRepository;
+import org.eleventhlabs.ncomplo.business.entities.repositories.RoundRepository;
+import org.eleventhlabs.ncomplo.business.entities.repositories.TeamRepository;
+import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +24,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MatchService {
-
-    private static Sort SORT_BY_DATE = new Sort("date");
     
     
     @Autowired
+    private CompetitionRepository competitionRepository;
+    
+    @Autowired
     private MatchRepository matchRepository;
+    
+    @Autowired
+    private BetTypeRepository betTypeRepository;
+    
+    @Autowired
+    private RoundRepository roundRepository;
+    
+    @Autowired
+    private TeamRepository teamRepository;
+
     
     
     
@@ -32,64 +49,79 @@ public class MatchService {
     }
     
     
-    @Transactional
-    public List<Match> findAllMatchesOrderByDate() {
-        return IterableUtils.toList(this.matchRepository.findAll(SORT_BY_DATE));
-    }
-
     
     @Transactional
-    public Match getMatch(final Integer id) {
+    public Match find(final Integer id) {
         return this.matchRepository.findOne(id);
     }
     
     
     @Transactional
-    public Match addMatch(
-            final String name, final BetType betType, final Round round,
-            final Calendar date, final Team teamA, final Team teamB, 
-            final Integer scoreA, final Integer scoreB) {
-        
-        final Match match = new Match();
-        match.setName(name);
-        match.setBetType(betType);
-        match.setRound(round);
-        match.setDate(date);
-        match.setTeamA(teamA);
-        match.setTeamB(teamB);
-        match.setScoreA(scoreA);
-        match.setScoreB(scoreB);
-        
-        return this.matchRepository.save(match);
-
+    public List<Match> findAllOrderByName(final Integer competitionId, final Locale locale) {
+        final List<Match> rounds = 
+                IterableUtils.toList(this.matchRepository.findByCompetitionId(competitionId));
+        Collections.sort(rounds, new DatedAndNamedEntityComparator(locale));
+        return rounds;
     }
- 
+
     
     @Transactional
-    public Match updateMatch(
+    public Match save(
             final Integer id,
-            final String name, final BetType betType, final Round round,
-            final Calendar date, final Team teamA, final Team teamB, 
-            final Integer scoreA, final Integer scoreB) {
+            final Integer competitionId,
+            final Date date,
+            final String defaultName,
+            final Map<String,String> namesByLang,
+            final Integer defaultBetTypeId,
+            final Integer roundId,
+            final Integer teamAId,
+            final Integer teamBId,
+            final Integer scoreA,
+            final Integer scoreB) {
+
+        final Competition competition = 
+                this.competitionRepository.findOne(competitionId);
+
+        final Match match =
+                (id == null? new Match() : this.matchRepository.findOne(id));
         
-        final Match match = this.matchRepository.findOne(id);
-        match.setName(name);
-        match.setBetType(betType);
-        match.setRound(round);
+        final Team teamA = 
+                (teamAId == null? null : this.teamRepository.findOne(teamAId));
+        final Team teamB = 
+                (teamBId == null? null : this.teamRepository.findOne(teamBId));
+        
+        match.setCompetition(competition);
         match.setDate(date);
+        match.setName(defaultName);
+        match.getNamesByLang().clear();
+        match.getNamesByLang().putAll(namesByLang);
+        match.setDefaultBetType(this.betTypeRepository.findOne(defaultBetTypeId));
+        match.setRound(this.roundRepository.findOne(roundId));
         match.setTeamA(teamA);
         match.setTeamB(teamB);
         match.setScoreA(scoreA);
         match.setScoreB(scoreB);
-
+        
+        if (id == null) {
+            competition.getMatches().add(match);
+            return this.matchRepository.save(match);
+        }
         return match;
         
     }
-
+    
+    
     
     @Transactional
-    public void deleteMatch(final Integer id) {
-        this.matchRepository.delete(id);
+    public void delete(final Integer matchId) {
+        
+        final Match match = 
+                this.matchRepository.findOne(matchId);
+        final Competition competition = match.getCompetition();
+        
+        competition.getMatches().remove(match);
+        
     }
 
+    
 }

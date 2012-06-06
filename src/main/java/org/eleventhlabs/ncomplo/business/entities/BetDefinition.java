@@ -3,14 +3,14 @@ package org.eleventhlabs.ncomplo.business.entities;
 public class BetDefinition {
     
     private final Integer matchId;
-    private final Team teamA;
-    private final Team teamB;
+    private final TeamNew teamA;
+    private final TeamNew teamB;
     private final Integer scoreA;
     private final Integer scoreB;
     private final MatchWinner matchWinner;
 
     
-    public BetDefinition(final Integer matchId, final Team teamA, final Team teamB) {
+    public BetDefinition(final Integer matchId, final TeamNew teamA, final TeamNew teamB) {
         this(matchId, teamA, teamB, null, null, null);
     }
 
@@ -18,11 +18,11 @@ public class BetDefinition {
         this(matchId, null, null, scoreA, scoreB, null);
     }
 
-    public BetDefinition(final Integer matchId, final Team teamA, final Team teamB, final MatchWinner matchWinner) {
+    public BetDefinition(final Integer matchId, final TeamNew teamA, final TeamNew teamB, final MatchWinner matchWinner) {
         this(matchId, teamA, teamB, null, null, matchWinner);
     }
     
-    private BetDefinition(final Integer matchId, final Team teamA, final Team teamB, final Integer scoreA, final Integer scoreB, final MatchWinner matchWinner) {
+    private BetDefinition(final Integer matchId, final TeamNew teamA, final TeamNew teamB, final Integer scoreA, final Integer scoreB, final MatchWinner matchWinner) {
         super();
         this.matchId = matchId;
         this.teamA = teamA;
@@ -36,11 +36,11 @@ public class BetDefinition {
         return this.matchId;
     }
 
-    public Team getTeamA() {
+    public TeamNew getTeamA() {
         return this.teamA;
     }
 
-    public Team getTeamB() {
+    public TeamNew getTeamB() {
         return this.teamB;
     }
 

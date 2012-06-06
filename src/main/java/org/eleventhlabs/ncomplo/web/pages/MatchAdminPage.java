@@ -16,10 +16,10 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.validation.validator.NumberValidator.MinimumValidator;
-import org.eleventhlabs.ncomplo.business.entities.Match;
-import org.eleventhlabs.ncomplo.business.entities.Round;
-import org.eleventhlabs.ncomplo.business.entities.Team;
-import org.eleventhlabs.ncomplo.business.services.MatchService;
+import org.eleventhlabs.ncomplo.business.entities.MatchNew;
+import org.eleventhlabs.ncomplo.business.entities.RoundNew;
+import org.eleventhlabs.ncomplo.business.entities.TeamNew;
+import org.eleventhlabs.ncomplo.business.services.MatchNewService;
 import org.eleventhlabs.ncomplo.business.util.DateUtils;
 import org.eleventhlabs.ncomplo.exceptions.InternalErrorException;
 import org.eleventhlabs.ncomplo.web.application.NComploApplication;
@@ -45,7 +45,7 @@ public class MatchAdminPage extends BaseAdminPage {
     
     
     
-    private static class MatchListModel extends LoadableDetachableModel<List<Match>> {
+    private static class MatchListModel extends LoadableDetachableModel<List<MatchNew>> {
 
         private static final long serialVersionUID = 76824L;
 
@@ -54,7 +54,7 @@ public class MatchAdminPage extends BaseAdminPage {
         }
         
         @Override
-        protected List<Match> load() {
+        protected List<MatchNew> load() {
             return NComploApplication.get().getMatchService().findAllMatchesOrderByDate();
         }
         
@@ -62,7 +62,7 @@ public class MatchAdminPage extends BaseAdminPage {
     
     
     
-    private static class MatchListView extends ListView<Match> {
+    private static class MatchListView extends ListView<MatchNew> {
 
         private static final long serialVersionUID = 5766052938465348690L;
 
@@ -71,12 +71,12 @@ public class MatchAdminPage extends BaseAdminPage {
         }
 
         @Override
-        protected void populateItem(final ListItem<Match> item) {
+        protected void populateItem(final ListItem<MatchNew> item) {
 
-            final Match match = item.getModelObject();
+            final MatchNew match = item.getModelObject();
             final Integer matchId = match.getId();
             
-            item.add(new Label("round", new Model<Round>(match.getRound())));
+            item.add(new Label("round", new Model<RoundNew>(match.getRound())));
             item.add(new Label("date", DateUtils.toString(match.getDate())));
             item.add(new Label("name", match.getName()));
 //            item.add(new Label("betType", new Model<BetType>(match.getBetType())));
@@ -136,12 +136,12 @@ public class MatchAdminPage extends BaseAdminPage {
 
         private final Integer matchId;
         
-        private final DropDownChoice<Round> round;
+        private final DropDownChoice<RoundNew> round;
         private final TextField<String> date;
         private final TextField<String> name;
 //        private final DropDownChoice<BetType> betType;
-        private final DropDownChoice<Team> teamA;
-        private final DropDownChoice<Team> teamB;
+        private final DropDownChoice<TeamNew> teamA;
+        private final DropDownChoice<TeamNew> teamB;
         private final TextField<Integer> scoreA;
         private final TextField<Integer> scoreB;
         
@@ -151,7 +151,7 @@ public class MatchAdminPage extends BaseAdminPage {
             
             this.matchId = matchId;
             
-            this.round = new DropDownChoice<Round>("round", new Model<Round>(), Arrays.asList(Round.ALL_ROUNDS));
+            this.round = new DropDownChoice<RoundNew>("round", new Model<RoundNew>(), Arrays.asList(RoundNew.ALL_ROUNDS));
             this.round.setRequired(true);
             add(this.round);
             
@@ -167,11 +167,11 @@ public class MatchAdminPage extends BaseAdminPage {
 //            this.betType.setRequired(true);
 //            add(this.betType);
 
-            this.teamA = new DropDownChoice<Team>("teamA", new Model<Team>(), Arrays.asList(Team.ALL_TEAMS));
+            this.teamA = new DropDownChoice<TeamNew>("teamA", new Model<TeamNew>(), Arrays.asList(TeamNew.ALL_TEAMS));
             this.teamA.setNullValid(true);
             add(this.teamA);
 
-            this.teamB = new DropDownChoice<Team>("teamB", new Model<Team>(), Arrays.asList(Team.ALL_TEAMS));
+            this.teamB = new DropDownChoice<TeamNew>("teamB", new Model<TeamNew>(), Arrays.asList(TeamNew.ALL_TEAMS));
             this.teamB.setNullValid(true);
             add(this.teamB);
 
@@ -200,7 +200,7 @@ public class MatchAdminPage extends BaseAdminPage {
             
             if (matchId != null) {
                 
-                final Match match = 
+                final MatchNew match = 
                         NComploApplication.get().getMatchService().getMatch(matchId);
                 
                 this.name.setModelObject(match.getName());
@@ -224,7 +224,7 @@ public class MatchAdminPage extends BaseAdminPage {
             
             super.onSubmit();
             
-            final MatchService matchService = NComploApplication.get().getMatchService();
+            final MatchNewService matchService = NComploApplication.get().getMatchService();
 
             try {
                 

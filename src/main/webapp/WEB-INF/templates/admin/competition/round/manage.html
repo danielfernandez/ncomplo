@@ -9,9 +9,9 @@
     
     <div id="content">
 
-        <h1>Manage Bet Type in competition "<span th:text="${competition.getName(#locale)}">One Competition</span>"</h1>
+        <h1>Manage Round in competition "<span th:text="${competition.getName(#locale)}">One Competition</span>"</h1>
         
-        <form th:action="@{save}" th:object="${betType}">
+        <form th:action="@{save}" th:object="${round}">
         
           <fieldset>
           
@@ -35,8 +35,8 @@
             </div>
             
             <div>
-              <label for="specInput">Specification</label>
-              <textarea id="specInput" th:field="*{spec}" required="required"></textarea>
+              <label for="orderInput">Order</label>
+              <input id="orderInput" type="number" th:field="*{order}" required="required" />
             </div>
             
           </fieldset>

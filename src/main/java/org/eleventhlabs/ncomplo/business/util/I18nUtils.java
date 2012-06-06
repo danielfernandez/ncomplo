@@ -10,6 +10,8 @@ import org.apache.commons.lang.Validate;
 
 public final class I18nUtils {
     
+    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
+    
 
     public static String getTextForLocale(
             final Locale locale,

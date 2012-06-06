@@ -1,13 +1,13 @@
 package org.eleventhlabs.ncomplo.business.services;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.repositories.CompetitionRepository;
+import org.eleventhlabs.ncomplo.business.util.I18nNamedEntityComparator;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,20 +38,7 @@ public class CompetitionService {
     @Transactional
     public List<Competition> findAllOrderByName(final Locale locale) {
         final List<Competition> competitions = IterableUtils.toList(this.competitionRepository.findAll());
-        Collections.sort(competitions, new Comparator<Competition>() {
-            @Override
-            public int compare(final Competition o1, final Competition o2) {
-                final String o1Name = o1.getName(locale);
-                final String o2Name = o2.getName(locale);
-                if (o1Name == null) {
-                    return 1;
-                }
-                if (o2Name == null) {
-                    return -1;
-                }
-                return o1Name.compareTo(o2Name);
-            }
-        });
+        Collections.sort(competitions, new I18nNamedEntityComparator(locale));
         return competitions;
     }
 

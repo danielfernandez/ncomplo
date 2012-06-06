@@ -34,6 +34,7 @@ $(function() {
     $.org.eleventhlabs.ncomplo.lang.prototypes = {};
     $.org.eleventhlabs.ncomplo.lang.LANG_INPUT_CLASS = 'langInput';
     $.org.eleventhlabs.ncomplo.lang.VALUE_INPUT_CLASS = 'valueInput';
+    $.org.eleventhlabs.ncomplo.lang.LANG_BLOCK_CLASS_SUFFIX = 'lang-element';
     $.org.eleventhlabs.ncomplo.lang.LANG_BLOCK_NEW_CLASS_SUFFIX = '-lang-new';
     $.org.eleventhlabs.ncomplo.lang.LANG_BLOCK_EXISTING_CLASS_SUFFIX = '-lang-existing';
     $.org.eleventhlabs.ncomplo.lang.LANG_BLOCK_PROTOTYPE_ID_SUFFIX = '-lang-prototype';
@@ -75,7 +76,13 @@ $(function() {
                                             prototype.id.substring(0,prototype.id.indexOf(ncomplo.lang.LANG_BLOCK_PROTOTYPE_ID_SUFFIX));
                                         var existingClass =
                                             name + ncomplo.lang.LANG_BLOCK_EXISTING_CLASS_SUFFIX;
-                                        return $(prototype).parent().children().filter('.' + existingClass).size();
+                                        var existingElements = 
+                                            $(prototype).parent().children().filter('.' + existingClass);
+                                        existingElements.each(
+                                                function() {
+                                                    $(this).addClass(this.LANG_BLOCK_CLASS_SUFFIX);
+                                                });
+                                        return existingElements.size();
                                     })(),
                                 element: $(this)
                             };
@@ -96,6 +103,7 @@ $(function() {
             var newLangElement = prototypeObject.element.clone();
             newLangElement.attr('id',null);
             newLangElement.addClass(prototypeObject.name + this.LANG_BLOCK_NEW_CLASS_SUFFIX);
+            newLangElement.addClass(this.LANG_BLOCK_CLASS_SUFFIX);
             
             var langInput = newLangElement.children().filter('.' + this.LANG_INPUT_CLASS);
             var valueInput = newLangElement.children().filter('.' + this.VALUE_INPUT_CLASS);
@@ -115,9 +123,6 @@ $(function() {
                     valueInput.attr('id').replace('$index$',prototypeObject.index));
             
             prototypeObject.index++;
-            
-            langInput.css('background-color','red');
-            valueInput.css('background-color','blue');
 
             
             var existingElements =
@@ -137,7 +142,19 @@ $(function() {
         
         
         
-        
+        $.org.eleventhlabs.ncomplo.lang.remove =
+            function(removalLinkElement) {
+                var langParent = $(removalLinkElement);
+                while (!langParent.hasClass(this.LANG_BLOCK_CLASS_SUFFIX)) {
+                    langParent = langParent.parent();
+                }
+            
+                langParent.remove();
+            };
+            
+            
+            
+            
     /*
      * =======================================
      * INITIALIZATION

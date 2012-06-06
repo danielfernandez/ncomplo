@@ -17,8 +17,20 @@
             <td th:text="${c.getName(#locale)}">Liga BBVA</td>
             <td th:text="${c.active}">Active</td>
             <td>
-              <span th:text="${c.betTypes.size()}">Bet types</span>
+              <span th:text="${c.betTypes.size()}">2</span> bet types
               <a th:href="@{${c.id} + '/bettype/list'}">manage bet types</a>
+            </td>
+            <td>
+              <span th:text="${c.rounds.size()}">4</span> rounds
+              <a th:href="@{${c.id} + '/round/list'}">manage rounds</a>
+            </td>
+            <td>
+              <span th:text="${c.teams.size()}">12</span> teams
+              <a th:href="@{${c.id} + '/team/list'}">manage teams</a>
+            </td>
+            <td>
+              <span th:text="${c.matches.size()}">22</span> matches
+              <a th:href="@{${c.id} + '/match/list'}">manage matches</a>
             </td>
             <td><a th:href="@{manage(id=${c.id})}">manage competition</a></td>
             <td><a th:href="@{delete(id=${c.id})}">delete competition</a></td>

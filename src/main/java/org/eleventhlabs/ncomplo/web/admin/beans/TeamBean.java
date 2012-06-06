@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 
-public class BetTypeBean implements Serializable {
-    
-    private static final long serialVersionUID = 7297004126853517111L;
-    
+public class TeamBean implements Serializable {
+
+    private static final long serialVersionUID = 9215027790161745944L;
+
     @NotNull
     private Integer id;
     
@@ -23,12 +23,9 @@ public class BetTypeBean implements Serializable {
     @NotNull
     private List<LangBean> namesByLang = new ArrayList<LangBean>();
 
-    @NotNull
-    private String spec;
-
     
     
-    public BetTypeBean() {
+    public TeamBean() {
         super();
     }
 
@@ -56,17 +53,6 @@ public class BetTypeBean implements Serializable {
     public List<LangBean> getNamesByLang() {
         return this.namesByLang;
     }
-
-
-    public String getSpec() {
-        return this.spec;
-    }
-
-
-    public void setSpec(final String spec) {
-        this.spec = spec;
-    }
-
     
     
     

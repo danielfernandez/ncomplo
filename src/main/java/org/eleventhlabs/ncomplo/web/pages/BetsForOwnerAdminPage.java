@@ -20,10 +20,10 @@ import org.apache.wicket.model.Model;
 import org.eleventhlabs.ncomplo.business.entities.Bet;
 import org.eleventhlabs.ncomplo.business.entities.BetDefinition;
 import org.eleventhlabs.ncomplo.business.entities.BetType;
-import org.eleventhlabs.ncomplo.business.entities.Match;
+import org.eleventhlabs.ncomplo.business.entities.MatchNew;
 import org.eleventhlabs.ncomplo.business.entities.MatchWinner;
-import org.eleventhlabs.ncomplo.business.entities.Round;
-import org.eleventhlabs.ncomplo.business.entities.Team;
+import org.eleventhlabs.ncomplo.business.entities.RoundNew;
+import org.eleventhlabs.ncomplo.business.entities.TeamNew;
 import org.eleventhlabs.ncomplo.business.services.BetService;
 import org.eleventhlabs.ncomplo.business.util.DateUtils;
 import org.eleventhlabs.ncomplo.web.application.NComploApplication;
@@ -55,8 +55,8 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
         private final TextField<String> ownerAccountId;
         
         private final LinkedHashMap<Integer,BetType> betTypeByMatchId;
-        private final LinkedHashMap<Integer,DropDownChoice<Team>> teamAByMatchId;
-        private final LinkedHashMap<Integer,DropDownChoice<Team>> teamBByMatchId;
+        private final LinkedHashMap<Integer,DropDownChoice<TeamNew>> teamAByMatchId;
+        private final LinkedHashMap<Integer,DropDownChoice<TeamNew>> teamBByMatchId;
         private final LinkedHashMap<Integer,TextField<Integer>> scoreAByMatchId;
         private final LinkedHashMap<Integer,TextField<Integer>> scoreBByMatchId;
         private final LinkedHashMap<Integer,DropDownChoice<MatchWinner>> matchWinnerByMatchId;
@@ -71,7 +71,7 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
 
             final MatchBetModel matchBetModel = new MatchBetModel(this.ownerName);
             
-            final List<Map.Entry<Match, Bet>> currentBets = matchBetModel.getObject();
+            final List<Map.Entry<MatchNew, Bet>> currentBets = matchBetModel.getObject();
             
             add(new Label("ownerName", new Model<String>(this.ownerName)));
             
@@ -83,8 +83,8 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
             }
             
             this.betTypeByMatchId = new LinkedHashMap<Integer, BetType>();
-            this.teamAByMatchId = new LinkedHashMap<Integer, DropDownChoice<Team>>();
-            this.teamBByMatchId = new LinkedHashMap<Integer, DropDownChoice<Team>>();
+            this.teamAByMatchId = new LinkedHashMap<Integer, DropDownChoice<TeamNew>>();
+            this.teamBByMatchId = new LinkedHashMap<Integer, DropDownChoice<TeamNew>>();
             this.scoreAByMatchId = new LinkedHashMap<Integer, TextField<Integer>>();
             this.scoreBByMatchId = new LinkedHashMap<Integer, TextField<Integer>>();
             this.matchWinnerByMatchId = new LinkedHashMap<Integer, DropDownChoice<MatchWinner>>();
@@ -128,8 +128,8 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
                 final Integer matchId = matchEntry.getKey();
                 final BetType betType = matchEntry.getValue();
                 
-                final DropDownChoice<Team> teamAInput = this.teamAByMatchId.get(matchId);
-                final DropDownChoice<Team> teamBInput = this.teamBByMatchId.get(matchId);
+                final DropDownChoice<TeamNew> teamAInput = this.teamAByMatchId.get(matchId);
+                final DropDownChoice<TeamNew> teamBInput = this.teamBByMatchId.get(matchId);
                 final TextField<Integer> scoreAInput = this.scoreAByMatchId.get(matchId);
                 final TextField<Integer> scoreBInput = this.scoreBByMatchId.get(matchId);
                 final DropDownChoice<MatchWinner> matchWinner = this.matchWinnerByMatchId.get(matchId);
@@ -167,7 +167,7 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
     
     
     
-    private static class MatchBetModel extends LoadableDetachableModel<List<Map.Entry<Match,Bet>>> {
+    private static class MatchBetModel extends LoadableDetachableModel<List<Map.Entry<MatchNew,Bet>>> {
 
         private static final long serialVersionUID = 7226824L;
 
@@ -179,24 +179,24 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
         }
         
         @Override
-        protected List<Map.Entry<Match,Bet>> load() {
+        protected List<Map.Entry<MatchNew,Bet>> load() {
             // Should return an entry for every match, with a null bet
             // if there currently is no established bet for that user in that match.
 
-            final List<Match> allMatches =
+            final List<MatchNew> allMatches =
                     NComploApplication.get().getMatchService().findAllMatchesOrderByDate();
             
-            final Map<Match,Bet> betsByMatchForUser = 
+            final Map<MatchNew,Bet> betsByMatchForUser = 
                     NComploApplication.get().getBetService().findAllBetsForOwner(this.ownerName);
             
-            final Map<Match,Bet> betsByAllMatches = new LinkedHashMap<Match, Bet>();
-            for (final Match match : allMatches) {
+            final Map<MatchNew,Bet> betsByAllMatches = new LinkedHashMap<MatchNew, Bet>();
+            for (final MatchNew match : allMatches) {
                 final Bet betForMatch = betsByMatchForUser.get(match);
                 betsByAllMatches.put(
                         match, (betForMatch == null? new Bet() : betForMatch));
             }
             
-            return new ArrayList<Map.Entry<Match,Bet>>(betsByAllMatches.entrySet());
+            return new ArrayList<Map.Entry<MatchNew,Bet>>(betsByAllMatches.entrySet());
             
         }
         
@@ -204,13 +204,13 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
     
     
     
-    private static class MatchesForBetsListView extends ListView<Map.Entry<Match, Bet>> {
+    private static class MatchesForBetsListView extends ListView<Map.Entry<MatchNew, Bet>> {
 
         private static final long serialVersionUID = 579938465348690L;
 
         private final LinkedHashMap<Integer,BetType> betTypeByMatchId;
-        private final LinkedHashMap<Integer,DropDownChoice<Team>> teamAByMatchId;
-        private final LinkedHashMap<Integer,DropDownChoice<Team>> teamBByMatchId;
+        private final LinkedHashMap<Integer,DropDownChoice<TeamNew>> teamAByMatchId;
+        private final LinkedHashMap<Integer,DropDownChoice<TeamNew>> teamBByMatchId;
         private final LinkedHashMap<Integer,TextField<Integer>> scoreAByMatchId;
         private final LinkedHashMap<Integer,TextField<Integer>> scoreBByMatchId;
         private final LinkedHashMap<Integer,DropDownChoice<MatchWinner>> matchWinnerByMatchId;
@@ -219,8 +219,8 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
         public MatchesForBetsListView(
                 final String id,
                 final LinkedHashMap<Integer,BetType> betTypeByMatchId,
-                final LinkedHashMap<Integer,DropDownChoice<Team>> teamAByMatchId,
-                final LinkedHashMap<Integer,DropDownChoice<Team>> teamBByMatchId,
+                final LinkedHashMap<Integer,DropDownChoice<TeamNew>> teamAByMatchId,
+                final LinkedHashMap<Integer,DropDownChoice<TeamNew>> teamBByMatchId,
                 final LinkedHashMap<Integer,TextField<Integer>> scoreAByMatchId,
                 final LinkedHashMap<Integer,TextField<Integer>> scoreBByMatchId,
                 final LinkedHashMap<Integer,DropDownChoice<MatchWinner>> matchWinnerByMatchId,
@@ -238,35 +238,35 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
         
 
         @Override
-        protected void populateItem(final ListItem<Map.Entry<Match,Bet>> item) {
+        protected void populateItem(final ListItem<Map.Entry<MatchNew,Bet>> item) {
 
-            final Map.Entry<Match,Bet> entry = item.getModelObject();
-            final Match match = entry.getKey();
+            final Map.Entry<MatchNew,Bet> entry = item.getModelObject();
+            final MatchNew match = entry.getKey();
             final Bet bet = entry.getValue();
             
             final Integer matchId = match.getId();
             this.betTypeByMatchId.put(matchId, match.getBetType());
             
-            item.add(new Label("round", new Model<Round>(match.getRound())));
+            item.add(new Label("round", new Model<RoundNew>(match.getRound())));
             item.add(new Label("date", DateUtils.toString(match.getDate())));
             item.add(new Label("name", match.getName()));
 
             
-            final Label teamA = new Label("teamA", new Model<Team>(match.getTeamA()));
+            final Label teamA = new Label("teamA", new Model<TeamNew>(match.getTeamA()));
             item.add(teamA);
             
-            final DropDownChoice<Team> teamAInput = 
-                new DropDownChoice<Team>("teamAInput", new Model<Team>(bet.getTeamA()), Arrays.asList(Team.ALL_TEAMS));
+            final DropDownChoice<TeamNew> teamAInput = 
+                new DropDownChoice<TeamNew>("teamAInput", new Model<TeamNew>(bet.getTeamA()), Arrays.asList(TeamNew.ALL_TEAMS));
             item.add(teamAInput);
             this.teamAByMatchId.put(matchId, teamAInput);
 
 
             
-            final Label teamB = new Label("teamB", new Model<Team>(match.getTeamB()));
+            final Label teamB = new Label("teamB", new Model<TeamNew>(match.getTeamB()));
             item.add(teamB);
             
-            final DropDownChoice<Team> teamBInput = 
-                new DropDownChoice<Team>("teamBInput", new Model<Team>(bet.getTeamB()), Arrays.asList(Team.ALL_TEAMS));
+            final DropDownChoice<TeamNew> teamBInput = 
+                new DropDownChoice<TeamNew>("teamBInput", new Model<TeamNew>(bet.getTeamB()), Arrays.asList(TeamNew.ALL_TEAMS));
             item.add(teamBInput);
             this.teamBByMatchId.put(matchId, teamBInput);
 

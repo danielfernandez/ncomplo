@@ -5,9 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -18,9 +17,8 @@ public class Bet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
-    @ManyToOne
-    @JoinColumn(name = "MATCH_ID")
-    private Match match;
+    @Transient
+    private MatchNew match;
     
     @Column(name = "OWNER_NAME")
     private String ownerName;
@@ -29,10 +27,12 @@ public class Bet {
     private String ownerAccountId;
     
     @Column(name = "TEAM_A")
-    private Team teamA;
+    @Transient
+    private TeamNew teamA;
     
     @Column(name = "TEAM_B")
-    private Team teamB;
+    @Transient
+    private TeamNew teamB;
     
     @Column(name = "SCORE_A")
     private Integer scoreA;
@@ -51,12 +51,12 @@ public class Bet {
 
 
     
-    public Match getMatch() {
+    public MatchNew getMatch() {
         return this.match;
     }
 
 
-    public void setMatch(final Match match) {
+    public void setMatch(final MatchNew match) {
         this.match = match;
     }
 
@@ -71,22 +71,22 @@ public class Bet {
     }
 
 
-    public Team getTeamA() {
+    public TeamNew getTeamA() {
         return this.teamA;
     }
 
 
-    public void setTeamA(final Team teamA) {
+    public void setTeamA(final TeamNew teamA) {
         this.teamA = teamA;
     }
     
 
-    public Team getTeamB() {
+    public TeamNew getTeamB() {
         return this.teamB;
     }
 
 
-    public void setTeamB(final Team teamB) {
+    public void setTeamB(final TeamNew teamB) {
         this.teamB = teamB;
     }
 

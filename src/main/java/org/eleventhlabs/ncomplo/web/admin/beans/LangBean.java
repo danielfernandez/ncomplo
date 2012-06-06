@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.StringUtils;
+
 
 public class LangBean implements Serializable {
 
@@ -62,7 +64,9 @@ public class LangBean implements Serializable {
     public static Map<String,String> mapFromList(final List<LangBean> langBeans) {
         final Map<String,String> valuesByLang = new LinkedHashMap<String, String>();
         for (final LangBean langBean : langBeans) {
-            valuesByLang.put(langBean.getLang(), langBean.getValue());
+            if (!StringUtils.isEmpty(langBean.getLang())) {
+                valuesByLang.put(langBean.getLang(), langBean.getValue());
+            }
         }
         return valuesByLang;
     }

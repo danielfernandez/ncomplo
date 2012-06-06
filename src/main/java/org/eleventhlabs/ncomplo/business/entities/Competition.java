@@ -18,7 +18,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.eleventhlabs.ncomplo.business.util.I18nUtils;
@@ -26,7 +25,7 @@ import org.eleventhlabs.ncomplo.business.util.I18nUtils;
 
 @Entity
 @Table(name="COMPETITION")
-public class Competition {
+public class Competition implements I18nNamedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,6 +49,18 @@ public class Competition {
     
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="competition")
     private Set<BetType> betTypes = new LinkedHashSet<BetType>();
+
+    
+    @OneToMany(cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="competition")
+    private Set<Round> rounds = new LinkedHashSet<Round>();
+
+    
+    @OneToMany(cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="competition")
+    private Set<Team> teams = new LinkedHashSet<Team>();
+
+    
+    @OneToMany(cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="competition")
+    private Set<Match> matches = new LinkedHashSet<Match>();
     
     
     
@@ -59,6 +70,7 @@ public class Competition {
     }
 
 
+    @Override
     public Map<String, String> getNamesByLang() {
         return this.namesByLang;
     }
@@ -69,6 +81,7 @@ public class Competition {
     }
 
 
+    @Override
     public String getName(final Locale locale) {
         return I18nUtils.getTextForLocale(locale, this.namesByLang, this.name);
     }
@@ -82,14 +95,29 @@ public class Competition {
     public void setActive(final boolean active) {
         this.active = active;
     }
-
     
 
     public Set<BetType> getBetTypes() {
         return this.betTypes;
     }
+    
+
+    public Set<Round> getRounds() {
+        return this.rounds;
+    }
+    
+
+    public Set<Team> getTeams() {
+        return this.teams;
+    }
+    
+
+    public Set<Match> getMatches() {
+        return this.matches;
+    }
 
 
+    @Override
     public String getName() {
         return this.name;
     }

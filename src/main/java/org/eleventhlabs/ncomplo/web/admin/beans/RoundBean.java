@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 
-public class BetTypeBean implements Serializable {
+public class RoundBean implements Serializable {
     
-    private static final long serialVersionUID = 7297004126853517111L;
-    
+    private static final long serialVersionUID = 3347795783622341493L;
+
     @NotNull
     private Integer id;
     
@@ -24,11 +24,11 @@ public class BetTypeBean implements Serializable {
     private List<LangBean> namesByLang = new ArrayList<LangBean>();
 
     @NotNull
-    private String spec;
+    private Integer order;
 
     
     
-    public BetTypeBean() {
+    public RoundBean() {
         super();
     }
 
@@ -58,15 +58,14 @@ public class BetTypeBean implements Serializable {
     }
 
 
-    public String getSpec() {
-        return this.spec;
+    public Integer getOrder() {
+        return this.order;
     }
 
 
-    public void setSpec(final String spec) {
-        this.spec = spec;
+    public void setOrder(final Integer order) {
+        this.order = order;
     }
-
     
     
     

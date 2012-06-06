@@ -2,13 +2,11 @@ package org.eleventhlabs.ncomplo.web.admin.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.eleventhlabs.ncomplo.business.entities.BetType;
-import org.eleventhlabs.ncomplo.business.services.BetTypeService;
+import org.eleventhlabs.ncomplo.business.entities.Round;
 import org.eleventhlabs.ncomplo.business.services.CompetitionService;
-import org.eleventhlabs.ncomplo.web.admin.beans.BetTypeBean;
+import org.eleventhlabs.ncomplo.business.services.RoundService;
 import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
+import org.eleventhlabs.ncomplo.web.admin.beans.RoundBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,25 +14,24 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 @Controller
-@RequestMapping("/admin/competition/{competitionId}/bettype")
-public class BetTypeController {
+@RequestMapping("/admin/competition/{competitionId}/round")
+public class RoundController {
 
-    private static final String VIEW_BASE = "/admin/competition/bettype/";
+    private static final String VIEW_BASE = "/admin/competition/round/";
     
     
     @Autowired
     private CompetitionService competitionService;
     
     @Autowired
-    private BetTypeService betTypeService;
+    private RoundService roundService;
 
     
     
     
-    public BetTypeController() {
+    public RoundController() {
         super();
     }
     
@@ -46,13 +43,11 @@ public class BetTypeController {
     @RequestMapping("/list")
     public String list(
             @PathVariable("competitionId") final Integer competitionId, 
-            final HttpServletRequest request, 
             final ModelMap model) {
         
-        final List<BetType> betTypes =
-                this.betTypeService.findAllOrderByName(competitionId,RequestContextUtils.getLocale(request));
+        final List<Round> rounds = this.roundService.findAllOrderByName(competitionId);
         
-        model.addAttribute("allBetTypes", betTypes);
+        model.addAttribute("allRounds", rounds);
         model.addAttribute("competition", this.competitionService.find(competitionId));
         
         return VIEW_BASE + "list";
@@ -69,18 +64,18 @@ public class BetTypeController {
             final Integer competitionId,
             final ModelMap model) {
 
-        final BetTypeBean betTypeBean = new BetTypeBean();
+        final RoundBean roundBean = new RoundBean();
         
         if (id != null) {
-            final BetType betType = this.betTypeService.find(id);
-            betTypeBean.setId(betType.getId());
-            betTypeBean.setName(betType.getName());
-            betTypeBean.getNamesByLang().clear();
-            betTypeBean.getNamesByLang().addAll(LangBean.listFromMap(betType.getNamesByLang()));
-            betTypeBean.setSpec(betType.getSpec());
+            final Round round = this.roundService.find(id);
+            roundBean.setId(round.getId());
+            roundBean.setName(round.getName());
+            roundBean.getNamesByLang().clear();
+            roundBean.getNamesByLang().addAll(LangBean.listFromMap(round.getNamesByLang()));
+            roundBean.setOrder(round.getOrder());
         }
         
-        model.addAttribute("betType", betTypeBean);
+        model.addAttribute("round", roundBean);
         model.addAttribute("competition", this.competitionService.find(competitionId));
         
         return VIEW_BASE + "manage";
@@ -91,17 +86,17 @@ public class BetTypeController {
     
     @RequestMapping("/save")
     public String save(
-            final BetTypeBean betTypeBean,
+            final RoundBean roundBean,
             final BindingResult bindingResult,
             @PathVariable("competitionId")
             final Integer competitionId) {
 
-        this.betTypeService.save(
-                betTypeBean.getId(),
+        this.roundService.save(
+                roundBean.getId(),
                 competitionId,
-                betTypeBean.getName(),
-                LangBean.mapFromList(betTypeBean.getNamesByLang()),
-                betTypeBean.getSpec());
+                roundBean.getName(),
+                LangBean.mapFromList(roundBean.getNamesByLang()),
+                roundBean.getOrder());
         
         return "redirect:list";
         
@@ -114,7 +109,7 @@ public class BetTypeController {
             @RequestParam(value="id")
             final Integer id) {
 
-        this.betTypeService.delete(id);
+        this.roundService.delete(id);
         return "redirect:list";
         
     }

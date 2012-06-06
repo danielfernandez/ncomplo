@@ -8,8 +8,8 @@ import java.util.Map;
 import org.eleventhlabs.ncomplo.business.entities.Bet;
 import org.eleventhlabs.ncomplo.business.entities.BetDefinition;
 import org.eleventhlabs.ncomplo.business.entities.BetResults;
-import org.eleventhlabs.ncomplo.business.entities.Match;
-import org.eleventhlabs.ncomplo.business.entities.Round;
+import org.eleventhlabs.ncomplo.business.entities.MatchNew;
+import org.eleventhlabs.ncomplo.business.entities.RoundNew;
 import org.eleventhlabs.ncomplo.business.entities.Scoreboard;
 import org.eleventhlabs.ncomplo.business.entities.repositories.BetRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.MatchRepository;
@@ -33,7 +33,7 @@ public class BetService {
     private MatchRepository matchRepository;
 
     
-    private static final Map<Round,Round> previousRound = new LinkedHashMap<Round, Round>();
+    private static final Map<RoundNew,RoundNew> previousRound = new LinkedHashMap<RoundNew, RoundNew>();
     
     
     static {
@@ -66,9 +66,9 @@ public class BetService {
     
     
     @Transactional
-    public Map<Match,Bet> findAllBetsForOwner(final String ownerName) {
+    public Map<MatchNew,Bet> findAllBetsForOwner(final String ownerName) {
         final List<Bet> bets = this.betRepository.findByOwnerName(ownerName);
-        return Op.on(bets).zipKeysBy(Get.obj(Types.forClass(Match.class),"match")).get();
+        return Op.on(bets).zipKeysBy(Get.obj(Types.forClass(MatchNew.class),"match")).get();
     }
     
     
@@ -88,7 +88,7 @@ public class BetService {
             final Bet bet = new Bet();
             
             bet.setOwnerName(ownerName);
-            bet.setMatch(this.matchRepository.findOne(betDefinition.getMatchId()));
+//            bet.setMatch(this.matchRepository.findOne(betDefinition.getMatchId()));
             bet.setOwnerAccountId(ownerAccountId);
             bet.setTeamA(betDefinition.getTeamA());
             bet.setTeamB(betDefinition.getTeamB());
@@ -117,7 +117,7 @@ public class BetService {
 //    
 //    @Transactional
 //    public BetResults computeBetResults(final String ownerName) {
-//        final Map<Match,Bet> betsByMatch = findAllBetsForOwner(ownerName);
+//        final Map<MatchNew,Bet> betsByMatch = findAllBetsForOwner(ownerName);
 //        return computeBetResults(ownerName, betsByMatch);
 //    }
 //
@@ -132,15 +132,15 @@ public class BetService {
 //        final Map<String,List<Bet>> betsByOwner =
 //                Op.on(allBets).zipAndGroupKeysBy(Get.s("ownerName")).get();
 //        
-//        final Map<String,Map<Match,Bet>> betsByOwnerAndMatch =
+//        final Map<String,Map<MatchNew,Bet>> betsByOwnerAndMatch =
 //                Op.on(betsByOwner).forEachEntry().onValue().
 //                    exec(FnList.of(Types.forClass(Bet.class)).
-//                            zipKeysBy(Get.obj(Types.forClass(Match.class),"match"))).get();
+//                            zipKeysBy(Get.obj(Types.forClass(MatchNew.class),"match"))).get();
 //        
 //        final Scoreboard scoreboard = new Scoreboard();
-//        for (final Map.Entry<String,Map<Match,Bet>> entry : betsByOwnerAndMatch.entrySet()) {
+//        for (final Map.Entry<String,Map<MatchNew,Bet>> entry : betsByOwnerAndMatch.entrySet()) {
 //            final String ownerName = entry.getKey();
-//            final Map<Match,Bet> bets = entry.getValue();
+//            final Map<MatchNew,Bet> bets = entry.getValue();
 //            final BetResults betResults = computeBetResults(ownerName, bets);
 //            scoreboard.addScore(ownerName, betResults.getTotalPoints(), betResults.getGroupStagePoints());
 //        }
@@ -153,7 +153,7 @@ public class BetService {
     
     
 //    
-//    private static BetResults computeBetResults(final String ownerName, final Map<Match,Bet> betsByMatch) {
+//    private static BetResults computeBetResults(final String ownerName, final Map<MatchNew,Bet> betsByMatch) {
 //
 //        if (betsByMatch.isEmpty()) {
 //            return new BetResults(ownerName, Integer.valueOf(0), Integer.valueOf(0), new ArrayList<BetResult>());
@@ -162,13 +162,13 @@ public class BetService {
 //        /*
 //         * Compute which teams got to each round
 //         */
-//        final Map<Round,Set<Team>> teamsByRound = new LinkedHashMap<Round, Set<Team>>();
+//        final Map<Round,Set<TeamNew>> teamsByRound = new LinkedHashMap<Round, Set<TeamNew>>();
 //        final Map<Round,Boolean> roundTeamsDefined = new LinkedHashMap<Round, Boolean>();
-//        for (final Match match : betsByMatch.keySet()) {
+//        for (final MatchNew match : betsByMatch.keySet()) {
 //            final Round round = match.getRound();
-//            Set<Team> teamsForRound = teamsByRound.get(round);
+//            Set<TeamNew> teamsForRound = teamsByRound.get(round);
 //            if (teamsForRound == null) {
-//                teamsForRound = new LinkedHashSet<Team>();
+//                teamsForRound = new LinkedHashSet<TeamNew>();
 //                teamsByRound.put(round, teamsForRound);
 //                roundTeamsDefined.put(round, Boolean.TRUE);
 //            }
@@ -191,16 +191,16 @@ public class BetService {
 //        int groupStagePoints = 0;
 //        int totalPoints = 0;
 //        
-//        for (final Map.Entry<Match,Bet> entry : betsByMatch.entrySet()) {
+//        for (final Map.Entry<MatchNew,Bet> entry : betsByMatch.entrySet()) {
 //            
-//            final Match match = entry.getKey();
+//            final MatchNew match = entry.getKey();
 //            final Bet bet = entry.getValue();
 //            
 //            final Round round = match.getRound();
 //            final Calendar date = match.getDate();
 //            final String name = match.getName();
-//            final Team realTeamA = match.getTeamA();
-//            final Team realTeamB = match.getTeamB();
+//            final TeamNew realTeamA = match.getTeamA();
+//            final TeamNew realTeamB = match.getTeamB();
 //            final Integer realScoreA = match.getScoreA();
 //            final Integer realScoreB = match.getScoreB();
 //            final String realScore = 
@@ -209,8 +209,8 @@ public class BetService {
 //                (match.isScoreDefined()? computeMatchWinner(realScoreA, realScoreB) : null);
 //            final BetType betType = match.getBetType();
 //            
-//            Team teamA = null;
-//            Team teamB = null;
+//            TeamNew teamA = null;
+//            TeamNew teamB = null;
 //            String score = null;
 //            MatchWinner matchWinner = null;
 //            Boolean closed = null;

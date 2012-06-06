@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="admin/adminheader :: head"></head>
+  
+  <body>
+    
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
+  
+        <h1>Rounds for competition "<span th:text="${competition.getName(#locale)}">competition</span>"</h1>
+        
+        <a th:href="@{manage}">Create new</a>
+        <table>
+          <tr th:each="r : ${allRounds}">
+            <td th:text="${r.order}">order of round</td>
+            <td th:text="${r.getName(#locale)}">name of round</td>
+            <td><a th:href="@{manage(id=${r.id})}">manage round</a></td>
+            <td><a th:href="@{delete(id=${r.id})}">delete round</a></td>
+          </tr>
+        </table>
+        
+    </div> 
+
+  </body>
+  
+</html>

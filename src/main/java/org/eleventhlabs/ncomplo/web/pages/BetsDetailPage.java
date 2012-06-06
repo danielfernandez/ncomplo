@@ -13,8 +13,8 @@ import org.eleventhlabs.ncomplo.business.entities.BetFragment;
 import org.eleventhlabs.ncomplo.business.entities.BetResult;
 import org.eleventhlabs.ncomplo.business.entities.BetResults;
 import org.eleventhlabs.ncomplo.business.entities.MatchWinner;
-import org.eleventhlabs.ncomplo.business.entities.Round;
-import org.eleventhlabs.ncomplo.business.entities.Team;
+import org.eleventhlabs.ncomplo.business.entities.RoundNew;
+import org.eleventhlabs.ncomplo.business.entities.TeamNew;
 import org.eleventhlabs.ncomplo.business.services.BetService;
 import org.eleventhlabs.ncomplo.business.util.DateUtils;
 import org.eleventhlabs.ncomplo.web.application.NComploApplication;
@@ -60,11 +60,11 @@ public class BetsDetailPage extends BasePage {
             
             final BetResult betResult = item.getModelObject();
             
-            item.add(new Label("round", new Model<Round>(betResult.getRound())));
+            item.add(new Label("round", new Model<RoundNew>(betResult.getRound())));
             
             item.add(new Label("date", new Model<String>(DateUtils.toString(betResult.getDate()))));
             
-            final Label teamA = new Label("teamA", new Model<Team>(betResult.getTeamA())); 
+            final Label teamA = new Label("teamA", new Model<TeamNew>(betResult.getTeamA())); 
             if (betResult.getBetWins().contains(BetFragment.TEAM_A)) {
                 teamA.add(new AttributeAppender("class", new Model<String>("betWon"), " "));
             } else if (betResult.getBetLoses().contains(BetFragment.TEAM_A)) {
@@ -74,7 +74,7 @@ public class BetsDetailPage extends BasePage {
             }
             item.add(teamA);
             
-            final Label teamB = new Label("teamB", new Model<Team>(betResult.getTeamB())); 
+            final Label teamB = new Label("teamB", new Model<TeamNew>(betResult.getTeamB())); 
             if (betResult.getBetWins().contains(BetFragment.TEAM_B)) {
                 teamB.add(new AttributeAppender("class", new Model<String>("betWon"), " "));
             } else if (betResult.getBetLoses().contains(BetFragment.TEAM_B)) {
