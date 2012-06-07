@@ -25,17 +25,19 @@
               <a th:href="@{${c.id} + '/round/list'}">manage rounds</a>
             </td>
             <td>
-              <span th:text="${c.teams.size()}">12</span> teams
-              <a th:href="@{${c.id} + '/team/list'}">manage teams</a>
+              <span th:text="${c.gameSides.size()}">12</span> teams/players
+              <a th:href="@{${c.id} + '/gameside/list'}">manage teams/players</a>
             </td>
             <td>
-              <span th:text="${c.matches.size()}">22</span> matches
-              <a th:href="@{${c.id} + '/match/list'}">manage matches</a>
+              <span th:text="${c.games.size()}">22</span> games
+              <a th:href="@{${c.id} + '/game/list'}">manage games</a>
             </td>
             <td><a th:href="@{manage(id=${c.id})}">manage competition</a></td>
-            <td><a th:href="@{delete(id=${c.id})}">delete competition</a></td>
+            <td><a th:href="@{delete(id=${c.id})}" onclick="return confirm('Sure?');">delete competition</a></td>
           </tr>
         </table>
+        
+        <a th:href="@{..}">Back to Admin Home</a>
         
       </div> 
 

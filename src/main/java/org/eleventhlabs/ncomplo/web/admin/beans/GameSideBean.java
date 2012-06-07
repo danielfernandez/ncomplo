@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 
-public class TeamBean implements Serializable {
+public class GameSideBean implements Serializable {
 
     private static final long serialVersionUID = 9215027790161745944L;
 
@@ -25,7 +25,7 @@ public class TeamBean implements Serializable {
 
     
     
-    public TeamBean() {
+    public GameSideBean() {
         super();
     }
 

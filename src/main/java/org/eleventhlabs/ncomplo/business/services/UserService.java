@@ -1,23 +1,22 @@
 package org.eleventhlabs.ncomplo.business.services;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.User;
 import org.eleventhlabs.ncomplo.business.entities.repositories.LeagueRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.UserRepository;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 public class UserService {
-
-    private static Sort SORT_BY_NAME = new Sort("name");
 
     
     @Autowired
@@ -43,31 +42,64 @@ public class UserService {
 
     
     @Transactional
-    public boolean authenticate(final String username, final String password) {
+    public boolean authenticate(final String login, final String password) {
         return true;
     }
     
     
     
     @Transactional
-    public List<User> findAllUsersOrderByName() {
-        return IterableUtils.toList(this.userRepository.findAll(SORT_BY_NAME));
+    public User find(final String login) {
+        return this.userRepository.findOne(login);
     }
     
-
     
     @Transactional
-    public User addUser(final Integer leagueId, final String login, 
-            final String email, final boolean admin) {
+    public List<User> findAll() {
+        final List<User> users = 
+                IterableUtils.toList(this.userRepository.findAll());
+        Collections.sort(users);
+        return users;
+    }
+
+    
+    
+    @Transactional
+    public User save(
+            final String login,
+            final String name,
+            final String email,
+            final boolean admin,
+            final boolean active,
+            final List<Integer> leagueIds) {
         
-        final User user = new User();
+        final boolean userExists = this.userRepository.exists(login);
+        
+        final User user =
+                (!userExists? new User() : this.userRepository.findOne(login));
+        
         user.setLogin(login);
+        user.setName(name);
         user.setEmail(email);
         user.setPassword(null);
         user.setAdmin(admin);
-        user.setLeague(this.leagueRepository.findOne(leagueId));
+        user.setActive(active);
+
+        for (final League league : user.getLeagues()) {
+            league.getParticipants().remove(user);
+        }
+        user.getLeagues().clear();
+        for (final Integer leagueId : leagueIds) {
+            final League league = this.leagueRepository.findOne(leagueId);
+            user.getLeagues().add(league);
+            league.getParticipants().add(user);
+        }
         
-        return this.userRepository.save(user);
+        if (!userExists) {
+            return this.userRepository.save(user);
+        }
+        
+        return user;
         
     }
 
@@ -88,9 +120,20 @@ public class UserService {
             this.emailService.sendNewPassword(login, newPassword);
         }
         
+System.out.println(">> NEW PASSWORD FOR " + login + " IS: \"" + newPassword + "\"");
+        
         return user;
         
     }
+    
+
+    
+    
+    @Transactional
+    public void delete(final String login) {
+        this.userRepository.delete(login);
+    }
+
     
     
 }

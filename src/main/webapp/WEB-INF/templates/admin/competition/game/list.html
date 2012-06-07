@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="admin/adminheader :: head"></head>
+  
+  <body>
+    
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
+  
+        <h1>Games for competition "<span th:text="${competition.getName(#locale)}">competition</span>"</h1>
+        
+        <a th:href="@{manage}">Create new</a>
+        <table>
+          <tr th:each="g : ${allGames}">
+            <td th:text="${g.date} ? ${#dates.format(g.date,#messages.msg('dates.format'))} : '-'">date of game</td>
+            <td th:text="${g.getName(#locale)}">name of game</td>
+            <td th:text="${g.gameSideA} ? ${g.gameSideA.getName(#locale)} : '-'">name of team/player A</td>
+            <td th:text="${g.gameSideB} ? ${g.gameSideB.getName(#locale)} : '-'">name of team/player B</td>
+            <td><a th:href="@{manage(id=${g.id})}">manage game</a></td>
+            <td><a th:href="@{delete(id=${g.id})}" onclick="return confirm('Sure?');">delete game</a></td>
+          </tr>
+        </table>
+        
+        <a th:href="@{../../list}">Back to list of Competitions</a>
+        
+    </div> 
+
+  </body>
+  
+</html>

@@ -40,7 +40,7 @@ public class RoundService {
     
     
     @Transactional
-    public List<Round> findAllOrderByName(final Integer competitionId) {
+    public List<Round> findAll(final Integer competitionId) {
         final List<Round> rounds = 
                 IterableUtils.toList(this.roundRepository.findByCompetitionId(competitionId));
         Collections.sort(rounds);
@@ -52,7 +52,7 @@ public class RoundService {
     public Round save(
             final Integer id,
             final Integer competitionId,
-            final String defaultName,
+            final String name,
             final Map<String,String> namesByLang,
             final Integer order) {
 
@@ -63,7 +63,7 @@ public class RoundService {
                 (id == null? new Round() : this.roundRepository.findOne(id));
         
         round.setCompetition(competition);
-        round.setName(defaultName);
+        round.setName(name);
         round.getNamesByLang().clear();
         round.getNamesByLang().putAll(namesByLang);
         round.setOrder(order);

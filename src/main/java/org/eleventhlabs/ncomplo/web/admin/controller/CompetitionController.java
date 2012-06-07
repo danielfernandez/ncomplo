@@ -38,7 +38,7 @@ public class CompetitionController {
     @RequestMapping("/list")
     public String list(final HttpServletRequest request, final ModelMap model) {
         final List<Competition> competitions =
-                this.competitionService.findAllOrderByName(RequestContextUtils.getLocale(request));
+                this.competitionService.findAll(RequestContextUtils.getLocale(request));
         model.addAttribute("allCompetitions", competitions);
         return VIEW_BASE + "list";
     }

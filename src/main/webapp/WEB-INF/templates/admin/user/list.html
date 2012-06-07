@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head>
-    <title>ncompl&oacute; :: user list</title>
-  </head>
+  <head th:substituteby="admin/adminheader :: head"></head>
   
   <body>
   
-    <h1>User List</h1>
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
     
-    <table>
-      <tr th:each="user : ${allUsers}">
-        <td th:text="${user.login}">login</td>
-        <td th:text="${user.name}">name</td>
-        <td th:text="${user.admin}">admin</td>
-      </tr>
-    </table>
-    
+        <h1>Users</h1>
+        
+        <a th:href="@{manage}">Create new</a>
+        <table>
+          <tr th:each="u : ${allUsers}">
+            <td th:text="${u.login}">Login</td>
+            <td th:text="${u.name}">Name</td>
+            <td th:text="${u.email}">Email</td>
+            <td th:text="${u.admin}">Admin</td>
+            <td th:text="${u.active}">Active</td>
+            <td>
+              <span th:text="${u.leagues.size()}">2</span> leagues
+            </td>
+            <td><a th:href="@{manage(login=${u.login})}">manage user</a></td>
+            <td><a th:href="@{resetpassword(login=${u.login})}" onclick="return confirm('Sure?');">reset password</a></td>
+            <td><a th:href="@{delete(login=${u.login})}" onclick="return confirm('Sure?');">delete user</a></td>
+          </tr>
+        </table>
+        
+        <a th:href="@{..}">Back to Admin Home</a>
+        
+      </div> 
+
   </body>
   
 </html>

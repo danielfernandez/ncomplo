@@ -7,7 +7,7 @@ import org.eleventhlabs.ncomplo.business.entities.BetType;
 import org.eleventhlabs.ncomplo.business.entities.MatchNew;
 import org.eleventhlabs.ncomplo.business.entities.RoundNew;
 import org.eleventhlabs.ncomplo.business.entities.TeamNew;
-import org.eleventhlabs.ncomplo.business.entities.repositories.MatchRepository;
+import org.eleventhlabs.ncomplo.business.entities.repositories.GameRepository;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -23,7 +23,7 @@ public class MatchNewService {
     
     
     @Autowired
-    private MatchRepository matchRepository;
+    private GameRepository matchRepository;
     
     
     

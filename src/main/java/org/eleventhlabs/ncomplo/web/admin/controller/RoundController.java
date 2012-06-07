@@ -45,7 +45,7 @@ public class RoundController {
             @PathVariable("competitionId") final Integer competitionId, 
             final ModelMap model) {
         
-        final List<Round> rounds = this.roundService.findAllOrderByName(competitionId);
+        final List<Round> rounds = this.roundService.findAll(competitionId);
         
         model.addAttribute("allRounds", rounds);
         model.addAttribute("competition", this.competitionService.find(competitionId));

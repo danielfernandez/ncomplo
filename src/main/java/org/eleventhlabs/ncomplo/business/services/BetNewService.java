@@ -5,14 +5,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eleventhlabs.ncomplo.business.entities.Bet;
 import org.eleventhlabs.ncomplo.business.entities.BetDefinition;
+import org.eleventhlabs.ncomplo.business.entities.BetNew;
 import org.eleventhlabs.ncomplo.business.entities.BetResults;
 import org.eleventhlabs.ncomplo.business.entities.MatchNew;
 import org.eleventhlabs.ncomplo.business.entities.RoundNew;
 import org.eleventhlabs.ncomplo.business.entities.Scoreboard;
-import org.eleventhlabs.ncomplo.business.entities.repositories.BetRepository;
-import org.eleventhlabs.ncomplo.business.entities.repositories.MatchRepository;
+import org.eleventhlabs.ncomplo.business.entities.repositories.BetNewRepository;
+import org.eleventhlabs.ncomplo.business.entities.repositories.GameRepository;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
 import org.javaruntype.type.Types;
 import org.op4j.Op;
@@ -23,14 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class BetService {
+public class BetNewService {
     
 
     @Autowired
-    private BetRepository betRepository;
+    private BetNewRepository betRepository;
     
     @Autowired
-    private MatchRepository matchRepository;
+    private GameRepository matchRepository;
 
     
     private static final Map<RoundNew,RoundNew> previousRound = new LinkedHashMap<RoundNew, RoundNew>();
@@ -44,7 +44,7 @@ public class BetService {
     }
     
     
-    public BetService() {
+    public BetNewService() {
         super();
     }
     
@@ -52,40 +52,41 @@ public class BetService {
 
     @Transactional
     public List<String> findAllBetOwnerNames() {
-        final List<Bet> allBets = IterableUtils.toList(this.betRepository.findAll());
+        final List<BetNew> allBets = IterableUtils.toList(this.betRepository.findAll());
         return Op.on(allBets).map(Get.s("ownerName")).get();
     }
     
     
     @Transactional
     public List<String> findAllBetOwnerAccountIds() {
-        final List<Bet> allBets = IterableUtils.toList(this.betRepository.findAll());
+        final List<BetNew> allBets = IterableUtils.toList(this.betRepository.findAll());
         return Op.on(allBets).map(Get.s("ownerAccountId")).get();
     }
     
     
     
     @Transactional
-    public Map<MatchNew,Bet> findAllBetsForOwner(final String ownerName) {
-        final List<Bet> bets = this.betRepository.findByOwnerName(ownerName);
+    public Map<MatchNew,BetNew> findAllBetsForOwner(final String ownerName) {
+//        final List<BetNew> bets = this.betRepository.findByOwnerName(ownerName);
+final List<BetNew> bets = null;
         return Op.on(bets).zipKeysBy(Get.obj(Types.forClass(MatchNew.class),"match")).get();
     }
     
     
     
     @Transactional
-    public List<Bet> setBets(final String ownerName, final String ownerAccountId, final List<BetDefinition> betDefinitions) {
+    public List<BetNew> setBets(final String ownerName, final String ownerAccountId, final List<BetDefinition> betDefinitions) {
 
-        // Trying to use a "delete from Bet where ..." query on CloudFoundry
+        // Trying to use a "delete from BetNew where ..." query on CloudFoundry
         // returned an error ("Not supported for DML operations")
         //this.betRepository.delete(this.betRepository.findByOwnerName(ownerName));
-        this.betRepository.deleteByOwnerName(ownerName);
+//        this.betRepository.deleteByOwnerName(ownerName);
                 
-        final List<Bet> bets = new ArrayList<Bet>();
+        final List<BetNew> bets = new ArrayList<BetNew>();
         
         for (final BetDefinition betDefinition : betDefinitions) {
             
-            final Bet bet = new Bet();
+            final BetNew bet = new BetNew();
             
             bet.setOwnerName(ownerName);
 //            bet.setMatch(this.matchRepository.findOne(betDefinition.getMatchId()));
@@ -117,7 +118,7 @@ public class BetService {
 //    
 //    @Transactional
 //    public BetResults computeBetResults(final String ownerName) {
-//        final Map<MatchNew,Bet> betsByMatch = findAllBetsForOwner(ownerName);
+//        final Map<MatchNew,BetNew> betsByMatch = findAllBetsForOwner(ownerName);
 //        return computeBetResults(ownerName, betsByMatch);
 //    }
 //
@@ -127,20 +128,20 @@ public class BetService {
 //    @Transactional
 //    public Scoreboard computeScoreboard() {
 //        
-//        final List<Bet> allBets = IterableUtils.toList(this.betRepository.findAll());
+//        final List<BetNew> allBets = IterableUtils.toList(this.betRepository.findAll());
 //        
-//        final Map<String,List<Bet>> betsByOwner =
+//        final Map<String,List<BetNew>> betsByOwner =
 //                Op.on(allBets).zipAndGroupKeysBy(Get.s("ownerName")).get();
 //        
-//        final Map<String,Map<MatchNew,Bet>> betsByOwnerAndMatch =
+//        final Map<String,Map<MatchNew,BetNew>> betsByOwnerAndMatch =
 //                Op.on(betsByOwner).forEachEntry().onValue().
-//                    exec(FnList.of(Types.forClass(Bet.class)).
+//                    exec(FnList.of(Types.forClass(BetNew.class)).
 //                            zipKeysBy(Get.obj(Types.forClass(MatchNew.class),"match"))).get();
 //        
 //        final Scoreboard scoreboard = new Scoreboard();
-//        for (final Map.Entry<String,Map<MatchNew,Bet>> entry : betsByOwnerAndMatch.entrySet()) {
+//        for (final Map.Entry<String,Map<MatchNew,BetNew>> entry : betsByOwnerAndMatch.entrySet()) {
 //            final String ownerName = entry.getKey();
-//            final Map<MatchNew,Bet> bets = entry.getValue();
+//            final Map<MatchNew,BetNew> bets = entry.getValue();
 //            final BetResults betResults = computeBetResults(ownerName, bets);
 //            scoreboard.addScore(ownerName, betResults.getTotalPoints(), betResults.getGroupStagePoints());
 //        }
@@ -153,7 +154,7 @@ public class BetService {
     
     
 //    
-//    private static BetResults computeBetResults(final String ownerName, final Map<MatchNew,Bet> betsByMatch) {
+//    private static BetResults computeBetResults(final String ownerName, final Map<MatchNew,BetNew> betsByMatch) {
 //
 //        if (betsByMatch.isEmpty()) {
 //            return new BetResults(ownerName, Integer.valueOf(0), Integer.valueOf(0), new ArrayList<BetResult>());
@@ -191,10 +192,10 @@ public class BetService {
 //        int groupStagePoints = 0;
 //        int totalPoints = 0;
 //        
-//        for (final Map.Entry<MatchNew,Bet> entry : betsByMatch.entrySet()) {
+//        for (final Map.Entry<MatchNew,BetNew> entry : betsByMatch.entrySet()) {
 //            
 //            final MatchNew match = entry.getKey();
-//            final Bet bet = entry.getValue();
+//            final BetNew bet = entry.getValue();
 //            
 //            final Round round = match.getRound();
 //            final Calendar date = match.getDate();

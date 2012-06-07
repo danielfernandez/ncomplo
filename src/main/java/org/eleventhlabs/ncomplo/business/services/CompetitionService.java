@@ -36,7 +36,7 @@ public class CompetitionService {
     
     
     @Transactional
-    public List<Competition> findAllOrderByName(final Locale locale) {
+    public List<Competition> findAll(final Locale locale) {
         final List<Competition> competitions = IterableUtils.toList(this.competitionRepository.findAll());
         Collections.sort(competitions, new I18nNamedEntityComparator(locale));
         return competitions;

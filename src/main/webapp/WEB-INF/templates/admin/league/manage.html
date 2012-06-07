@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head th:substituteby="admin/adminheader :: head"></head>
+  <head th:substituteby="admin/adminheader :: head">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
+    <script src="../../../../js/ncomplo.js" type="text/javascript"></script>
+  </head>
   
   <body>
   
     <header th:substituteby="admin/adminheader :: header"></header>
-    
+  
     <div id="content">
-
-        <h1>Manage Bet Type in competition "<span th:text="${competition.getName(#locale)}">One Competition</span>"</h1>
+    
+        <h1>Manage League</h1>
         
-        <form th:action="@{save}" th:object="${betType}" method="post">
+        <form th:action="@{save}" th:object="${league}" method="post">
         
           <fieldset>
           
             <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{competitionId}" />
             
             <div id="name">
               <label for="nameInput">Name</label>
@@ -35,27 +39,44 @@
             </div>
             
             <div>
-              <label for="gameSidesMatterCheck">Teams matter</label>
-              <input id="gameSidesMatterCheck" type="checkbox" th:field="*{gameSidesMatter}" />
+              <label for="adminEmailInput">Admin Email</label>
+              <input id="adminEmailInput" type="text" th:field="*{adminEmail}" required="required" />
             </div>
             
             <div>
-              <label for="scoreMatterCheck">Score matters</label>
-              <input id="scoreMatterCheck" type="checkbox" th:field="*{scoreMatter}" />
+              <label for="activeCheck">Active</label>
+              <input id="activeCheck" type="checkbox" th:field="*{active}" />
             </div>
             
+          </fieldset>
+          
+          <fieldset>
+          
             <div>
-              <label for="specInput">Specification</label>
-              <textarea id="specInput" th:field="*{spec}" required="required"></textarea>
-            </div>
             
+              <table>
+                <tr th:each="g : ${allGames}">
+                  <td th:text="${g.date} ? ${#dates.format(g.date,#messages.msg('dates.format'))} : '-'">2012-06-02</td>
+                  <td th:text="${g.getName(#locale)}">name of game</td>
+                  <td th:text="${g.gameSideA} ? ${g.gameSideA.getName(#locale)} : '-'">name of team/player A</td>
+                  <td th:text="${g.gameSideB} ? ${g.gameSideB.getName(#locale)} : '-'">name of team/player B</td>
+                  <td>
+                    <select th:field="*{betTypesByGame[__${g.id}__]}">
+                      <option th:each="bt : ${allBetTypes}" th:value="${bt.id}" th:text="${bt.getName(#locale)}">bet type</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+              
+            </div>
+          
           </fieldset>
           
           <input type="submit" />
           
         </form>
         
-        <a th:href="@{list}">Back to list of Bet Types</a>
+        <a th:href="@{list}">Back to list of Leagues</a>
         
     </div>
     

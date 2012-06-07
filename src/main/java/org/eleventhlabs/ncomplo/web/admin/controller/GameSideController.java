@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.eleventhlabs.ncomplo.business.entities.Team;
+import org.eleventhlabs.ncomplo.business.entities.GameSide;
 import org.eleventhlabs.ncomplo.business.services.CompetitionService;
-import org.eleventhlabs.ncomplo.business.services.TeamService;
+import org.eleventhlabs.ncomplo.business.services.GameSideService;
 import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
-import org.eleventhlabs.ncomplo.web.admin.beans.TeamBean;
+import org.eleventhlabs.ncomplo.web.admin.beans.GameSideBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,22 +19,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 @Controller
-@RequestMapping("/admin/competition/{competitionId}/team")
-public class TeamController {
+@RequestMapping("/admin/competition/{competitionId}/gameside")
+public class GameSideController {
 
-    private static final String VIEW_BASE = "/admin/competition/team/";
+    private static final String VIEW_BASE = "/admin/competition/gameside/";
     
     
     @Autowired
     private CompetitionService competitionService;
     
     @Autowired
-    private TeamService teamService;
+    private GameSideService gameSideService;
 
     
     
     
-    public TeamController() {
+    public GameSideController() {
         super();
     }
     
@@ -49,10 +49,10 @@ public class TeamController {
             final HttpServletRequest request, 
             final ModelMap model) {
         
-        final List<Team> teams =
-                this.teamService.findAllOrderByName(competitionId,RequestContextUtils.getLocale(request));
+        final List<GameSide> gameSides =
+                this.gameSideService.findAll(competitionId,RequestContextUtils.getLocale(request));
         
-        model.addAttribute("allTeams", teams);
+        model.addAttribute("allGameSides", gameSides);
         model.addAttribute("competition", this.competitionService.find(competitionId));
         
         return VIEW_BASE + "list";
@@ -69,17 +69,17 @@ public class TeamController {
             final Integer competitionId,
             final ModelMap model) {
 
-        final TeamBean teamBean = new TeamBean();
+        final GameSideBean gameSideBean = new GameSideBean();
         
         if (id != null) {
-            final Team team = this.teamService.find(id);
-            teamBean.setId(team.getId());
-            teamBean.setName(team.getName());
-            teamBean.getNamesByLang().clear();
-            teamBean.getNamesByLang().addAll(LangBean.listFromMap(team.getNamesByLang()));
+            final GameSide gameSide = this.gameSideService.find(id);
+            gameSideBean.setId(gameSide.getId());
+            gameSideBean.setName(gameSide.getName());
+            gameSideBean.getNamesByLang().clear();
+            gameSideBean.getNamesByLang().addAll(LangBean.listFromMap(gameSide.getNamesByLang()));
         }
         
-        model.addAttribute("team", teamBean);
+        model.addAttribute("gameSide", gameSideBean);
         model.addAttribute("competition", this.competitionService.find(competitionId));
         
         return VIEW_BASE + "manage";
@@ -90,16 +90,16 @@ public class TeamController {
     
     @RequestMapping("/save")
     public String save(
-            final TeamBean teamBean,
+            final GameSideBean gameSideBean,
             final BindingResult bindingResult,
             @PathVariable("competitionId")
             final Integer competitionId) {
 
-        this.teamService.save(
-                teamBean.getId(),
+        this.gameSideService.save(
+                gameSideBean.getId(),
                 competitionId,
-                teamBean.getName(),
-                LangBean.mapFromList(teamBean.getNamesByLang()));
+                gameSideBean.getName(),
+                LangBean.mapFromList(gameSideBean.getNamesByLang()));
         
         return "redirect:list";
         
@@ -112,7 +112,7 @@ public class TeamController {
             @RequestParam(value="id")
             final Integer id) {
 
-        this.teamService.delete(id);
+        this.gameSideService.delete(id);
         return "redirect:list";
         
     }

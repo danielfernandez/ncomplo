@@ -17,14 +17,14 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.eleventhlabs.ncomplo.business.entities.Bet;
+import org.eleventhlabs.ncomplo.business.entities.BetNew;
 import org.eleventhlabs.ncomplo.business.entities.BetDefinition;
 import org.eleventhlabs.ncomplo.business.entities.BetType;
 import org.eleventhlabs.ncomplo.business.entities.MatchNew;
 import org.eleventhlabs.ncomplo.business.entities.MatchWinner;
 import org.eleventhlabs.ncomplo.business.entities.RoundNew;
 import org.eleventhlabs.ncomplo.business.entities.TeamNew;
-import org.eleventhlabs.ncomplo.business.services.BetService;
+import org.eleventhlabs.ncomplo.business.services.BetNewService;
 import org.eleventhlabs.ncomplo.business.util.DateUtils;
 import org.eleventhlabs.ncomplo.web.application.NComploApplication;
 import org.eleventhlabs.ncomplo.web.utils.JavascriptEventConfirmation;
@@ -71,7 +71,7 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
 
             final MatchBetModel matchBetModel = new MatchBetModel(this.ownerName);
             
-            final List<Map.Entry<MatchNew, Bet>> currentBets = matchBetModel.getObject();
+            final List<Map.Entry<MatchNew, BetNew>> currentBets = matchBetModel.getObject();
             
             add(new Label("ownerName", new Model<String>(this.ownerName)));
             
@@ -152,7 +152,7 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
                 
             }
 
-            final BetService betService = NComploApplication.get().getBetService();
+            final BetNewService betService = NComploApplication.get().getBetService();
             betService.setBets(this.ownerName, this.ownerAccountId.getModelObject(), betDefinitions);
             
             getSession().info("Las apuestas han sido correctamente almacenadas");
@@ -167,7 +167,7 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
     
     
     
-    private static class MatchBetModel extends LoadableDetachableModel<List<Map.Entry<MatchNew,Bet>>> {
+    private static class MatchBetModel extends LoadableDetachableModel<List<Map.Entry<MatchNew,BetNew>>> {
 
         private static final long serialVersionUID = 7226824L;
 
@@ -179,24 +179,24 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
         }
         
         @Override
-        protected List<Map.Entry<MatchNew,Bet>> load() {
+        protected List<Map.Entry<MatchNew,BetNew>> load() {
             // Should return an entry for every match, with a null bet
             // if there currently is no established bet for that user in that match.
 
             final List<MatchNew> allMatches =
                     NComploApplication.get().getMatchService().findAllMatchesOrderByDate();
             
-            final Map<MatchNew,Bet> betsByMatchForUser = 
+            final Map<MatchNew,BetNew> betsByMatchForUser = 
                     NComploApplication.get().getBetService().findAllBetsForOwner(this.ownerName);
             
-            final Map<MatchNew,Bet> betsByAllMatches = new LinkedHashMap<MatchNew, Bet>();
+            final Map<MatchNew,BetNew> betsByAllMatches = new LinkedHashMap<MatchNew, BetNew>();
             for (final MatchNew match : allMatches) {
-                final Bet betForMatch = betsByMatchForUser.get(match);
+                final BetNew betForMatch = betsByMatchForUser.get(match);
                 betsByAllMatches.put(
-                        match, (betForMatch == null? new Bet() : betForMatch));
+                        match, (betForMatch == null? new BetNew() : betForMatch));
             }
             
-            return new ArrayList<Map.Entry<MatchNew,Bet>>(betsByAllMatches.entrySet());
+            return new ArrayList<Map.Entry<MatchNew,BetNew>>(betsByAllMatches.entrySet());
             
         }
         
@@ -204,7 +204,7 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
     
     
     
-    private static class MatchesForBetsListView extends ListView<Map.Entry<MatchNew, Bet>> {
+    private static class MatchesForBetsListView extends ListView<Map.Entry<MatchNew, BetNew>> {
 
         private static final long serialVersionUID = 579938465348690L;
 
@@ -238,11 +238,11 @@ public class BetsForOwnerAdminPage extends BaseAdminPage {
         
 
         @Override
-        protected void populateItem(final ListItem<Map.Entry<MatchNew,Bet>> item) {
+        protected void populateItem(final ListItem<Map.Entry<MatchNew,BetNew>> item) {
 
-            final Map.Entry<MatchNew,Bet> entry = item.getModelObject();
+            final Map.Entry<MatchNew,BetNew> entry = item.getModelObject();
             final MatchNew match = entry.getKey();
-            final Bet bet = entry.getValue();
+            final BetNew bet = entry.getValue();
             
             final Integer matchId = match.getId();
             this.betTypeByMatchId.put(matchId, match.getBetType());

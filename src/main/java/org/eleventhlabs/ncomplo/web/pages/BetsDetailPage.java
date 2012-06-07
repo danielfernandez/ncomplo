@@ -15,7 +15,7 @@ import org.eleventhlabs.ncomplo.business.entities.BetResults;
 import org.eleventhlabs.ncomplo.business.entities.MatchWinner;
 import org.eleventhlabs.ncomplo.business.entities.RoundNew;
 import org.eleventhlabs.ncomplo.business.entities.TeamNew;
-import org.eleventhlabs.ncomplo.business.services.BetService;
+import org.eleventhlabs.ncomplo.business.services.BetNewService;
 import org.eleventhlabs.ncomplo.business.util.DateUtils;
 import org.eleventhlabs.ncomplo.web.application.NComploApplication;
 
@@ -36,7 +36,7 @@ public class BetsDetailPage extends BasePage {
             throw new IllegalArgumentException("Missing parameter: ownerName");
         }
         
-        final BetService betService = NComploApplication.get().getBetService();
+        final BetNewService betService = NComploApplication.get().getBetService();
         final BetResults betResults = betService.computeBetResults(ownerName);
         
         add(new Label("ownerName", betResults.getOwnerName()));

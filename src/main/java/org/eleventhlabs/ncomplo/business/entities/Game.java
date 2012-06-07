@@ -22,8 +22,8 @@ import org.eleventhlabs.ncomplo.business.util.I18nUtils;
 
 
 @Entity
-@Table(name="MATCH_DATA")
-public class Match implements DatedAndNamedEntity {
+@Table(name="GAME")
+public class Game implements DatedAndNamedEntity {
 
     
     @Id
@@ -36,12 +36,12 @@ public class Match implements DatedAndNamedEntity {
     private Competition competition; 
     
     
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="ROUND_ID",nullable=false)
     private Round round; 
 
     
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="DEFAULT_BET_TYPE_ID",nullable=false)
     private BetType defaultBetType; 
 
@@ -51,7 +51,7 @@ public class Match implements DatedAndNamedEntity {
     
     
     @ElementCollection(fetch=FetchType.EAGER,targetClass=java.lang.String.class)
-    @CollectionTable(name="MATCH_NAME_I18N",joinColumns=@JoinColumn(name="MATCH_ID"))
+    @CollectionTable(name="GAME_NAME_I18N",joinColumns=@JoinColumn(name="GAME_ID"))
     @MapKeyColumn(name="LANG",nullable=false,length=20)
     @Column(name="NAME", nullable=false,length=200)
     private Map<String,String> namesByLang = new LinkedHashMap<String, String>();
@@ -61,14 +61,14 @@ public class Match implements DatedAndNamedEntity {
     private Date date;
 
     
-    @ManyToOne
-    @JoinColumn(name="TEAM_A_ID",nullable=true)
-    private Team teamA;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="GAME_SIDE_A_ID",nullable=true)
+    private GameSide gameSideA;
 
     
-    @ManyToOne
-    @JoinColumn(name="TEAM_B_ID",nullable=true)
-    private Team teamB;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="GAME_SIDE_B_ID",nullable=true)
+    private GameSide gameSideB;
     
     
     @Column(name="SCORE_A",nullable=true)
@@ -82,7 +82,7 @@ public class Match implements DatedAndNamedEntity {
 
     
     
-    public Match() {
+    public Game() {
         super();
     }
 
@@ -143,23 +143,23 @@ public class Match implements DatedAndNamedEntity {
     }
 
 
-    public Team getTeamA() {
-        return this.teamA;
+    public GameSide getGameSideA() {
+        return this.gameSideA;
     }
 
 
-    public void setTeamA(final Team teamA) {
-        this.teamA = teamA;
+    public void setGameSideA(final GameSide gameSideA) {
+        this.gameSideA = gameSideA;
     }
 
 
-    public Team getTeamB() {
-        return this.teamB;
+    public GameSide getGameSideB() {
+        return this.gameSideB;
     }
 
 
-    public void setTeamB(final Team teamB) {
-        this.teamB = teamB;
+    public void setGameSideB(final GameSide gameSideB) {
+        this.gameSideB = gameSideB;
     }
 
 
@@ -210,7 +210,7 @@ public class Match implements DatedAndNamedEntity {
     }
 
     public boolean isTeamsDefined() {
-        return (this.teamA != null && this.teamB != null);
+        return (this.gameSideA != null && this.gameSideB != null);
     }
     
     public boolean isScoreDefined() {

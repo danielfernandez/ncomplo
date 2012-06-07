@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 
-public class MatchBean implements Serializable {
+public class GameBean implements Serializable {
 
     private static final long serialVersionUID = 9180456877660425744L;
 
@@ -37,10 +37,10 @@ public class MatchBean implements Serializable {
     private Date date;
     
     
-    private Integer teamAId;
+    private Integer gameSideAId;
     
     
-    private Integer teamBId;
+    private Integer gameSideBId;
     
     
     private Integer scoreA;
@@ -51,7 +51,7 @@ public class MatchBean implements Serializable {
     
     
     
-    public MatchBean() {
+    public GameBean() {
         super();
     }
 
@@ -108,23 +108,23 @@ public class MatchBean implements Serializable {
     }
 
 
-    public Integer getTeamAId() {
-        return this.teamAId;
+    public Integer getGameSideAId() {
+        return this.gameSideAId;
     }
 
 
-    public void setTeamAId(final Integer teamAId) {
-        this.teamAId = teamAId;
+    public void setGameSideAId(final Integer gameSideAId) {
+        this.gameSideAId = gameSideAId;
     }
 
 
-    public Integer getTeamBId() {
-        return this.teamBId;
+    public Integer getGameSideBId() {
+        return this.gameSideBId;
     }
 
 
-    public void setTeamBId(final Integer teamBId) {
-        this.teamBId = teamBId;
+    public void setGameSideBId(final Integer gameSideBId) {
+        this.gameSideBId = gameSideBId;
     }
 
 

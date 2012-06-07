@@ -56,11 +56,11 @@ public class Competition implements I18nNamedEntity {
 
     
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="competition")
-    private Set<Team> teams = new LinkedHashSet<Team>();
+    private Set<GameSide> gameSides = new LinkedHashSet<GameSide>();
 
     
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="competition")
-    private Set<Match> matches = new LinkedHashSet<Match>();
+    private Set<Game> games = new LinkedHashSet<Game>();
     
     
     
@@ -107,13 +107,13 @@ public class Competition implements I18nNamedEntity {
     }
     
 
-    public Set<Team> getTeams() {
-        return this.teams;
+    public Set<GameSide> getGameSides() {
+        return this.gameSides;
     }
     
 
-    public Set<Match> getMatches() {
-        return this.matches;
+    public Set<Game> getGames() {
+        return this.games;
     }
 
 

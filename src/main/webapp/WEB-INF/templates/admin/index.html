@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="admin/adminheader :: head"></head>
+  
+  <body>
+    
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
+  
+        <h1>Administration</h1>
+
+        <ul>
+          <li><a th:href="@{competition/list}">Manage Competitions</a></li>
+          <li><a th:href="@{league/list}">Manage Leagues</a></li>
+          <li><a th:href="@{user/list}">Manage Users</a></li>
+        </ul>        
+        
+    </div> 
+
+  </body>
+  
+</html>

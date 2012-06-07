@@ -31,14 +31,14 @@ public class BetType implements I18nNamedEntity {
     private Integer id;
 
     
-    @Column(name="NAME",nullable=false,length=200)
+    @Column(name="NAME",nullable=false,length=1000)
     private String name;
     
     
     @ElementCollection(fetch=FetchType.EAGER,targetClass=java.lang.String.class)
     @CollectionTable(name="BET_TYPE_NAME_I18N",joinColumns=@JoinColumn(name="BET_TYPE_ID"))
     @MapKeyColumn(name="LANG",nullable=false,length=20)
-    @Column(name="NAME", nullable=false,length=200)
+    @Column(name="NAME", nullable=false,length=1000)
     private Map<String,String> namesByLang = new LinkedHashMap<String, String>();
 
     
@@ -51,6 +51,14 @@ public class BetType implements I18nNamedEntity {
     @JoinColumn(name="COMPETITION_ID",nullable=false)
     private Competition competition;
 
+    
+    @Column(name="GAME_SIDES_MATTER")
+    private boolean gameSidesMatter;
+    
+    
+    @Column(name="SCORE_MATTER")
+    private boolean scoreMatter;
+    
 
 
     public BetType() {
@@ -112,6 +120,30 @@ public class BetType implements I18nNamedEntity {
 
     public void setSpec(final String spec) {
         this.spec = spec;
+    }
+
+
+
+    public boolean isGameSidesMatter() {
+        return this.gameSidesMatter;
+    }
+
+
+
+    public void setGameSidesMatter(final boolean gameSidesMatter) {
+        this.gameSidesMatter = gameSidesMatter;
+    }
+
+
+
+    public boolean isScoreMatter() {
+        return this.scoreMatter;
+    }
+
+
+
+    public void setScoreMatter(final boolean scoreMatter) {
+        this.scoreMatter = scoreMatter;
     }
 
 

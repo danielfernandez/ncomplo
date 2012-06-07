@@ -9,14 +9,14 @@
   
     <div id="content">
   
-        <h1>Bet Types for competition "<span th:text="${competition.getName(#locale)}">competition</span>"</h1>
+        <h1>Teams/Players for competition "<span th:text="${competition.getName(#locale)}">competition</span>"</h1>
         
         <a th:href="@{manage}">Create new</a>
         <table>
-          <tr th:each="bt : ${allBetTypes}">
-            <td th:text="${bt.getName(#locale)}">Type of Bet</td>
-            <td><a th:href="@{manage(id=${bt.id})}">manage bet type</a></td>
-            <td><a th:href="@{delete(id=${bt.id})}" onclick="return confirm('Sure?');">delete bet type</a></td>
+          <tr th:each="gs : ${allGameSides}">
+            <td th:text="${gs.getName(#locale)}">name of team/player</td>
+            <td><a th:href="@{manage(id=${gs.id})}">manage team/player</a></td>
+            <td><a th:href="@{delete(id=${gs.id})}" onclick="return confirm('Sure?');">delete team/player</a></td>
           </tr>
         </table>
         

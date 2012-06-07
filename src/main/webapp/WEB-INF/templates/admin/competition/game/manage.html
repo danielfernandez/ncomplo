@@ -9,9 +9,9 @@
     
     <div id="content">
 
-        <h1>Manage Match in competition "<span th:text="${competition.getName(#locale)}">One Competition</span>"</h1>
+        <h1>Manage Game in competition "<span th:text="${competition.getName(#locale)}">One Competition</span>"</h1>
         
-        <form th:action="@{save}" th:object="${match}">
+        <form th:action="@{save}" th:object="${game}" method="post">
         
           <fieldset>
           
@@ -54,18 +54,18 @@
             </div>
             
             <div>
-              <label for="teamASelect">Team A</label>
-              <select id="teamASelect" th:field="*{teamAId}">
+              <label for="gameSideASelect">Team/Player A</label>
+              <select id="gameSideASelect" th:field="*{gameSideAId}">
                 <option value="">Undefined</option>
-                <option th:each="t : ${allTeams}" th:value="${t.id}" th:text="${t.getName(#locale)}">One team</option>
+                <option th:each="gs : ${allGameSides}" th:value="${gs.id}" th:text="${gs.getName(#locale)}">One team/player</option>
               </select>
             </div>
             
             <div>
-              <label for="teamBSelect">Team B</label>
-              <select id="teamBSelect" th:field="*{teamBId}">
+              <label for="gameSideBSelect">Team/Player B</label>
+              <select id="gameSideBSelect" th:field="*{gameSideBId}">
                 <option value="">Undefined</option>
-                <option th:each="t : ${allTeams}" th:value="${t.id}" th:text="${t.getName(#locale)}">One team</option>
+                <option th:each="gs : ${allGameSides}" th:value="${gs.id}" th:text="${gs.getName(#locale)}">One team/player</option>
               </select>
             </div>
             
@@ -84,6 +84,8 @@
           <input type="submit" />
           
         </form>
+        
+        <a th:href="@{list}">Back to list of Games</a>
         
     </div>
     

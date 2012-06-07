@@ -12,9 +12,9 @@
   
     <div id="content">
     
-        <h1>Manage C</h1>
+        <h1>Manage Competition</h1>
         
-        <form th:action="@{save}" th:object="${competition}">
+        <form th:action="@{save}" th:object="${competition}" method="post">
         
           <fieldset>
           
@@ -47,6 +47,8 @@
           <input type="submit" />
           
         </form>
+        
+        <a th:href="@{list}">Back to list of Competitions</a>
         
     </div>
     

@@ -21,8 +21,8 @@ import org.eleventhlabs.ncomplo.business.util.I18nUtils;
 
 
 @Entity
-@Table(name="TEAM")
-public class Team implements I18nNamedEntity {
+@Table(name="GAME_SIDE")
+public class GameSide implements I18nNamedEntity {
 
     
     @Id
@@ -35,7 +35,7 @@ public class Team implements I18nNamedEntity {
     
     
     @ElementCollection(fetch=FetchType.EAGER,targetClass=java.lang.String.class)
-    @CollectionTable(name="TEAM_NAME_I18N",joinColumns=@JoinColumn(name="TEAM_ID"))
+    @CollectionTable(name="GAME_SIDE_NAME_I18N",joinColumns=@JoinColumn(name="GAME_SIDE_ID"))
     @MapKeyColumn(name="LANG",nullable=false,length=20)
     @Column(name="NAME", nullable=false,length=200)
     private Map<String,String> namesByLang = new LinkedHashMap<String, String>();
@@ -47,7 +47,7 @@ public class Team implements I18nNamedEntity {
 
 
     
-    public Team() {
+    public GameSide() {
         super();
     }
 

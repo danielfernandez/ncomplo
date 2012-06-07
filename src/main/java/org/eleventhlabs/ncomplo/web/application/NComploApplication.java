@@ -10,7 +10,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.HttpSessionStore;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.session.ISessionStore;
-import org.eleventhlabs.ncomplo.business.services.BetService;
+import org.eleventhlabs.ncomplo.business.services.BetNewService;
 import org.eleventhlabs.ncomplo.business.services.MatchNewService;
 import org.eleventhlabs.ncomplo.business.services.UserService;
 import org.eleventhlabs.ncomplo.web.pages.BetAdminPage;
@@ -29,7 +29,7 @@ public class NComploApplication extends WebApplication {
     private UserService aaaService;
     
     @Autowired
-    private BetService betService;
+    private BetNewService betService;
     
     @Autowired
     private MatchNewService matchService;
@@ -80,7 +80,7 @@ public class NComploApplication extends WebApplication {
     }
 
 
-    public final BetService getBetService() {
+    public final BetNewService getBetService() {
         return this.betService;
     }
 

@@ -7,15 +7,15 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.eleventhlabs.ncomplo.business.entities.Match;
+import org.eleventhlabs.ncomplo.business.entities.Game;
 import org.eleventhlabs.ncomplo.business.services.BetTypeService;
 import org.eleventhlabs.ncomplo.business.services.CompetitionService;
-import org.eleventhlabs.ncomplo.business.services.MatchService;
+import org.eleventhlabs.ncomplo.business.services.GameService;
 import org.eleventhlabs.ncomplo.business.services.RoundService;
-import org.eleventhlabs.ncomplo.business.services.TeamService;
+import org.eleventhlabs.ncomplo.business.services.GameSideService;
 import org.eleventhlabs.ncomplo.business.util.I18nUtils;
 import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
-import org.eleventhlabs.ncomplo.web.admin.beans.MatchBean;
+import org.eleventhlabs.ncomplo.web.admin.beans.GameBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -29,23 +29,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 @Controller
-@RequestMapping("/admin/competition/{competitionId}/match")
-public class MatchController {
+@RequestMapping("/admin/competition/{competitionId}/game")
+public class GameController {
 
-    private static final String VIEW_BASE = "/admin/competition/match/";
+    private static final String VIEW_BASE = "/admin/competition/game/";
     
     
     @Autowired
     private CompetitionService competitionService;
     
     @Autowired
-    private MatchService matchService;
+    private GameService gameService;
     
     @Autowired
     private RoundService roundService;
     
     @Autowired
-    private TeamService teamService;
+    private GameSideService gameSideService;
     
     @Autowired
     private BetTypeService betTypeService;
@@ -53,7 +53,7 @@ public class MatchController {
     
     
     
-    public MatchController() {
+    public GameController() {
         super();
     }
     
@@ -66,16 +66,18 @@ public class MatchController {
     }
     
     
+    
+    
     @RequestMapping("/list")
     public String list(
             @PathVariable("competitionId") final Integer competitionId, 
             final HttpServletRequest request, 
             final ModelMap model) {
         
-        final List<Match> matches =
-                this.matchService.findAllOrderByName(competitionId,RequestContextUtils.getLocale(request));
+        final List<Game> games =
+                this.gameService.findAll(competitionId,RequestContextUtils.getLocale(request));
         
-        model.addAttribute("allMatches", matches);
+        model.addAttribute("allGames", games);
         model.addAttribute("competition", this.competitionService.find(competitionId));
         
         return VIEW_BASE + "list";
@@ -93,34 +95,34 @@ public class MatchController {
             final ModelMap model,
             final HttpServletRequest request) {
 
-        final MatchBean matchBean = new MatchBean();
+        final GameBean gameBean = new GameBean();
         
         if (id != null) {
-            final Match match = this.matchService.find(id);
-            matchBean.setId(match.getId());
-            matchBean.setName(match.getName());
-            matchBean.getNamesByLang().clear();
-            matchBean.getNamesByLang().addAll(LangBean.listFromMap(match.getNamesByLang()));
-            matchBean.setDate(match.getDate());
-            matchBean.setDefaultBetTypeId(match.getDefaultBetType().getId());
-            matchBean.setRoundId(match.getRound().getId());
-            matchBean.setTeamAId(
-                    match.getTeamA() == null?
-                            null : match.getTeamA().getId());
-            matchBean.setTeamBId(
-                    match.getTeamB() == null?
-                            null : match.getTeamB().getId());
-            matchBean.setScoreA(match.getScoreA());
-            matchBean.setScoreB(match.getScoreB());
+            final Game game = this.gameService.find(id);
+            gameBean.setId(game.getId());
+            gameBean.setName(game.getName());
+            gameBean.getNamesByLang().clear();
+            gameBean.getNamesByLang().addAll(LangBean.listFromMap(game.getNamesByLang()));
+            gameBean.setDate(game.getDate());
+            gameBean.setDefaultBetTypeId(game.getDefaultBetType().getId());
+            gameBean.setRoundId(game.getRound().getId());
+            gameBean.setGameSideAId(
+                    game.getGameSideA() == null?
+                            null : game.getGameSideA().getId());
+            gameBean.setGameSideBId(
+                    game.getGameSideB() == null?
+                            null : game.getGameSideB().getId());
+            gameBean.setScoreA(game.getScoreA());
+            gameBean.setScoreB(game.getScoreB());
         }
         
-        model.addAttribute("match", matchBean);
+        model.addAttribute("game", gameBean);
         model.addAttribute("competition", this.competitionService.find(competitionId));
         
         final Locale locale = RequestContextUtils.getLocale(request);
-        model.addAttribute("allRounds", this.roundService.findAllOrderByName(competitionId));
+        model.addAttribute("allRounds", this.roundService.findAll(competitionId));
         model.addAttribute("allBetTypes", this.betTypeService.findAllOrderByName(competitionId, locale));
-        model.addAttribute("allTeams", this.teamService.findAllOrderByName(competitionId, locale));
+        model.addAttribute("allGameSides", this.gameSideService.findAll(competitionId, locale));
         
         return VIEW_BASE + "manage";
         
@@ -130,23 +132,23 @@ public class MatchController {
     
     @RequestMapping("/save")
     public String save(
-            final MatchBean matchBean,
+            final GameBean gameBean,
             final BindingResult bindingResult,
             @PathVariable("competitionId")
             final Integer competitionId) {
 
-        this.matchService.save(
-                matchBean.getId(),
+        this.gameService.save(
+                gameBean.getId(),
                 competitionId,
-                matchBean.getDate(),
-                matchBean.getName(),
-                LangBean.mapFromList(matchBean.getNamesByLang()),
-                matchBean.getDefaultBetTypeId(),
-                matchBean.getRoundId(),
-                matchBean.getTeamAId(),
-                matchBean.getTeamBId(),
-                matchBean.getScoreA(),
-                matchBean.getScoreB());
+                gameBean.getDate(),
+                gameBean.getName(),
+                LangBean.mapFromList(gameBean.getNamesByLang()),
+                gameBean.getDefaultBetTypeId(),
+                gameBean.getRoundId(),
+                gameBean.getGameSideAId(),
+                gameBean.getGameSideBId(),
+                gameBean.getScoreA(),
+                gameBean.getScoreB());
         
         return "redirect:list";
         
@@ -159,7 +161,7 @@ public class MatchController {
             @RequestParam(value="id")
             final Integer id) {
 
-        this.matchService.delete(id);
+        this.gameService.delete(id);
         return "redirect:list";
         
     }

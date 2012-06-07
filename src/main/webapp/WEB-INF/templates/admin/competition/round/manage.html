@@ -11,7 +11,7 @@
 
         <h1>Manage Round in competition "<span th:text="${competition.getName(#locale)}">One Competition</span>"</h1>
         
-        <form th:action="@{save}" th:object="${round}">
+        <form th:action="@{save}" th:object="${round}" method="post">
         
           <fieldset>
           
@@ -44,6 +44,8 @@
           <input type="submit" />
           
         </form>
+        
+        <a th:href="@{list}">Back to list of Rounds</a>
         
     </div>
     

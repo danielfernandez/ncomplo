@@ -17,9 +17,11 @@
             <td th:text="${r.order}">order of round</td>
             <td th:text="${r.getName(#locale)}">name of round</td>
             <td><a th:href="@{manage(id=${r.id})}">manage round</a></td>
-            <td><a th:href="@{delete(id=${r.id})}">delete round</a></td>
+            <td><a th:href="@{delete(id=${r.id})}" onclick="return confirm('Sure?');">delete round</a></td>
           </tr>
         </table>
+        
+        <a th:href="@{../../list}">Back to list of Competitions</a>
         
     </div> 
 

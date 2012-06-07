@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="admin/adminheader :: head"></head>
+  
+  <body>
+  
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
+    
+        <h1>Manage User</h1>
+        
+        <form th:action="@{save}" th:object="${user}" method="post">
+        
+          <fieldset>
+            
+            <div>
+              <label for="loginInput">Login</label>
+              <input id="loginInput" type="text" th:field="*{login}" required="required" />
+            </div>
+            
+            <div>
+              <label for="nameInput">Name</label>
+              <input id="nameInput" type="text" th:field="*{name}" required="required" />
+            </div>
+            
+            <div>
+              <label for="emailInput">Email</label>
+              <input id="emailInput" type="text" th:field="*{email}" required="required" />
+            </div>
+            
+            <div>
+              <label for="adminCheck">Admin</label>
+              <input id="adminCheck" type="checkbox" th:field="*{admin}" />
+            </div>
+            
+            <div>
+              <label for="activeCheck">Active</label>
+              <input id="activeCheck" type="checkbox" th:field="*{active}" />
+            </div>
+            
+          </fieldset>
+          
+          <fieldset>
+            <ul>
+              <li th:each="l : ${allLeagues}">
+                <input type="checkbox" th:field="*{leagueIds}" th:value="${l.id}" /><span th:text="${l.getName(#locale)}">League one</span>
+              </li>
+            </ul>
+          
+          </fieldset>
+          
+          <input type="submit" />
+          
+        </form>
+        
+        <a th:href="@{list}">Back to list of Users</a>
+        
+    </div>
+    
+  </body>
+  
+</html>

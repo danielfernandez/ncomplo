@@ -26,6 +26,11 @@ public class BetTypeBean implements Serializable {
     @NotNull
     private String spec;
 
+    @NotNull
+    private boolean gameSidesMatter = true;
+
+    @NotNull
+    private boolean scoreMatter = true;
     
     
     public BetTypeBean() {
@@ -65,6 +70,26 @@ public class BetTypeBean implements Serializable {
 
     public void setSpec(final String spec) {
         this.spec = spec;
+    }
+
+
+    public boolean isGameSidesMatter() {
+        return this.gameSidesMatter;
+    }
+
+
+    public void setGameSidesMatter(final boolean gameSidesMatter) {
+        this.gameSidesMatter = gameSidesMatter;
+    }
+
+
+    public boolean isScoreMatter() {
+        return this.scoreMatter;
+    }
+
+
+    public void setScoreMatter(final boolean scoreMatter) {
+        this.scoreMatter = scoreMatter;
     }
 
     

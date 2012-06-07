@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="admin/adminheader :: head"></head>
+  
+  <body>
+  
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
+    
+        <h1>Leagues</h1>
+        
+        <form th:action="@{manage}" method="get">
+          <fieldset>
+            <select name="competitionId">
+              <option th:each="c : ${allCompetitions}" th:value="${c.id}" th:text="${c.getName(#locale)}">A competition</option>
+            </select>
+            <input type="submit" value="Create new" />
+          </fieldset>
+        </form>
+        
+        <table>
+          <tr th:each="l : ${allLeagues}">
+            <td th:text="${l.getName(#locale)}">Liga BBVA entre colegas</td>
+            <td th:text="${l.active}">Active</td>
+            <td>
+              <span th:text="${l.leagueGames.size()}">2</span> league games
+            </td>
+            <td>
+              <span th:text="${l.participants.size()}">2</span> participants
+              <a th:href="@{${l.id} + '/participants/list'}">manage participants</a>
+            </td>
+            <td><a th:href="@{manage(id=${l.id})}">manage league</a></td>
+            <td><a th:href="@{delete(id=${l.id})}" onclick="return confirm('Sure?');">delete league</a></td>
+          </tr>
+        </table>
+        
+        <a th:href="@{..}">Back to Admin Home</a>
+        
+      </div> 
+
+  </body>
+  
+</html>
