@@ -1,6 +1,9 @@
 package org.eleventhlabs.ncomplo.business.entities.repositories;
 
+import java.util.List;
+
 import org.eleventhlabs.ncomplo.business.entities.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User,String> {
 
-    // No additional methods to be defined here
+    @Query("from User u where u.admin = true")
+    public List<User> findAllAdmin();
     
 }
     

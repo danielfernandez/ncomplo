@@ -129,19 +129,4 @@ public class UserController {
         
     }
     
-
-    
-    
-    @RequestMapping("/authenticate")
-    public String delete(
-            @RequestParam(value="login")
-            final String login,
-            @RequestParam(value="password")
-            final String password) {
-
-        this.userService.authenticate(login, password);
-        return "redirect:list";
-        
-    }
-    
 }

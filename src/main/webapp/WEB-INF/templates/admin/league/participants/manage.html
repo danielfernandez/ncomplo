@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="admin/adminheader :: head"></head>
+  
+  <body>
+  
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
+    
+        <h1>
+          Manage bets in league 
+          "<span th:text="${league.getName(#locale)}">league</span>"
+          by participant "<span th:text="${participant.name}">user</span>"
+        </h1>
+        
+        <form th:action="@{save}" th:object="${participation}" method="post">
+          
+          <fieldset>
+          
+            <input type="hidden" th:field="*{login}" />
+            <input type="hidden" th:field="*{leagueId}" />
+          
+            <div>
+            
+              <table>
+                <tr th:each="g : ${allGames}">
+                  <td th:text="${g.round.getName(#locale)}">round of game</td>
+                  <td>
+                    <input type="hidden" th:field="*{betsByGame[__${g.id}__].betTypeId}" />
+                    <span th:text="${g.date} ? ${#dates.format(g.date,#messages.msg('dates.format'))} : '-'">2012-06-02</span>
+                  </td>
+                  <td th:text="${g.getName(#locale)}">name of game</td>
+                  <td>
+                    <select th:field="*{betsByGame[__${g.id}__].gameSideAId}">
+                      <option th:each="gs : ${allGameSides}" th:value="${gs.id}" th:text="${gs.getName(#locale)}">game side</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select th:field="*{betsByGame[__${g.id}__].gameSideBId}">
+                      <option th:each="gs : ${allGameSides}" th:value="${gs.id}" th:text="${gs.getName(#locale)}">game side</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="number" th:field="*{betsByGame[__${g.id}__].scoreSideAId}" />
+                  </td>
+                  <td>
+                    <input type="number" th:field="*{betsByGame[__${g.id}__].scoreSideBId}" />
+                  </td>
+                </tr>
+              </table>
+              
+            </div>
+          
+          </fieldset>
+          
+          <input type="submit" />
+          
+        </form>
+        
+        <a th:href="@{list}">Back to list of Leagues</a>
+        
+    </div>
+    
+  </body>
+  
+</html>

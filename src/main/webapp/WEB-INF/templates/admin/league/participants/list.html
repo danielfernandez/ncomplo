@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="admin/adminheader :: head"></head>
+  
+  <body>
+    
+    <header th:substituteby="admin/adminheader :: header"></header>
+  
+    <div id="content">
+  
+        <h1>Participants in League "<span th:text="${league.getName(#locale)}">league</span>"</h1>
+        
+        <table>
+          <tr th:each="p : ${allParticipants}">
+            <td th:text="${p.login}">Login</td>
+            <td th:text="${p.name}">Name</td>
+            <td><a th:href="@{manage(login=${p.login},leagueId=${league.id})}">manage bets</a></td>
+          </tr>
+        </table>
+        
+        <a th:href="@{../../list}">Back to list of Leagues</a>
+        
+    </div> 
+
+  </body>
+  
+</html>

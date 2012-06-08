@@ -13,7 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.eleventhlabs.ncomplo.business.entities.LeagueGame.LeagueGameComparator;
+import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
+import org.eleventhlabs.ncomplo.business.util.I18nNamedEntityComparator;
 
 
 @Entity
@@ -32,8 +33,13 @@ public class Bet {
     
     
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="LEAGUE_GAME_ID",nullable=false)
-    private LeagueGame leagueGame; 
+    @JoinColumn(name="LEAGUE_ID",nullable=false)
+    private League league; 
+    
+    
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="GAME_ID",nullable=false)
+    private Game game; 
 
     
     @ManyToOne(fetch=FetchType.EAGER)
@@ -88,13 +94,23 @@ public class Bet {
 
 
 
-    public LeagueGame getLeagueGame() {
-        return this.leagueGame;
+    public League getLeague() {
+        return this.league;
     }
 
 
-    public void setLeagueGame(final LeagueGame leagueGame) {
-        this.leagueGame = leagueGame;
+    public void setLeague(final League league) {
+        this.league = league;
+    }
+
+
+    public Game getGame() {
+        return this.game;
+    }
+
+
+    public void setGame(final Game game) {
+        this.game = game;
     }
 
 
@@ -228,25 +244,36 @@ public class Bet {
         
         
         private final Locale locale;
-        private final LeagueGameComparator leagueGameComparator;
+        private final I18nNamedEntityComparator i18nNamedEntityComparator;
+        private final DatedAndNamedEntityComparator datedAndNamedEntityComparator;
         
         
         public BetComparator(final Locale locale) {
             super();
             this.locale = locale;
-            this.leagueGameComparator = new LeagueGameComparator(this.locale);
+            this.i18nNamedEntityComparator = new I18nNamedEntityComparator(this.locale);
+            this.datedAndNamedEntityComparator = new DatedAndNamedEntityComparator(this.locale);
         }
         
         
         
         @Override
         public int compare(final Bet o1, final Bet o2) {
-            final int leagueGameComp =
-                    this.leagueGameComparator.compare(o1.getLeagueGame(), o2.getLeagueGame());
-            if (leagueGameComp != 0) {
-                return leagueGameComp;
+            
+            final int leagueComp =
+                    this.i18nNamedEntityComparator.compare(o1.getLeague(), o2.getLeague());
+            if (leagueComp != 0) {
+                return leagueComp;
             }
+
+            final int gameComp =
+                    this.datedAndNamedEntityComparator.compare(o1.getGame(), o2.getGame());
+            if (gameComp != 0) {
+                return gameComp;
+            }
+            
             return o1.getUser().compareTo(o2.getUser());
+            
         }
         
         

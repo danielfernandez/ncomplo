@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="admin/adminheader :: head"></head>
+  
+  <body>
+    
+    <div id="content">
+  
+        <h1>Authenticate</h1>
+
+        <form th:action="@{authenticate}" method="post">
+        
+          <fieldset>
+            
+            <div>
+              <label for="loginInput">Login</label>
+              <input id="loginInput" type="text" name="login" required="required" />
+            </div>
+            
+            <div>
+              <label for="passwordInput">Password</label>
+              <input id="passwordInput" type="password" name="password" required="required" />
+            </div>
+            
+          </fieldset>
+          
+          <input type="submit" />
+          
+        </form>        
+        
+    </div> 
+
+  </body>
+  
+</html>
