@@ -7,16 +7,17 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.eleventhlabs.ncomplo.business.entities.Bet;
 import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.Game;
 import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.LeagueGame;
 import org.eleventhlabs.ncomplo.business.entities.User;
+import org.eleventhlabs.ncomplo.business.services.BetService;
 import org.eleventhlabs.ncomplo.business.services.LeagueService;
 import org.eleventhlabs.ncomplo.business.services.UserService;
 import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
 import org.eleventhlabs.ncomplo.web.admin.beans.BetBean;
-import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
 import org.eleventhlabs.ncomplo.web.admin.beans.ParticipationBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,9 @@ public class ParticipantBetsController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BetService betService;
     
     
     
@@ -87,14 +91,14 @@ public class ParticipantBetsController {
         final Competition competition = league.getCompetition();
         final User participant = this.userService.find(login);
                 
-        final List<Game> allGamesForCompetition = new ArrayList<Game>(competition.getGames());
-        Collections.sort(allGamesForCompetition, new DatedAndNamedEntityComparator(locale));
-                
+        final List<Bet> bets =
+                this.betService.findByLeagueIdAndUserLogin(leagueId, login, locale);
         
         final ParticipationBean participationBean = new ParticipationBean();
         participationBean.setLeagueId(leagueId);
         participationBean.setLogin(login);
-        
+
+        final List<Game> allGames = new ArrayList<Game>();
         for (final LeagueGame leagueGame : league.getLeagueGames().values()) {
             
             final BetBean betBean = new BetBean();
@@ -104,27 +108,28 @@ public class ParticipantBetsController {
             
             participationBean.getBetsByGame().put(game.getId(), betBean);
             
+            allGames.add(game);
+            
         }
         
-        if (league != null) {
-            
-            leagueBean.setId(league.getId());
-            leagueBean.setName(league.getName());
-            leagueBean.getNamesByLang().clear();
-            leagueBean.getNamesByLang().addAll(LangBean.listFromMap(league.getNamesByLang()));
-            leagueBean.setAdminEmail(league.getAdminEmail());
-            leagueBean.setActive(league.isActive());
-            
-            for (final LeagueGame leagueGame : league.getLeagueGames().values()) {
-                leagueBean.getBetTypesByGame().put(leagueGame.getGame().getId(), leagueGame.getBetType().getId());                
+        Collections.sort(allGames, new DatedAndNamedEntityComparator(locale));
+        
+        if (bets != null && bets.size() > 0) {
+
+            for (final Bet bet : bets) {
+                
+                // Initialize participationBean.getBetsByGame
+                
             }
             
         }
         
-        model.addAttribute("league", leagueBean);
+        model.addAttribute("participation", participationBean);
+        model.addAttribute("league", league);
         model.addAttribute("competition", competition);
-        model.addAttribute("allGames", allGamesForCompetition);
-        model.addAttribute("allBetTypes", this.betTypeService.findAllOrderByName(leagueCompetitionId, locale));
+        model.addAttribute("participant", participant);
+        model.addAttribute("allGames", allGames);
+        model.addAttribute("allBets", bets);
         
         return VIEW_BASE + "manage";
         
