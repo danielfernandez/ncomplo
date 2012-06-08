@@ -2,10 +2,12 @@ package org.eleventhlabs.ncomplo.business.services;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.User;
+import org.eleventhlabs.ncomplo.business.entities.User.UserComparator;
 import org.eleventhlabs.ncomplo.business.entities.repositories.LeagueRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.UserRepository;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
@@ -109,10 +111,10 @@ public class UserService {
     
     
     @Transactional
-    public List<User> findAll() {
+    public List<User> findAll(final Locale locale) {
         final List<User> users = 
                 IterableUtils.toList(this.userRepository.findAll());
-        Collections.sort(users);
+        Collections.sort(users, new UserComparator(locale));
         return users;
     }
 

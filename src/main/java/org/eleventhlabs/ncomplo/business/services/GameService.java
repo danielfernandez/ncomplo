@@ -6,14 +6,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eleventhlabs.ncomplo.business.entities.Bet;
 import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.Game;
 import org.eleventhlabs.ncomplo.business.entities.GameSide;
+import org.eleventhlabs.ncomplo.business.entities.League;
+import org.eleventhlabs.ncomplo.business.entities.User;
+import org.eleventhlabs.ncomplo.business.entities.repositories.BetRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.BetTypeRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.CompetitionRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.GameRepository;
-import org.eleventhlabs.ncomplo.business.entities.repositories.RoundRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.GameSideRepository;
+import org.eleventhlabs.ncomplo.business.entities.repositories.LeagueRepository;
+import org.eleventhlabs.ncomplo.business.entities.repositories.RoundRepository;
 import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +46,21 @@ public class GameService {
     @Autowired
     private GameSideRepository gameSideRepository;
 
+    @Autowired
+    private LeagueRepository leagueRepository;
+
+    @Autowired
+    private BetRepository betRepository;
+    
+    
     
     
     
     public GameService() {
         super();
     }
+    
+    
     
     
     
@@ -106,6 +120,9 @@ public class GameService {
             competition.getGames().add(game);
             return this.gameRepository.save(game);
         }
+        
+        updateBetsForGame(game);
+        
         return game;
         
     }
@@ -123,5 +140,27 @@ public class GameService {
         
     }
 
+    
+    
+    private void updateBetsForGame(final Game game) {
+        
+        final Competition competition = game.getCompetition();
+        
+        final List<League> leaguesForCompetition = 
+                this.leagueRepository.findByCompetitionId(competition.getId());
+        
+        for (final League league : leaguesForCompetition) {
+            for (final User participant : league.getParticipants()) {
+                final List<Bet> bets = 
+                        this.betRepository.findByLeagueIdAndUserLogin(league.getId(), participant.getLogin());
+                for (final Bet bet : bets) {
+                    bet.evaluate();
+                }
+            }
+        }
+        
+    }
+    
+    
     
 }

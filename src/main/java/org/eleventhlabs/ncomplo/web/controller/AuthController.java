@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class BaseController {
+public class AuthController {
     
     
     @Autowired
@@ -19,12 +19,11 @@ public class BaseController {
 
     
     
-    public BaseController() {
+    public AuthController() {
         super();
     }
     
 
-    
     
     
     @RequestMapping("/login")
@@ -46,9 +45,6 @@ public class BaseController {
                 this.userService.authenticate(login, password);
         if (user != null) {
             SessionUtil.setAuthenticatedUser(request, login, user.isAdmin());
-            if (user.isAdmin()) {
-                return "redirect:/admin";
-            }
             return "redirect:/scoreboard";
         }
         

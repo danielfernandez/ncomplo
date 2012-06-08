@@ -59,7 +59,7 @@ public class League implements I18nNamedEntity {
     private String adminEmail;
 
     
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     private Set<User> participants = new LinkedHashSet<User>();
 
     

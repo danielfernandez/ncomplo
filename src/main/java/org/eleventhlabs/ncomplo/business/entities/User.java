@@ -1,9 +1,11 @@
 package org.eleventhlabs.ncomplo.business.entities;
 
+import java.text.Collator;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="USER_DATA")
-public class User implements Comparable<User> {
+public class User {
 
     @Id
     @Column(name="LOGIN",length=100)
@@ -33,7 +35,7 @@ public class User implements Comparable<User> {
     private String password;
 
     
-    @ManyToMany(cascade=CascadeType.ALL,mappedBy="participants")
+    @ManyToMany(mappedBy="participants")
     private Set<League> leagues = new LinkedHashSet<League>();
     
     
@@ -117,14 +119,29 @@ public class User implements Comparable<User> {
     public void setActive(final boolean active) {
         this.active = active;
     }
-
-
-
-    @Override
-    public int compareTo(final User o) {
-        return this.getName().compareTo(o.getName());
+    
+    
+    
+    
+    
+    
+    public static final class UserComparator implements Comparator<User> {
+        
+        private final Locale locale;
+        
+        public UserComparator(final Locale locale) {
+            super();
+            this.locale = locale;
+        }
+        
+        
+        @Override
+        public int compare(final User o1, final User o2) {
+            final Collator collator = Collator.getInstance(this.locale);
+            return collator.compare(o1.getName(), o2.getName());
+        }
+        
     }
-    
-    
+
 
 }

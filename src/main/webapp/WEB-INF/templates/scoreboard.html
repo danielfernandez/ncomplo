@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="layout/header :: head"></head>
+  
+  <body>
+
+    <header th:substituteby="layout/header :: header"></header>
+    
+    <div id="content">
+  
+        <h1>Scoreboard</h1>
+
+        <form th:action="@{/selectScoreboard}" method="post" th:object="${leagueSelector}">
+          <select th:field="*{leagueId}">
+            <option th:each="l : ${allLeagues}" th:value="${l.id}" th:text="${l.getName(#locale)}">a league</option>
+          </select>
+          <input type="submit" value="View league"/>
+        </form>
+        
+        <a th:if="${user.admin}" th:href="@{/admin}">Go to Admin</a>
+        
+        
+    </div> 
+
+  </body>
+  
+</html>

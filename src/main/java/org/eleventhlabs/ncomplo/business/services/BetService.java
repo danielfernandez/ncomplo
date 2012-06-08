@@ -82,10 +82,11 @@ public class BetService {
                 this.userRepository.findOne(login);
         final Game game = 
                 this.gameRepository.findOne(gameId);
+        
         final GameSide gameSideA = 
-                this.gameSideRepository.findOne(gameSideAId);
+                (gameSideAId == null? null : this.gameSideRepository.findOne(gameSideAId));
         final GameSide gameSideB = 
-                this.gameSideRepository.findOne(gameSideBId);
+                (gameSideBId == null? null : this.gameSideRepository.findOne(gameSideBId));
         
         final Bet bet =
                 (id == null? new Bet() : this.betRepository.findOne(id));

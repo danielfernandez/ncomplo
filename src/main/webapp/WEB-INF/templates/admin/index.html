@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head th:substituteby="admin/adminheader :: head"></head>
+  <head th:substituteby="layout/header :: head"></head>
   
   <body>
     
-    <header th:substituteby="admin/adminheader :: header"></header>
+    <header th:substituteby="layout/header :: header"></header>
+  
+    <header th:substituteby="layout/admin/header :: header"></header>
   
     <div id="content">
   
@@ -16,6 +18,8 @@
           <li><a th:href="@{/admin/league/list}">Manage Leagues</a></li>
           <li><a th:href="@{/admin/user/list}">Manage Users</a></li>
         </ul>        
+        
+        <a th:href="@{/scoreboard}">Go to Scoreboard</a>
         
     </div> 
 

@@ -3,6 +3,7 @@ package org.eleventhlabs.ncomplo.web.admin.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,7 +44,8 @@ public class UserController {
     
     @RequestMapping("/list")
     public String list(final HttpServletRequest request, final ModelMap model) {
-        final List<User> users = this.userService.findAll();
+        final Locale locale = RequestContextUtils.getLocale(request);
+        final List<User> users = this.userService.findAll(locale);
         model.addAttribute("allUsers", users);
         return VIEW_BASE + "list";
     }

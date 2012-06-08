@@ -13,8 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.eleventhlabs.ncomplo.business.entities.User.UserComparator;
 import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
 import org.eleventhlabs.ncomplo.business.util.I18nNamedEntityComparator;
+import org.eleventhlabs.ncomplo.business.util.JavaScriptBetEvaluator;
+import org.eleventhlabs.ncomplo.business.util.JavaScriptBetEvaluator.BetEvalResult;
 
 
 @Entity
@@ -234,6 +237,13 @@ public class Bet {
 
     public void evaluate() {
         
+        final BetEvalResult evalResult = JavaScriptBetEvaluator.evaluate(this);
+        this.setPointsEarned(evalResult.getPoints());
+        this.setGlobalWinLevel(evalResult.getGlobalBetWinLevel());
+        this.setSideAWinLevel(evalResult.getSideAWinLevel());
+        this.setSideBWinLevel(evalResult.getSideBWinLevel());
+        this.setScoreAWinLevel(evalResult.getScoreAWinLevel());
+        this.setScoreBWinLevel(evalResult.getScoreBWinLevel());
         
     }
     
@@ -246,6 +256,7 @@ public class Bet {
         private final Locale locale;
         private final I18nNamedEntityComparator i18nNamedEntityComparator;
         private final DatedAndNamedEntityComparator datedAndNamedEntityComparator;
+        private final UserComparator userComparator;
         
         
         public BetComparator(final Locale locale) {
@@ -253,6 +264,7 @@ public class Bet {
             this.locale = locale;
             this.i18nNamedEntityComparator = new I18nNamedEntityComparator(this.locale);
             this.datedAndNamedEntityComparator = new DatedAndNamedEntityComparator(this.locale);
+            this.userComparator = new UserComparator(this.locale);
         }
         
         
@@ -272,7 +284,7 @@ public class Bet {
                 return gameComp;
             }
             
-            return o1.getUser().compareTo(o2.getUser());
+            return this.userComparator.compare(o1.getUser(),o2.getUser());
             
         }
         
