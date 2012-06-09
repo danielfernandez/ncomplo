@@ -59,19 +59,6 @@
       <version>2.5</version>
       <scope>provided</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.apache.wicket</groupId>
-      <artifactId>wicket</artifactId>
-      <version>1.4.20</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.wicket</groupId>
-      <artifactId>wicket-spring</artifactId>
-      <version>1.4.20</version>
-      <scope>compile</scope>
-    </dependency>
     
     <dependency>
       <groupId>org.thymeleaf</groupId>
@@ -83,13 +70,6 @@
       <groupId>org.thymeleaf</groupId>
       <artifactId>thymeleaf-spring3</artifactId>
       <version>2.0.8</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.op4j</groupId>
-      <artifactId>op4j</artifactId>
-      <version>1.2</version>
       <scope>compile</scope>
     </dependency>
 

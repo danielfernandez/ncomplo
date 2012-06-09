@@ -18,6 +18,21 @@
           <input type="submit" value="View league"/>
         </form>
         
+        
+        <table>
+          <tr th:each="sc : ${scoreboardEntries}">
+            <td>
+              <span th:text="${sc.position} ?: ''">1</span>
+            </td>
+            <td>
+              <span th:text="${sc.user.name}">name</span>
+            </td>
+            <td>
+              <span th:text="${sc.points}">points</span>
+            </td>
+          </tr>
+        </table>
+        
         <a th:if="${user.admin}" th:href="@{/admin}">Go to Admin</a>
         
         

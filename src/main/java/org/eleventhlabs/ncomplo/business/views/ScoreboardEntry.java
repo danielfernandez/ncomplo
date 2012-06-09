@@ -10,22 +10,26 @@ import org.eleventhlabs.ncomplo.business.entities.User;
 
 public class ScoreboardEntry {
 
-    
-    private Integer position;
+    private Integer position = null;
     private User user;
     private Integer points;
 
     
-    public ScoreboardEntry(final  Integer position, final User user, final Integer points) {
+    public ScoreboardEntry(final User user, final Integer points) {
         super();
-        this.position = position;
         this.user = user;
         this.points = points;
     }
 
+    
 
     public Integer getPosition() {
         return this.position;
+    }
+
+
+    public void setPosition(final Integer position) {
+        this.position = position;
     }
 
 
@@ -52,9 +56,9 @@ public class ScoreboardEntry {
         
         @Override
         public int compare(final ScoreboardEntry o1, final ScoreboardEntry o2) {
-            final int posComp = o1.getPosition().compareTo(o2.getPosition());
+            final int posComp = o1.getPoints().compareTo(o2.getPoints());
             if (posComp != 0) {
-                return posComp;
+                return -1 * posComp;
             }
             final Collator collator = Collator.getInstance(this.locale);
             return collator.compare(o1.getUser().getName(), o2.getUser().getName());

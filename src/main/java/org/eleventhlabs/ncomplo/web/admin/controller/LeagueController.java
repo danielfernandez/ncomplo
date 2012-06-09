@@ -167,5 +167,17 @@ public class LeagueController {
         
     }
     
+
     
+    
+    @RequestMapping("/recompute")
+    public String manage(
+            @RequestParam(value="id",required=true)
+            final Integer leagueId) {
+    
+        this.leagueService.recomputeScores(leagueId);
+        
+        return "redirect:list";
+        
+    }
 }

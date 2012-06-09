@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.User;
 import org.eleventhlabs.ncomplo.business.services.BetService;
+import org.eleventhlabs.ncomplo.business.services.ScoreboardService;
 import org.eleventhlabs.ncomplo.business.services.UserService;
 import org.eleventhlabs.ncomplo.business.util.I18nNamedEntityComparator;
+import org.eleventhlabs.ncomplo.business.views.ScoreboardEntry;
 import org.eleventhlabs.ncomplo.exceptions.InternalErrorException;
 import org.eleventhlabs.ncomplo.web.beans.LeagueSelectorBean;
 import org.eleventhlabs.ncomplo.web.util.SessionUtil;
@@ -31,6 +33,9 @@ public class ScoreboardController {
 
     @Autowired
     private BetService betService;
+
+    @Autowired
+    private ScoreboardService scoreboardService;
     
 
     
@@ -97,6 +102,11 @@ public class ScoreboardController {
         final LeagueSelectorBean leagueSelectorBean = new LeagueSelectorBean();
         leagueSelectorBean.setLeagueId(leagueId);
         
+        
+        final List<ScoreboardEntry> scoreboardEntries =
+                this.scoreboardService.computeScoreboard(leagueId, null, locale);
+       
+        model.addAttribute("scoreboardEntries", scoreboardEntries);
         
         model.addAttribute("user", user);
         model.addAttribute("leagueSelector", leagueSelectorBean);

@@ -77,12 +77,57 @@ public final class JavaScriptBetEvaluator {
                 }
                 
             }
+            
+            GameSide gameWinner = null;
+            Boolean gameDraw = null;
+            if (game.getScoreA() != null && game.getScoreB() != null) {
+                final Integer scoreA = game.getScoreA();
+                final Integer scoreB = game.getScoreB();
+                if (scoreA.equals(scoreB)) {
+                    gameDraw = Boolean.TRUE;
+                } else if (scoreA.intValue() > scoreB.intValue()) {
+                    gameWinner = game.getGameSideA();
+                    gameDraw = Boolean.FALSE;
+                } else {
+                    gameWinner = game.getGameSideB();
+                    gameDraw = Boolean.FALSE;
+                }
+            }
+
+            
+            GameSide betWinner = null;
+            Boolean betDraw = null;
+            if (bet.getScoreA() != null && bet.getScoreB() != null) {
+                final Integer scoreA = bet.getScoreA();
+                final Integer scoreB = bet.getScoreB();
+                if (scoreA.equals(scoreB)) {
+                    betDraw = Boolean.TRUE;
+                } else if (scoreA.intValue() > scoreB.intValue()) {
+                    betWinner = bet.getGameSideA();
+                    betDraw = Boolean.FALSE;
+                } else {
+                    betWinner = bet.getGameSideB();
+                    betDraw = Boolean.FALSE;
+                }
+            }
+            
+            Boolean gameSidesDefined =
+                    Boolean.valueOf(game.getGameSideA() != null && game.getGameSideB() != null);
+            Boolean betSidesDefined =
+                    Boolean.valueOf(bet.getGameSideA() != null && bet.getGameSideB() != null);
+            
+            Boolean gameScoresDefined =
+                    Boolean.valueOf(game.getScoreA() != null && game.getScoreB() != null);
+            Boolean betScoresDefined =
+                    Boolean.valueOf(bet.getScoreA() != null && bet.getScoreB() != null);
+            
 
             
             ctx = Context.enter();
             final Scriptable scope = ctx.initStandardObjects();
             
             
+            ScriptableObject.putProperty(scope, "bet", Context.javaToJS(bet, scope));
             ScriptableObject.putProperty(scope, "league", Context.javaToJS(league, scope));
             ScriptableObject.putProperty(scope, "competition", Context.javaToJS(competition, scope));
             ScriptableObject.putProperty(scope, "game", Context.javaToJS(game, scope));
@@ -96,6 +141,14 @@ public final class JavaScriptBetEvaluator {
             ScriptableObject.putProperty(scope, "allGameSidesInNextRounds", Context.javaToJS(allGameSidesInNextRounds, scope));
             ScriptableObject.putProperty(scope, "allGamesInPreviousRounds", Context.javaToJS(allGamesInPreviousRounds, scope));
             ScriptableObject.putProperty(scope, "allGameSidesInPreviousRounds", Context.javaToJS(allGameSidesInPreviousRounds, scope));
+            ScriptableObject.putProperty(scope, "betWinner", Context.javaToJS(betWinner, scope));
+            ScriptableObject.putProperty(scope, "gameWinner", Context.javaToJS(gameWinner, scope));
+            ScriptableObject.putProperty(scope, "betDraw", Context.javaToJS(betDraw, scope));
+            ScriptableObject.putProperty(scope, "gameDraw", Context.javaToJS(gameDraw, scope));
+            ScriptableObject.putProperty(scope, "betSidesDefined", Context.javaToJS(betSidesDefined, scope));
+            ScriptableObject.putProperty(scope, "gameSidesDefined", Context.javaToJS(gameSidesDefined, scope));
+            ScriptableObject.putProperty(scope, "betScoresDefined", Context.javaToJS(betScoresDefined, scope));
+            ScriptableObject.putProperty(scope, "gameScoresDefined", Context.javaToJS(gameScoresDefined, scope));
 
             final BetEvalResult result = new BetEvalResult();
             

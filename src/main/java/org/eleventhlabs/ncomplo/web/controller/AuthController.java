@@ -1,7 +1,10 @@
 package org.eleventhlabs.ncomplo.web.controller;
 
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.User;
 import org.eleventhlabs.ncomplo.business.services.UserService;
 import org.eleventhlabs.ncomplo.web.util.SessionUtil;
@@ -43,9 +46,21 @@ public class AuthController {
 
         final User user = 
                 this.userService.authenticate(login, password);
+        
         if (user != null) {
+            
             SessionUtil.setAuthenticatedUser(request, login, user.isAdmin());
-            return "redirect:/scoreboard";
+            final Set<League> leagues = user.getLeagues();
+            for (final League league : leagues) {
+                if (league.isActive()) {
+                    return "redirect:/scoreboard";
+                }
+            }
+            
+            if (user.isAdmin()) {
+                return "redirect:/admin";
+            }
+            
         }
         
         return "redirect:/login";

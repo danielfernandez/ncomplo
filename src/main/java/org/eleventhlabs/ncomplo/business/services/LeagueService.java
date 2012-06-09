@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eleventhlabs.ncomplo.business.entities.Bet;
 import org.eleventhlabs.ncomplo.business.entities.BetType;
 import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.Game;
 import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.LeagueGame;
+import org.eleventhlabs.ncomplo.business.entities.User;
+import org.eleventhlabs.ncomplo.business.entities.repositories.BetRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.BetTypeRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.CompetitionRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.GameRepository;
@@ -37,6 +40,9 @@ public class LeagueService {
     
     @Autowired
     private BetTypeRepository betTypeRepository;
+    
+    @Autowired
+    private BetRepository betRepository;
  
     
     
@@ -116,5 +122,24 @@ public class LeagueService {
         this.leagueRepository.delete(leagueId);
     }
 
+    
+    
+
+    
+    @Transactional
+    public void recomputeScores(final Integer leagueId) {
+        
+        final League league = this.leagueRepository.findOne(leagueId);
+        
+        for (final User participant : league.getParticipants()) {
+            final List<Bet> bets = 
+                    this.betRepository.findByLeagueIdAndUserLogin(league.getId(), participant.getLogin());
+            for (final Bet bet : bets) {
+                bet.evaluate();
+            }
+        }
+        
+    }
+    
     
 }

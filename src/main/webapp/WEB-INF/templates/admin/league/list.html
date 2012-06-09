@@ -33,6 +33,7 @@
               <span th:text="${l.participants.size()}">2</span> participants
               <a th:href="@{${l.id} + '/participants/list'}">manage participants</a>
             </td>
+            <td><a th:href="@{recompute(id=${l.id})}" onclick="return confirm('Sure?');">recompute scores</a></td>
             <td><a th:href="@{manage(id=${l.id})}">manage league</a></td>
             <td><a th:href="@{delete(id=${l.id})}" onclick="return confirm('Sure?');">delete league</a></td>
           </tr>

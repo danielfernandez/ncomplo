@@ -10,10 +10,7 @@ import org.eleventhlabs.ncomplo.business.entities.Bet;
 import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.User;
 import org.eleventhlabs.ncomplo.business.entities.repositories.BetRepository;
-import org.eleventhlabs.ncomplo.business.entities.repositories.GameRepository;
-import org.eleventhlabs.ncomplo.business.entities.repositories.GameSideRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.LeagueRepository;
-import org.eleventhlabs.ncomplo.business.entities.repositories.UserRepository;
 import org.eleventhlabs.ncomplo.business.views.ScoreboardEntry;
 import org.eleventhlabs.ncomplo.business.views.ScoreboardEntry.ScoreboardEntryComparator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +28,6 @@ public class ScoreboardService {
     
     @Autowired
     private BetRepository betRepository;
-    
-    @Autowired
-    private GameRepository gameRepository;
-    
-    @Autowired
-    private GameSideRepository gameSideRepository;
-    
-    @Autowired
-    private UserRepository userRepository;
  
     
     
@@ -79,12 +67,22 @@ public class ScoreboardService {
                 }
             }
             
-            
+            scoreboard.add(
+                    new ScoreboardEntry(participant,Integer.valueOf(totalPoints)));
             
         }
         
-        
         Collections.sort(scoreboard, new ScoreboardEntryComparator(locale));
+        
+        int position = 1;
+        int lastPoints = -1;
+        for (final ScoreboardEntry entry : scoreboard) {
+            if (entry.getPoints().intValue() != lastPoints) {
+                entry.setPosition(Integer.valueOf(position++));
+                lastPoints = entry.getPoints().intValue();
+            }
+        }
+        
         
         return scoreboard;
         
