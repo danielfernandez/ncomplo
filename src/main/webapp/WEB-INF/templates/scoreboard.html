@@ -9,9 +9,11 @@
     
     <div id="content">
   
-        <h1>Scoreboard</h1>
+        <h1>SCOREBOARD</h1>
+        <h2>League: <span th:text="${league.getName(#locale)}">league</span></h2>
 
-        <form th:action="@{/selectScoreboard}" method="post" th:object="${leagueSelector}">
+        <form th:if="${showLeagueSelector}" th:action="@{/selectScoreboard}" 
+              method="post" th:object="${leagueSelector}">
           <select th:field="*{leagueId}">
             <option th:each="l : ${allLeagues}" th:value="${l.id}" th:text="${l.getName(#locale)}">a league</option>
           </select>
@@ -29,6 +31,9 @@
             </td>
             <td>
               <span th:text="${sc.points}">points</span>
+            </td>
+            <td>
+              <a th:href="@{'/bets/' + ${league.id} + '/' + ${sc.user.login}}">view bets</a>
             </td>
           </tr>
         </table>

@@ -7,9 +7,12 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.eleventhlabs.ncomplo.business.entities.Bet;
+import org.eleventhlabs.ncomplo.business.entities.Bet.BetComparator;
 import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.User;
 import org.eleventhlabs.ncomplo.business.services.BetService;
+import org.eleventhlabs.ncomplo.business.services.LeagueService;
 import org.eleventhlabs.ncomplo.business.services.ScoreboardService;
 import org.eleventhlabs.ncomplo.business.services.UserService;
 import org.eleventhlabs.ncomplo.business.util.I18nNamedEntityComparator;
@@ -33,6 +36,9 @@ public class ScoreboardController {
 
     @Autowired
     private BetService betService;
+
+    @Autowired
+    private LeagueService leagueService;
 
     @Autowired
     private ScoreboardService scoreboardService;
@@ -101,14 +107,15 @@ public class ScoreboardController {
 
         final LeagueSelectorBean leagueSelectorBean = new LeagueSelectorBean();
         leagueSelectorBean.setLeagueId(leagueId);
-        
+
+        final League league = this.leagueService.find(leagueId);
         
         final List<ScoreboardEntry> scoreboardEntries =
                 this.scoreboardService.computeScoreboard(leagueId, null, locale);
        
         model.addAttribute("scoreboardEntries", scoreboardEntries);
-        
         model.addAttribute("user", user);
+        model.addAttribute("league", league);
         model.addAttribute("leagueSelector", leagueSelectorBean);
         model.addAttribute("allLeagues", activeUserLeagues);
         model.addAttribute("showLeagueSelector", Boolean.valueOf(activeUserLeagues.size() > 1));
@@ -126,5 +133,40 @@ public class ScoreboardController {
         final Integer leagueId = leagueSelectorBean.getLeagueId();
         return "redirect:/scoreboard/" + leagueId;
     }
+
+    
+    
+
+    
+    @RequestMapping({"/bets/{leagueId}/{login}"})
+    public String bets(
+            @PathVariable("leagueId") Integer leagueId,
+            @PathVariable("login") String login,
+            final HttpServletRequest request,
+            final ModelMap model) {
+        
+        final Locale locale = RequestContextUtils.getLocale(request);
+        
+        final User user = this.userService.find(login);
+        final List<Bet> betsForUser =
+                this.betService.findByLeagueIdAndUserLogin(leagueId, login, locale);
+        Collections.sort(betsForUser, new BetComparator(locale));
+        
+        final League league = this.leagueService.find(leagueId);
+        
+        final List<ScoreboardEntry> scoreboardEntries =
+                this.scoreboardService.computeScoreboard(leagueId, null, locale);
+       
+        model.addAttribute("scoreboardEntries", scoreboardEntries);
+        
+        model.addAttribute("user", user);
+        model.addAttribute("league", league);
+        model.addAttribute("allBets", betsForUser);
+        
+        return "bets";
+        
+    }
+    
+    
     
 }
