@@ -16,19 +16,26 @@
         <table id="bets">
           <thead>
             <tr>
-              <th>Game name</th>
-              <th>Game date</th>
-              <th>Sides</th>
-              <th>Bet Score</th>
-              <th>Real Score</th>
+              <th colspan="6">Game</th>
+              <th colspan="5">Bet</th>
+            </tr>
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th colspan="2">Sides</th>
+              <th colspan="2">Score</th>
+              <th colspan="2">Sides</th>
+              <th colspan="2">Score</th>
               <th>Points</th>
             </tr>
           </thead>
           <tbody>
             <tr th:each="b : ${allBets}" 
-                th:with="g=${b.game},gsA=${b.game.gameSideA},gsB=${b.game.gameSideB},
-                         betScA=${b.scoreA},betScB=${b.scoreB},
-                         gScA=${b.game.scoreA},gScB=${b.game.scoreB}">
+                th:with="g=${b.game},
+                         gsA=${b.game.gameSideA},gsB=${b.game.gameSideB},
+                         bsA=${b.gameSideA},bsB=${b.gameSideB},
+                         gScA=${b.game.scoreA},gScB=${b.game.scoreB},
+                         bScA=${b.scoreA},bScB=${b.scoreB}">
               <td>
                 <span th:text="${g.name}">game name</span>
               </td>
@@ -37,28 +44,38 @@
               </td>
               <td>
                 <span th:text="${gsA} ? ${gsA.getName(#locale)} : '?'">game sideA</span>
-                -
+              </td>
+              <td>
                 <span th:text="${gsB} ? ${gsB.getName(#locale)} :  '?'">game sideB</span>
               </td>
               <td>
-                <span th:text="${betScA} ?: '?'">bet score sideA</span>
-                -
-                <span th:text="${betScB} ?: '?'">bet score sideB</span>
+                <span th:text="${gScA} ?: '?'">game score sideA</span>
               </td>
               <td>
-                <span th:text="${gScA} ?: '?'">game score sideA</span>
-                -
                 <span th:text="${gScB} ?: '?'">game score sideB</span>
               </td>
               <td>
-                <span th:text="${b.pointsEarned}">points</span>
+                <span th:text="${bsA} ? ${bsA.getName(#locale)} : '?'">bet sideA</span>
+              </td>
+              <td>
+                <span th:text="${bsB} ? ${bsB.getName(#locale)} :  '?'">bet sideB</span>
+              </td>
+              <td>
+                <span th:text="${bScA} ?: '?'">bet score sideA</span>
+              </td>
+              <td>
+                <span th:text="${bScB} ?: '?'">bet score sideB</span>
+              </td>
+              <td>
+                <span th:text="${b.points}">points</span>
               </td>
             </tr>
           </tbody>
         </table>
         
-        <a th:href="@{'/scoreboard/' + ${league.id}}">Go to Scoreboard</a>
-        
+        <div>
+          <a th:href="@{'/scoreboard/' + ${league.id}}">Go to Scoreboard</a>
+        </div>
         
     </div> 
 

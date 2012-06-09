@@ -59,7 +59,7 @@ public class UserService {
                 final int totalAdminUsers = this.userRepository.findAllAdmin().size();
                 if (totalAdminUsers == 0) {
                     if (logger.isTraceEnabled()) {
-                        logger.trace("Empty user database, creating: \"" + login + "\"");
+                        logger.trace("[NCOMPLO] Empty user database, creating: \"" + login + "\"");
                     }
                     final User firstUser = new User();
                     firstUser.setLogin(login);
@@ -73,7 +73,7 @@ public class UserService {
             }
             
             if (logger.isTraceEnabled()) {
-                logger.trace("Bad login for user \"" + login + "\"");
+                logger.trace("[NCOMPLO] Bad login for user \"" + login + "\"");
             }
             return user;
         }
@@ -81,7 +81,7 @@ public class UserService {
         final String storedHashedPassword = user.getPassword();
         if (storedHashedPassword == null) {
             if (logger.isTraceEnabled()) {
-                logger.trace("Bad login for user \"" + login + "\"");
+                logger.trace("[NCOMPLO] Bad login for user \"" + login + "\"");
             }
             return null;
         }
@@ -91,13 +91,13 @@ public class UserService {
         
         if (passwordMatch) {
             if (logger.isTraceEnabled()) {
-                logger.trace("Correct login for user \"" + login + "\"");
+                logger.trace("[NCOMPLO] Correct login for user \"" + login + "\"");
             }
             return user;
         }
         
         if (logger.isTraceEnabled()) {
-            logger.trace("Bad login for user \"" + login + "\"");
+            logger.trace("[NCOMPLO] Bad login for user \"" + login + "\"");
         }
         return null;
     }

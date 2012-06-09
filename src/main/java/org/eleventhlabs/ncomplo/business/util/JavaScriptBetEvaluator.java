@@ -190,12 +190,13 @@ public final class JavaScriptBetEvaluator {
     public static final class BetEvalResult {
         
         
-        private Integer points = Integer.valueOf(0);
+        private Integer points = null;
         private Integer globalBetWinLevel = Integer.valueOf(0); 
         private Integer sideAWinLevel = Integer.valueOf(0);
         private Integer sideBWinLevel = Integer.valueOf(0);
         private Integer scoreAWinLevel = Integer.valueOf(0);
         private Integer scoreBWinLevel = Integer.valueOf(0);
+        private boolean pointsAssigned = false;
         
         
         public BetEvalResult() {
@@ -203,11 +204,21 @@ public final class JavaScriptBetEvaluator {
         }
 
         public Integer getPoints() {
+            if (!this.pointsAssigned) {
+                return Integer.valueOf(0);
+            }
             return this.points;
         }
 
         public void setPoints(final Integer pointsEarned) {
+            // This way we can know whether a bet has already
+            // been really computed.
             this.points = pointsEarned;
+            this.pointsAssigned = true;
+        }
+        
+        public boolean isPointsAssigned() {
+            return this.pointsAssigned;
         }
 
         public Integer getGlobalBetWinLevel() {

@@ -57,13 +57,13 @@ public class ScoreboardService {
                     this.betRepository.findByLeagueIdAndUserLogin(leagueId, participant.getLogin());
             
             for (final Bet bet : bets) {
-                if (bet.getPointsEarned() != null) {
+                if (bet.getPoints() != null) {
                     if (roundId != null) {
                         if (!bet.getGame().getRound().getId().equals(roundId)) {
                             continue;
                         }
                     }
-                    totalPoints += bet.getPointsEarned().intValue();
+                    totalPoints += bet.getPoints().intValue();
                 }
             }
             

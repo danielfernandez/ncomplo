@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.eleventhlabs.ncomplo.business.entities.User.UserComparator;
 import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
@@ -63,8 +64,13 @@ public class Bet {
     private Integer scoreB;
 
 
-    @Column(name="POINTS_EARNED",nullable=true)
-    private Integer pointsEarned;
+//    @Column(name="POINTS_COMPUTED",nullable=true)
+    @Transient
+    private Boolean pointsComputed = Boolean.FALSE;
+
+
+    @Column(name="POINTS",nullable=true)
+    private Integer points;
     
     
     @Column(name="GLOBAL_WIN_LEVEL",nullable=true)
@@ -172,13 +178,13 @@ public class Bet {
     }
 
 
-    public Integer getPointsEarned() {
-        return this.pointsEarned;
+    public Integer getPoints() {
+        return this.points;
     }
 
 
-    public void setPointsEarned(final Integer pointsEarned) {
-        this.pointsEarned = pointsEarned;
+    public void setPoints(final Integer points) {
+        this.points = points;
     }
 
 
@@ -232,13 +238,23 @@ public class Bet {
     }
 
 
+    public Boolean getPointsComputed() {
+        return this.pointsComputed;
+    }
+
+
+    public void setPointsComputed(Boolean pointsComputed) {
+        this.pointsComputed = pointsComputed;
+    }
+
 
 
 
     public void evaluate() {
         
         final BetEvalResult evalResult = JavaScriptBetEvaluator.evaluate(this);
-        this.setPointsEarned(evalResult.getPoints());
+        this.setPointsComputed(Boolean.valueOf(evalResult.isPointsAssigned()));
+        this.setPoints(evalResult.getPoints());
         this.setGlobalWinLevel(evalResult.getGlobalBetWinLevel());
         this.setSideAWinLevel(evalResult.getSideAWinLevel());
         this.setSideBWinLevel(evalResult.getSideBWinLevel());

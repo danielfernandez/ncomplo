@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:substituteby="layout/header :: head"></head>
+  
+  <body>
+    
+    <header th:substituteby="layout/header :: header"></header>
+  
+    <header th:substituteby="layout/admin/header :: header"></header>
+  
+    <div id="content">
+  
+        <h1>Database Administration</h1>
+
+        <form th:action="@{querydatabase}" method="post">
+          <fieldset>
+            <div>
+              <textarea name="query" th:text="${query}"></textarea>
+            </div>
+            <div>
+              <input type="submit" value="Run Query" />
+            </div>
+          </fieldset>
+        </form>
+
+        <div th:if="${queryResult}">
+        
+          <p th:if="${queryResult.rowCount &lt;= 0}">No Results</p>
+        
+          <table th:if="${queryResult.rowCount &gt; 0}" border="1">
+            <thead>
+              <tr>
+                <th th:each="colName : ${queryResult.columnNames}" th:text="${colName}">head</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="row : ${queryResult.data}">
+                <td th:each="col : ${row}" th:text="${col}">data</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+
+
+        <form th:action="@{querydatabase}" method="post">
+          <fieldset>
+            <div>
+              <textarea name="update" th:text="${update}"></textarea>
+            </div>
+            <div>
+              <input type="submit" value="Run Update" />
+            </div>
+          </fieldset>
+        </form>
+
+        <div th:if="${updateResult}">
+          Structures updated: <span th:text="${updateResult}">x</span>
+        </div>
+
+        <div>        
+            <a th:href="@{/scoreboard}">Go to Scoreboard</a>
+        </div>
+        
+    </div> 
+
+  </body>
+  
+</html>
