@@ -80,6 +80,8 @@ public class ScoreboardService {
             if (entry.getPoints().intValue() != lastPoints) {
                 entry.setPosition(Integer.valueOf(position++));
                 lastPoints = entry.getPoints().intValue();
+            } else {
+                entry.setPosition(Integer.valueOf(position));
             }
         }
         
