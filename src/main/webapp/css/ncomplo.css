@@ -1,0 +1,46 @@
+#mainHeader {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+    background-color: #ddd;
+}
+
+#mainHeader h1 {
+    font-size: 1.6em;
+    font-variant: normal;
+    font-style: italic;
+}
+
+h1 {
+    font-variant: small-caps;
+    font-size: 1.4em;
+}
+
+
+h2 {
+    font-size: 1.2em;
+    color: #666;
+}
+
+#scoreboard {
+    border-collapse: collapse;    
+}
+#scoreboard td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid black;
+}
+
+
+#bets {
+    border-collapse: collapse;    
+}
+#bets td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid black;
+}

@@ -21,7 +21,7 @@
         </form>
         
         
-        <table>
+        <table id="scoreboard">
           <tr th:each="sc : ${scoreboardEntries}">
             <td>
               <span th:text="${sc.position} ?: ''">1</span>
