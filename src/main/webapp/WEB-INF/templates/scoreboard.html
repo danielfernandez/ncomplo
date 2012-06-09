@@ -37,8 +37,14 @@
             </td>
           </tr>
         </table>
+
+        <div>        
+          <a th:href="@{/password}">Change password</a>
+        </div>
         
-        <a th:if="${user.admin}" th:href="@{/admin}">Go to Admin</a>
+        <div>        
+          <a th:if="${user.admin}" th:href="@{/admin}">Go to Admin</a>
+        </div>        
         
         
     </div> 

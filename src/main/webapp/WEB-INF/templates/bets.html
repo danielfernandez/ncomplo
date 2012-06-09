@@ -14,35 +14,47 @@
         <h2>Bets for user: <span th:text="${user.name}">name</span></h2>
 
         <table border="1">
-          <tr th:each="b : ${allBets}" 
-              th:with="g=${b.game},gsA=${b.game.gameSideA},gsB=${b.game.gameSideB},
-                       betScA=${b.scoreA},betScB=${b.scoreB},
-                       gScA=${b.game.scoreA},gScB=${b.game.scoreB}">
-            <td>
-              <span th:text="${g.name}">game name</span>
-            </td>
-            <td>
-              <span th:text="${g.date} ? ${#dates.format(g.date,#messages.msg('dates.format'))} : '-'">game date</span>
-            </td>
-            <td>
-              <span th:text="${gsA} ? ${gsA.getName(#locale)} : '-'">game sideA</span>
-            </td>
-            <td>
-              <span th:text="${gsB} ? ${gsB.getName(#locale)} :  '-'">game sideB</span>
-            </td>
-            <td>
-              <span th:text="${gScA} ?: '-'">game score sideA</span>
-            </td>
-            <td>
-              <span th:text="${gScB} ?: '-'">game score sideB</span>
-            </td>
-            <td>
-              <span th:text="${betScA} ?: '-'">bet score sideA</span>
-            </td>
-            <td>
-              <span th:text="${betScB} ?: '-'">bet score sideB</span>
-            </td>
-          </tr>
+          <thead>
+            <tr>
+              <th>Game name</th>
+              <th>Game date</th>
+              <th>Sides</th>
+              <th>Bet Score</th>
+              <th>Real Score</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="b : ${allBets}" 
+                th:with="g=${b.game},gsA=${b.game.gameSideA},gsB=${b.game.gameSideB},
+                         betScA=${b.scoreA},betScB=${b.scoreB},
+                         gScA=${b.game.scoreA},gScB=${b.game.scoreB}">
+              <td>
+                <span th:text="${g.name}">game name</span>
+              </td>
+              <td>
+                <span th:text="${g.date} ? ${#dates.format(g.date,#messages.msg('dates.format'))} : '-'">game date</span>
+              </td>
+              <td>
+                <span th:text="${gsA} ? ${gsA.getName(#locale)} : '?'">game sideA</span>
+                -
+                <span th:text="${gsB} ? ${gsB.getName(#locale)} :  '?'">game sideB</span>
+              </td>
+              <td>
+                <span th:text="${betScA} ?: '?'">bet score sideA</span>
+                -
+                <span th:text="${betScB} ?: '?'">bet score sideB</span>
+              </td>
+              <td>
+                <span th:text="${gScA} ?: '?'">game score sideA</span>
+                -
+                <span th:text="${gScB} ?: '?'">game score sideB</span>
+              </td>
+              <td>
+                <span th:text="${b.pointsEarned}">points</span>
+              </td>
+            </tr>
+          </tbody>
         </table>
         
         <a th:href="@{'/scoreboard/' + ${league.id}}">Go to Scoreboard</a>

@@ -11,6 +11,7 @@ import org.eleventhlabs.ncomplo.business.entities.User.UserComparator;
 import org.eleventhlabs.ncomplo.business.entities.repositories.LeagueRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.UserRepository;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
+import org.eleventhlabs.ncomplo.exceptions.InternalErrorException;
 import org.jasypt.util.password.PasswordEncryptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -161,7 +162,7 @@ public class UserService {
     
     
     @Transactional
-    public User resetPassword(final String login, final boolean sendEmail) {
+    public String resetPassword(final String login, final boolean sendEmail) {
         
         final String newPassword = 
                 RandomStringUtils.randomAlphanumeric(10);
@@ -175,7 +176,28 @@ public class UserService {
             this.emailService.sendNewPassword(login, newPassword);
         }
         
-System.out.println(">> NEW PASSWORD FOR " + login + " IS: \"" + newPassword + "\"");
+        return newPassword;
+        
+    }
+
+    
+    
+    @Transactional
+    public User changePassword(final String login, 
+            final String oldPassword, final String newPassword) {
+        
+        final User user =
+                this.userRepository.findOne(login);
+        
+        final String oldHashedPassword = user.getPassword();
+        
+        if (!this.passwordEncryptor.checkPassword(oldPassword, oldHashedPassword)) {
+            throw new InternalErrorException("Old password does not match!");
+        }
+        
+        final String hashedNewPassword = 
+                this.passwordEncryptor.encryptPassword(newPassword);
+        user.setPassword(hashedNewPassword);
         
         return user;
         

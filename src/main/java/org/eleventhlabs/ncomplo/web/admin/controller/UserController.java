@@ -112,10 +112,30 @@ public class UserController {
     @RequestMapping("/resetpassword")
     public String resetPassword(
             @RequestParam(value="login")
-            final String login) {
+            final String login,
+            final ModelMap model) {
 
-        this.userService.resetPassword(login, true);
-        return "redirect:list";
+        /*
+         * This use case is not implemented in a completely
+         * correct manner, as password should be emailed from
+         * the server layer directly to the user, and never
+         * be shown in a page.
+         * 
+         * But Cloud Foundry currently does not allow sending
+         * email from applications (only by integrating with
+         * some non-free services like Postmark), so this has
+         * been implemented this way temporarily.
+         */
+
+        final String newPassword =
+                this.userService.resetPassword(login, true);
+        final User user = 
+                this.userService.find(login);
+        
+        model.addAttribute("user", user);
+        model.addAttribute("newPassword", newPassword);
+        
+        return VIEW_BASE + "passwordchanged";
         
     }
 
