@@ -9,8 +9,8 @@
     
     <div id="content">
   
-        <h1 th:value="#{scoreboard.title}">SCOREBOARD</h1>
-        <h2 th:value="#{scoreboard.title.league(${league.getName(#locale)})}">League: one league</h2>
+        <h1 th:text="#{scoreboard.title}">SCOREBOARD</h1>
+        <h2 th:text="#{scoreboard.title.league(${league.getName(#locale)})}">League: one league</h2>
 
         <div>
           <form th:if="${showLeagueSelector}" th:action="@{/selectScoreboard}" 
