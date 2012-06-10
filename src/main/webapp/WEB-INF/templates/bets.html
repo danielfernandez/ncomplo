@@ -36,7 +36,7 @@
                          bsA=${b.gameSideA},bsB=${b.gameSideB},
                          gScA=${b.game.scoreA},gScB=${b.game.scoreB},
                          bScA=${b.scoreA},bScB=${b.scoreB}"
-                th:class="${!b.pointsComputed}? 'bet_notcomputed'">
+                th:class="${b.winLevel != null}? ('bet_winLevel' + ${b.winLevel})">
               <td>
                 <span th:text="${g.name}">game name</span>
               </td>
