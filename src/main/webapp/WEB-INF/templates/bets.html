@@ -35,7 +35,8 @@
                          gsA=${b.game.gameSideA},gsB=${b.game.gameSideB},
                          bsA=${b.gameSideA},bsB=${b.gameSideB},
                          gScA=${b.game.scoreA},gScB=${b.game.scoreB},
-                         bScA=${b.scoreA},bScB=${b.scoreB}">
+                         bScA=${b.scoreA},bScB=${b.scoreB}"
+                th:class="${!b.pointsComputed}? 'bet_notcomputed'">
               <td>
                 <span th:text="${g.name}">game name</span>
               </td>
@@ -67,7 +68,7 @@
                 <span th:text="${bScB} ?: '?'">bet score sideB</span>
               </td>
               <td>
-                <span th:text="${b.points}">points</span>
+                <span th:text="${b.pointsComputed} ? ${b.points} : ''">points</span>
               </td>
             </tr>
           </tbody>

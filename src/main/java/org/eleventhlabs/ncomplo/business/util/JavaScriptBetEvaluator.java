@@ -191,7 +191,7 @@ public final class JavaScriptBetEvaluator {
         
         
         private Integer points = null;
-        private Integer globalBetWinLevel = Integer.valueOf(0); 
+        private Integer winLevel = Integer.valueOf(0); 
         private Integer sideAWinLevel = Integer.valueOf(0);
         private Integer sideBWinLevel = Integer.valueOf(0);
         private Integer scoreAWinLevel = Integer.valueOf(0);
@@ -221,12 +221,12 @@ public final class JavaScriptBetEvaluator {
             return this.pointsAssigned;
         }
 
-        public Integer getGlobalBetWinLevel() {
-            return this.globalBetWinLevel;
+        public Integer getWinLevel() {
+            return this.winLevel;
         }
 
-        public void setGlobalBetWinLevel(final Integer globalBetWinLevel) {
-            this.globalBetWinLevel = globalBetWinLevel;
+        public void setWinLevel(final Integer winLevel) {
+            this.winLevel = winLevel;
         }
 
         public Integer getSideAWinLevel() {
@@ -265,7 +265,7 @@ public final class JavaScriptBetEvaluator {
         @Override
         public String toString() {
             return "BetEvalResult [points=" + this.points
-                    + ", globalBetWinLevel=" + this.globalBetWinLevel
+                    + ", globalBetWinLevel=" + this.winLevel
                     + ", sideAWinLevel=" + this.sideAWinLevel + ", sideBWinLevel="
                     + this.sideBWinLevel + ", scoreAWinLevel=" + this.scoreAWinLevel
                     + ", scoreBWinLevel=" + this.scoreBWinLevel + "]";
