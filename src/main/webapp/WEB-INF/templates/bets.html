@@ -53,10 +53,10 @@
                 <span th:text="${gsA} ? ${gsA.getName(#locale)} : '?'">game sideA</span>
               </td>
               <td class="bet_game_scoreA">
-                <span th:text="${gScA} ?: '?'">game score sideA</span>
+                <span th:if="${b.scoreMatter}" th:text="${gScA} ?: '?'">game score sideA</span>
               </td>
               <td class="bet_game_scoreB">
-                <span th:text="${gScB} ?: '?'">game score sideB</span>
+                <span th:if="${b.scoreMatter}" th:text="${gScB} ?: '?'">game score sideB</span>
               </td>
               <td class="bet_game_sideB">
                 <span th:text="${gsB} ? ${gsB.getName(#locale)} :  '?'">game sideB</span>
@@ -65,10 +65,10 @@
                 <span th:text="${bsA} ? ${bsA.getName(#locale)} : '?'">bet sideA</span>
               </td>
               <td class="bet_bet_scoreA">
-                <span th:text="${bScA} ?: '?'">bet score sideA</span>
+                <span th:if="${b.scoreMatter}" th:text="${bScA} ?: '?'">bet score sideA</span>
               </td>
               <td class="bet_bet_scoreB">
-                <span th:text="${bScB} ?: '?'">bet score sideB</span>
+                <span th:if="${b.scoreMatter}" th:text="${bScB} ?: '?'">bet score sideB</span>
               </td>
               <td class="bet_bet_sideB">
                 <span th:text="${bsB} ? ${bsB.getName(#locale)} :  '?'">bet sideB</span>
