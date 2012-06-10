@@ -90,6 +90,18 @@ public class Bet {
     @Column(name="SCORE_B_WIN_LEVEL",nullable=true)
     private Integer scoreBWinLevel;
 
+    
+    @Column(name="SIDES_MATTER",nullable=true)
+    private Boolean sidesMatter;
+    
+    
+    @Column(name="SCORE_MATTER",nullable=true)
+    private Boolean scoreMatter;
+    
+    
+    @Column(name="RESULT_MATTER",nullable=true)
+    private Boolean resultMatter;
+
 
     
     
@@ -246,11 +258,46 @@ public class Bet {
     }
 
 
+    public Boolean isSidesMatter() {
+        return this.sidesMatter;
+    }
+
+
+    public void setSidesMatter(final Boolean sidesMatter) {
+        this.sidesMatter = sidesMatter;
+    }
+
+
+    public Boolean isScoreMatter() {
+        return this.scoreMatter;
+    }
+
+
+    public void setScoreMatter(final Boolean scoreMatter) {
+        this.scoreMatter = scoreMatter;
+    }
+
+
+    public Boolean isResultMatter() {
+        return this.resultMatter;
+    }
+
+
+    public void setResultMatter(final Boolean resultMatter) {
+        this.resultMatter = resultMatter;
+    }
+
+
+    
+
 
 
     public void evaluate() {
         
-        final BetEvalResult evalResult = JavaScriptBetEvaluator.evaluate(this);
+        final LeagueGame leagueGame = getLeague().getLeagueGames().get(getGame());
+        final BetType betType = leagueGame.getBetType();
+        
+        final BetEvalResult evalResult = JavaScriptBetEvaluator.evaluate(this, betType);
         this.setPointsComputed(Boolean.valueOf(evalResult.isPointsAssigned()));
         this.setPoints(evalResult.getPoints());
         this.setWinLevel(evalResult.getWinLevel());
@@ -258,6 +305,9 @@ public class Bet {
         this.setSideBWinLevel(evalResult.getSideBWinLevel());
         this.setScoreAWinLevel(evalResult.getScoreAWinLevel());
         this.setScoreBWinLevel(evalResult.getScoreBWinLevel());
+        this.setResultMatter(Boolean.valueOf(betType.isResultMatter()));
+        this.setSidesMatter(Boolean.valueOf(betType.isSidesMatter()));
+        this.setScoreMatter(Boolean.valueOf(betType.isScoreMatter()));
         
     }
     

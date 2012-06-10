@@ -57,8 +57,9 @@ public class BetTypeService {
             final String name,
             final Map<String,String> namesByLang,
             final String spec,
-            final boolean gameSidesMatter,
-            final boolean scoreMatter) {
+            final boolean sidesMatter,
+            final boolean scoreMatter,
+            final boolean resultMatter) {
 
         final Competition competition = 
                 this.competitionRepository.findOne(competitionId);
@@ -71,8 +72,9 @@ public class BetTypeService {
         betType.getNamesByLang().clear();
         betType.getNamesByLang().putAll(namesByLang);
         betType.setSpec(spec);
-        betType.setGameSidesMatter(gameSidesMatter);
+        betType.setSidesMatter(sidesMatter);
         betType.setScoreMatter(scoreMatter);
+        betType.setResultMatter(resultMatter);
         
         if (id == null) {
             competition.getBetTypes().add(betType);

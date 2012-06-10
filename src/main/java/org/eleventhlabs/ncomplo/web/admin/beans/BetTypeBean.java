@@ -27,10 +27,13 @@ public class BetTypeBean implements Serializable {
     private String spec;
 
     @NotNull
-    private boolean gameSidesMatter = true;
+    private boolean sidesMatter = true;
 
     @NotNull
     private boolean scoreMatter = true;
+
+    @NotNull
+    private boolean resultMatter = true;
     
     
     public BetTypeBean() {
@@ -73,13 +76,13 @@ public class BetTypeBean implements Serializable {
     }
 
 
-    public boolean isGameSidesMatter() {
-        return this.gameSidesMatter;
+    public boolean isSidesMatter() {
+        return this.sidesMatter;
     }
 
 
-    public void setGameSidesMatter(final boolean gameSidesMatter) {
-        this.gameSidesMatter = gameSidesMatter;
+    public void setSidesMatter(final boolean sidesMatter) {
+        this.sidesMatter = sidesMatter;
     }
 
 
@@ -90,6 +93,16 @@ public class BetTypeBean implements Serializable {
 
     public void setScoreMatter(final boolean scoreMatter) {
         this.scoreMatter = scoreMatter;
+    }
+
+
+    public boolean isResultMatter() {
+        return this.resultMatter;
+    }
+
+
+    public void setResultMatter(final boolean resultMatter) {
+        this.resultMatter = resultMatter;
     }
 
     

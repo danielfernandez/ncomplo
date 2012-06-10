@@ -78,8 +78,9 @@ public class BetTypeController {
             betTypeBean.getNamesByLang().clear();
             betTypeBean.getNamesByLang().addAll(LangBean.listFromMap(betType.getNamesByLang()));
             betTypeBean.setSpec(betType.getSpec());
-            betTypeBean.setGameSidesMatter(betType.isGameSidesMatter());
+            betTypeBean.setSidesMatter(betType.isSidesMatter());
             betTypeBean.setScoreMatter(betType.isScoreMatter());
+            betTypeBean.setResultMatter(betType.isResultMatter());
         }
         
         model.addAttribute("betType", betTypeBean);
@@ -104,8 +105,9 @@ public class BetTypeController {
                 betTypeBean.getName(),
                 LangBean.mapFromList(betTypeBean.getNamesByLang()),
                 betTypeBean.getSpec(),
-                betTypeBean.isGameSidesMatter(),
-                betTypeBean.isScoreMatter());
+                betTypeBean.isSidesMatter(),
+                betTypeBean.isScoreMatter(),
+                betTypeBean.isResultMatter());
         
         return "redirect:list";
         

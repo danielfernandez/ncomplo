@@ -24,7 +24,7 @@ public final class JavaScriptBetEvaluator {
     private static final Logger logger = LoggerFactory.getLogger(JavaScriptBetEvaluator.class);
     
     
-    public static BetEvalResult evaluate(final Bet bet) {
+    public static BetEvalResult evaluate(final Bet bet, final BetType betType) {
 
         Context ctx = null;
                 
@@ -32,8 +32,6 @@ public final class JavaScriptBetEvaluator {
         final Competition competition = league.getCompetition();
         final Game game = bet.getGame();
         final Round round = game.getRound();
-        final LeagueGame leagueGame = league.getLeagueGames().get(game);
-        final BetType betType = leagueGame.getBetType();
 
         try {
             

@@ -52,12 +52,17 @@ public class BetType implements I18nNamedEntity {
     private Competition competition;
 
     
-    @Column(name="GAME_SIDES_MATTER")
-    private boolean gameSidesMatter;
+    @Column(name="SIDES_MATTER",nullable=false)
+    private boolean sidesMatter;
     
     
-    @Column(name="SCORE_MATTER")
+    @Column(name="SCORE_MATTER",nullable=false)
     private boolean scoreMatter;
+    
+    
+    @Column(name="RESULT_MATTER",nullable=false)
+    private boolean resultMatter;
+
     
 
 
@@ -124,14 +129,14 @@ public class BetType implements I18nNamedEntity {
 
 
 
-    public boolean isGameSidesMatter() {
-        return this.gameSidesMatter;
+    public boolean isSidesMatter() {
+        return this.sidesMatter;
     }
 
 
 
-    public void setGameSidesMatter(final boolean gameSidesMatter) {
-        this.gameSidesMatter = gameSidesMatter;
+    public void setSidesMatter(final boolean sidesMatter) {
+        this.sidesMatter = sidesMatter;
     }
 
 
@@ -144,6 +149,18 @@ public class BetType implements I18nNamedEntity {
 
     public void setScoreMatter(final boolean scoreMatter) {
         this.scoreMatter = scoreMatter;
+    }
+
+
+    
+    public boolean isResultMatter() {
+        return this.resultMatter;
+    }
+
+    
+
+    public void setResultMatter(final boolean winnerMatter) {
+        this.resultMatter = winnerMatter;
     }
 
 
