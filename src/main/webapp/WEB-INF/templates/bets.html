@@ -44,7 +44,7 @@
                     ">
                 
               <td class="bet_game_name">
-                <span th:text="${g.name}">game name</span>
+                <span th:text="${g.getName(#locale)}">game name</span>
               </td>
               <td class="bet_game_date">
                 <span th:text="${g.date} ? ${#dates.format(g.date,#messages.msg('dates.format'))} : '-'">game date</span>
