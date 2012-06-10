@@ -35,8 +35,8 @@
                          gsA=${b.game.gameSideA},gsB=${b.game.gameSideB},
                          bsA=${b.gameSideA},bsB=${b.gameSideB},
                          gScA=${b.game.scoreA},gScB=${b.game.scoreB},
-                         bScA=${b.scoreA},bScB=${b.scoreB}"
-                th:class="${b.winLevel != null}? ('bet_winLevel' + ${b.winLevel})">
+                         bScA=${b.scoreA},bScB=${b.scoreB},
+                         betClass=(${b.winLevel != null}? ('bet_winLevel' + ${b.winLevel}))">
               <td>
                 <span th:text="${g.name}">game name</span>
               </td>
@@ -55,19 +55,19 @@
               <td>
                 <span th:text="${gScB} ?: '?'">game score sideB</span>
               </td>
-              <td>
+              <td th:class="${betClass}">
                 <span th:text="${bsA} ? ${bsA.getName(#locale)} : '?'">bet sideA</span>
               </td>
-              <td>
+              <td th:class="${betClass}">
                 <span th:text="${bsB} ? ${bsB.getName(#locale)} :  '?'">bet sideB</span>
               </td>
-              <td>
+              <td th:class="${betClass}">
                 <span th:text="${bScA} ?: '?'">bet score sideA</span>
               </td>
-              <td>
+              <td th:class="${betClass}">
                 <span th:text="${bScB} ?: '?'">bet score sideB</span>
               </td>
-              <td>
+              <td th:class="${betClass}">
                 <span th:text="${b.pointsComputed} ? ${b.points} : ''">points</span>
               </td>
             </tr>

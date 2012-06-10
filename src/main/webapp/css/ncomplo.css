@@ -47,15 +47,19 @@ h2 {
     border: 1px solid black;
 }
 
-#bets tr.bet_winLevel2 {
+#bets td.bet_winLevel2 {
     background-color: #4aea65;
     font-weight: bold;
 }
 
-#bets tr.bet_winLevel1 {
+#bets td.bet_winLevel1 {
     background-color: #b8f9c2;
 }
 
-#bets tr.bet_winLevel-1 {
+#bets td.bet_winLevel0 {
+    background-color: #f0f0f0;
+}
+
+#bets td.bet_winLevel-1 {
     background-color: #f4b190;
 }
