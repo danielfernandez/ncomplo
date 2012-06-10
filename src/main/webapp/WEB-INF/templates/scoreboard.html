@@ -22,20 +22,30 @@
         
         
         <table id="scoreboard">
-          <tr th:each="sc : ${scoreboardEntries}">
-            <td>
-              <span th:text="${sc.position} ?: ''">1</span>
-            </td>
-            <td>
-              <span th:text="${sc.user.name}">name</span>
-            </td>
-            <td>
-              <span th:text="${sc.points}">points</span>
-            </td>
-            <td>
-              <a th:href="@{'/bets/' + ${league.id} + '/' + ${sc.user.login}}">view bets</a>
-            </td>
-          </tr>
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Name</th>
+              <th>Points</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="sc : ${scoreboardEntries}">
+              <td class="scoreboard_position">
+                <span th:text="${sc.position} ?: ''">1</span>
+              </td>
+              <td class="scoreboard_name">
+                <span th:text="${sc.user.name}">name</span>
+              </td>
+              <td class="scoreboard_points">
+                <span th:text="${sc.points}">points</span>
+              </td>
+              <td class="scoreboard_actions">
+                <a th:href="@{'/bets/' + ${league.id} + '/' + ${sc.user.login}}">view bets</a>
+              </td>
+            </tr>
+          </tbody>
         </table>
 
         <div>        

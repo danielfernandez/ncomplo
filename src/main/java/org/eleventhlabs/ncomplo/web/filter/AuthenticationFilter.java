@@ -33,7 +33,8 @@ public class AuthenticationFilter implements Filter {
 
             if (!httpServletRequest.getServletPath().endsWith("/login") &&
                     !httpServletRequest.getServletPath().endsWith("/authenticate") &&
-                    !httpServletRequest.getServletPath().endsWith("/css/ncomplo.css")) {
+                    !httpServletRequest.getServletPath().endsWith("/css/ncomplo.css") &&
+                    !httpServletRequest.getServletPath().endsWith("/js/ncomplo.js")) {
                 
                 ((HttpServletResponse)response).sendRedirect("/login");
                 return;

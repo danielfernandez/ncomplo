@@ -30,6 +30,8 @@ $(function() {
      */
     
     
+    $.org.eleventhlabs.ncomplo.scoreboard = {};
+    
     $.org.eleventhlabs.ncomplo.lang = {};
     $.org.eleventhlabs.ncomplo.lang.prototypes = {};
     $.org.eleventhlabs.ncomplo.lang.LANG_INPUT_CLASS = 'langInput';
@@ -43,7 +45,7 @@ $(function() {
     
     /*
      * =======================================
-     * FUNCTIONS
+     * INITIALIZATION
      * =======================================
      */
     
@@ -53,6 +55,16 @@ $(function() {
             
             var ncomplo = this;
 
+            /*
+             * --------------------------
+             * Initialize scoreboard
+             * --------------------------
+             */
+            
+            this.scoreboard.removeRepeatedPositions();
+
+            
+            
             /*
              * --------------------------
              * Initialize lang prototypes
@@ -91,7 +103,50 @@ $(function() {
 
             
         };
-    
+        
+        
+        
+    /*
+     * =======================================
+     * LANG
+     * =======================================
+     */
+        
+        
+    $.org.eleventhlabs.ncomplo.scoreboard.removeRepeatedPositions =
+        function(langElementId) {
+        
+            var scoreboardEntries = $('#scoreboard tbody tr td.scoreboard_position span');
+            
+            if (scoreboardEntries != null) {
+            
+                (function () {
+                    var lastPos = -1;
+                    scoreboardEntries.each(
+                        function() {
+                            var posElement = $(this);
+                            var pos = parseInt(posElement.html());
+                            if (lastPos != pos) {
+                                lastPos = pos;
+                            } else {
+                                posElement.html('');
+                            }
+                        });
+                })();
+                
+            }
+            
+        };
+        
+            
+        
+        
+        
+    /*
+     * =======================================
+     * LANG
+     * =======================================
+     */
         
         
     $.org.eleventhlabs.ncomplo.lang.add =
