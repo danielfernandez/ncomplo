@@ -192,11 +192,11 @@ public final class JavaScriptBetEvaluator {
         
         
         private Integer points = null;
-        private Integer winLevel = Integer.valueOf(0); 
-        private Integer sideAWinLevel = Integer.valueOf(0);
-        private Integer sideBWinLevel = Integer.valueOf(0);
-        private Integer scoreAWinLevel = Integer.valueOf(0);
-        private Integer scoreBWinLevel = Integer.valueOf(0);
+        private Integer winLevel = null; 
+        private Integer sideAWinLevel = null;
+        private Integer sideBWinLevel = null;
+        private Integer scoreAWinLevel = null;
+        private Integer scoreBWinLevel = null;
         private boolean pointsAssigned = false;
         private GameSide betWinner = null;
         private Boolean betDraw = null;

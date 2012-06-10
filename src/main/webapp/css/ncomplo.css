@@ -47,19 +47,143 @@ h2 {
     border: 1px solid black;
 }
 
-#bets td.bet_winLevel2 {
-    background-color: #4aea65;
+
+
+
+/* -----------------  */
+/* BET COMPUTED       */
+/* -----------------  */
+
+
+
+#bets tr.bet_computed td.bet_game_name,
+#bets tr.bet_computed td.bet_game_date,
+#bets tr.bet_computed td.bet_game_sideA,
+#bets tr.bet_computed td.bet_game_scoreA,
+#bets tr.bet_computed td.bet_game_scoreB,
+#bets tr.bet_computed td.bet_game_sideB {
+    background-color: #e0e0e0;
+}
+
+#bets tr.bet_computed.bet_game_winnerA td.bet_game_sideA,
+#bets tr.bet_computed.bet_game_winnerB td.bet_game_sideB,
+#bets tr.bet_computed.bet_bet_winnerA td.bet_bet_sideA,
+#bets tr.bet_computed.bet_bet_winnerB td.bet_bet_sideB {
     font-weight: bold;
 }
 
-#bets td.bet_winLevel1 {
-    background-color: #b8f9c2;
+#bets tr.bet_computed.bet_game_winnerA td.bet_game_scoreA,
+#bets tr.bet_computed.bet_game_winnerB td.bet_game_scoreB,
+#bets tr.bet_computed.bet_bet_winnerA td.bet_bet_scoreA,
+#bets tr.bet_computed.bet_bet_winnerB td.bet_bet_scoreB {
+    font-weight: bold;
 }
 
-#bets td.bet_winLevel0 {
-    background-color: #f0f0f0;
+#bets tr.bet_computed.bet_game_draw td.bet_game_sideA,
+#bets tr.bet_computed.bet_game_draw td.bet_game_sideB,
+#bets tr.bet_computed.bet_bet_draw td.bet_bet_sideA,
+#bets tr.bet_computed.bet_bet_draw td.bet_bet_sideB {
+    font-weight: bold;
 }
 
-#bets td.bet_winLevel-1 {
+#bets tr.bet_computed.bet_game_draw td.bet_game_scoreA,
+#bets tr.bet_computed.bet_game_draw td.bet_game_scoreB,
+#bets tr.bet_computed.bet_bet_draw td.bet_bet_scoreA,
+#bets tr.bet_computed.bet_bet_draw td.bet_bet_scoreB {
+    font-weight: bold;
+}
+
+#bets tr.bet_computed.bet_winlevel2 td.bet_bet_sideA,
+#bets tr.bet_computed.bet_winlevel2 td.bet_bet_sideB {
+    background-color: #77d245;
+}
+
+#bets tr.bet_computed.bet_winlevel2 td.bet_bet_scoreA,
+#bets tr.bet_computed.bet_winlevel2 td.bet_bet_scoreB {
+    background-color: #77d245;
+}
+
+#bets tr.bet_computed.bet_winlevel1 td.bet_bet_sideA,
+#bets tr.bet_computed.bet_winlevel1 td.bet_bet_sideB {
+    background-color: #a7f37e;
+}
+
+#bets tr.bet_computed.bet_winlevel1 td.bet_bet_scoreA,
+#bets tr.bet_computed.bet_winlevel1 td.bet_bet_scoreB {
+    background-color: #a7f37e;
+}
+
+#bets tr.bet_computed.bet_winlevel0 td.bet_bet_sideA,
+#bets tr.bet_computed.bet_winlevel0 td.bet_bet_sideB {
     background-color: #f4b190;
 }
+
+#bets tr.bet_computed.bet_winlevel0 td.bet_bet_scoreA,
+#bets tr.bet_computed.bet_winlevel0 td.bet_bet_scoreB {
+    background-color: #f4b190;
+}
+
+#bets tr.bet_computed td.bet_points {
+    background-color: #303030;
+    font-weight: bold;
+    text-align: right;
+}
+
+#bets tr.bet_computed.bet_winlevel2 td.bet_points {
+    color: #77d245;
+}
+
+#bets tr.bet_computed.bet_winlevel1 td.bet_points {
+    color: #a7f37e;
+}
+
+#bets tr.bet_computed.bet_winlevel0 td.bet_points {
+    color: #f4b190;
+}
+
+
+
+/* -----------------  */
+/* BET NOT COMPUTED   */
+/* -----------------  */
+
+
+
+#bets tr.bet_notcomputed td.bet_game_name,
+#bets tr.bet_notcomputed td.bet_game_date,
+#bets tr.bet_notcomputed td.bet_game_sideA,
+#bets tr.bet_notcomputed td.bet_game_scoreA,
+#bets tr.bet_notcomputed td.bet_game_scoreB,
+#bets tr.bet_notcomputed td.bet_game_sideB,
+#bets tr.bet_notcomputed td.bet_bet_sideA,
+#bets tr.bet_notcomputed td.bet_bet_scoreA,
+#bets tr.bet_notcomputed td.bet_bet_scoreB,
+#bets tr.bet_notcomputed td.bet_bet_sideB,
+#bets tr.bet_notcomputed td.bet_points {
+    background-color: #f3fdaf;
+}
+
+#bets tr.bet_notcomputed.bet_bet_winnerA td.bet_bet_sideA,
+#bets tr.bet_notcomputed.bet_bet_winnerB td.bet_bet_sideB {
+    font-weight: bold;
+}
+
+#bets tr.bet_notcomputed.bet_bet_winnerA td.bet_bet_scoreA,
+#bets tr.bet_notcomputed.bet_bet_winnerB td.bet_bet_scoreB {
+    font-weight: bold;
+}
+
+#bets tr.bet_notcomputed.bet_bet_draw td.bet_bet_sideA,
+#bets tr.bet_notcomputed.bet_bet_draw td.bet_bet_sideB {
+    font-weight: bold;
+}
+
+#bets tr.bet_notcomputed.bet_bet_draw td.bet_bet_scoreA,
+#bets tr.bet_notcomputed.bet_bet_draw td.bet_bet_scoreB {
+    font-weight: bold;
+}
+
+
+
+
+

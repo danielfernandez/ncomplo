@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head th:substituteby="layout/header :: head"></head>
+  <head th:substituteby="layout/header :: head">
+        <link rel="stylesheet" type="text/css" href="../../css/ncomplo.css" />
+  </head>
   
   <body>
 
@@ -16,16 +18,10 @@
         <table id="bets">
           <thead>
             <tr>
-              <th colspan="6">Game</th>
-              <th colspan="5">Bet</th>
-            </tr>
-            <tr>
               <th>Name</th>
               <th>Date</th>
-              <th colspan="2">Sides</th>
-              <th colspan="2">Score</th>
-              <th colspan="2">Sides</th>
-              <th colspan="2">Score</th>
+              <th colspan="4">Game</th>
+              <th colspan="4">Bet</th>
               <th>Points</th>
             </tr>
           </thead>
@@ -35,39 +31,49 @@
                          gsA=${b.game.gameSideA},gsB=${b.game.gameSideB},
                          bsA=${b.gameSideA},bsB=${b.gameSideB},
                          gScA=${b.game.scoreA},gScB=${b.game.scoreB},
-                         bScA=${b.scoreA},bScB=${b.scoreB},
-                         betClass=(${b.winLevel != null}? ('bet_winLevel' + ${b.winLevel}))">
-              <td>
+                         bScA=${b.scoreA},bScB=${b.scoreB}"
+                th:class="
+                    (${b.pointsComputed} ? 'bet_computed' : 'bet_notcomputed') + ' ' +
+                    (${b.gameWinner == b.game.gameSideA} ? 'bet_game_winnerA' : '') + ' ' +
+                    (${b.gameWinner == b.game.gameSideB} ? 'bet_game_winnerB' : '') + ' ' +
+                    (${b.gameDraw} ? 'bet_game_draw' : '') + ' ' +
+                    (${b.betWinner == b.gameSideA} ? 'bet_bet_winnerA' : '') + ' ' +
+                    (${b.betWinner == b.gameSideB} ? 'bet_bet_winnerB' : '') + ' ' +
+                    (${b.betDraw} ? 'bet_bet_draw' : '') + ' ' +
+                    (${b.winLevel} ? ('bet_winlevel' + ${b.winLevel}) : '')
+                    ">
+                
+              <td class="bet_game_name">
                 <span th:text="${g.name}">game name</span>
               </td>
-              <td>
+              <td class="bet_game_date">
                 <span th:text="${g.date} ? ${#dates.format(g.date,#messages.msg('dates.format'))} : '-'">game date</span>
               </td>
-              <td>
+              <td class="bet_game_sideA">
                 <span th:text="${gsA} ? ${gsA.getName(#locale)} : '?'">game sideA</span>
               </td>
-              <td>
-                <span th:text="${gsB} ? ${gsB.getName(#locale)} :  '?'">game sideB</span>
-              </td>
-              <td>
+              <td class="bet_game_scoreA">
                 <span th:text="${gScA} ?: '?'">game score sideA</span>
               </td>
-              <td>
+              <td class="bet_game_scoreB">
                 <span th:text="${gScB} ?: '?'">game score sideB</span>
               </td>
-              <td th:class="${betClass}">
+              <td class="bet_game_sideB">
+                <span th:text="${gsB} ? ${gsB.getName(#locale)} :  '?'">game sideB</span>
+              </td>
+              <td class="bet_bet_sideA">
                 <span th:text="${bsA} ? ${bsA.getName(#locale)} : '?'">bet sideA</span>
               </td>
-              <td th:class="${betClass}">
-                <span th:text="${bsB} ? ${bsB.getName(#locale)} :  '?'">bet sideB</span>
-              </td>
-              <td th:class="${betClass}">
+              <td class="bet_bet_scoreA">
                 <span th:text="${bScA} ?: '?'">bet score sideA</span>
               </td>
-              <td th:class="${betClass}">
+              <td class="bet_bet_scoreB">
                 <span th:text="${bScB} ?: '?'">bet score sideB</span>
               </td>
-              <td th:class="${betClass}">
+              <td class="bet_bet_sideB">
+                <span th:text="${bsB} ? ${bsB.getName(#locale)} :  '?'">bet sideB</span>
+              </td>
+              <td class="bet_points">
                 <span th:text="${b.pointsComputed} ? ${b.points} : ''">points</span>
               </td>
             </tr>
