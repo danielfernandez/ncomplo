@@ -12,41 +12,57 @@
         <h1>SCOREBOARD</h1>
         <h2>League: <span th:text="${league.getName(#locale)}">league</span></h2>
 
-        <form th:if="${showLeagueSelector}" th:action="@{/selectScoreboard}" 
-              method="post" th:object="${leagueSelector}">
-          <select th:field="*{leagueId}">
-            <option th:each="l : ${allLeagues}" th:value="${l.id}" th:text="${l.getName(#locale)}">a league</option>
-          </select>
-          <input type="submit" value="View league"/>
-        </form>
+        <div>
+          <form th:if="${showLeagueSelector}" th:action="@{/selectScoreboard}" 
+                method="post" th:object="${leagueSelector}">
+            <select th:field="*{leagueId}">
+              <option th:each="l : ${allLeagues}" th:value="${l.id}" th:text="${l.getName(#locale)}">a league</option>
+            </select>
+            <input type="submit" value="View league"/>
+          </form>
+        </div>
+        
+        <div>
+          <form th:action="@{/selectScoreboard}" 
+                method="post" th:object="${leagueSelector}">
+            <input type="hidden" th:field="*{leagueId}" />
+            <select th:field="*{roundId}">
+              <option value="">All rounds</option>
+              <option th:each="r : ${allRounds}" th:value="${r.id}" th:text="${r.getName(#locale)}">a league</option>
+            </select>
+            <input type="submit" value="View round"/>
+          </form>
+        </div>
         
         
-        <table id="scoreboard">
-          <thead>
-            <tr>
-              <th>Pos</th>
-              <th>Name</th>
-              <th>Points</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="sc : ${scoreboardEntries}">
-              <td class="scoreboard_position">
-                <span th:text="${sc.position} ?: ''">1</span>
-              </td>
-              <td class="scoreboard_name">
-                <span th:text="${sc.user.name}">name</span>
-              </td>
-              <td class="scoreboard_points">
-                <span th:text="${sc.points}">points</span>
-              </td>
-              <td class="scoreboard_actions">
-                <a th:href="@{'/bets/' + ${league.id} + '/' + ${sc.user.login}}">view bets</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div>
+          <table id="scoreboard">
+            <thead>
+              <tr>
+                <th>Pos</th>
+                <th>Name</th>
+                <th>Points</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="sc : ${scoreboardEntries}">
+                <td class="scoreboard_position">
+                  <span th:text="${sc.position} ?: ''">1</span>
+                </td>
+                <td class="scoreboard_name">
+                  <span th:text="${sc.user.name}">name</span>
+                </td>
+                <td class="scoreboard_points">
+                  <span th:text="${sc.points}">points</span>
+                </td>
+                <td class="scoreboard_actions">
+                  <a th:href="@{'/bets/' + ${league.id} + '/' + ${sc.user.login}}">view bets</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div>        
           <a th:href="@{/password}">Change password</a>

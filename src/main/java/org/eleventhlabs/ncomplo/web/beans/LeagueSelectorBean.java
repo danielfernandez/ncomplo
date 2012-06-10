@@ -13,6 +13,9 @@ public class LeagueSelectorBean implements Serializable {
     @NotNull
     private Integer leagueId;
     
+    @NotNull
+    private Integer roundId;
+    
     
     
     public LeagueSelectorBean() {
@@ -28,6 +31,16 @@ public class LeagueSelectorBean implements Serializable {
 
     public void setLeagueId(final Integer leagueId) {
         this.leagueId = leagueId;
+    }
+
+
+    public Integer getRoundId() {
+        return this.roundId;
+    }
+
+
+    public void setRoundId(final Integer roundId) {
+        this.roundId = roundId;
     }
     
     

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.eleventhlabs.ncomplo.business.entities.Bet;
 import org.eleventhlabs.ncomplo.business.entities.Bet.BetComparator;
 import org.eleventhlabs.ncomplo.business.entities.League;
+import org.eleventhlabs.ncomplo.business.entities.Round;
 import org.eleventhlabs.ncomplo.business.entities.User;
 import org.eleventhlabs.ncomplo.business.services.BetService;
 import org.eleventhlabs.ncomplo.business.services.LeagueService;
@@ -85,9 +86,36 @@ public class ScoreboardController {
 
     
     
-    @RequestMapping({"/scoreboard/{leagueId}"})
-    public String scoreboard(
-            @PathVariable("leagueId") Integer leagueId,
+    @RequestMapping("/scoreboard/{leagueId}")
+    public String scoreboardByLeague(
+            @PathVariable("leagueId") final Integer leagueId,
+            final HttpServletRequest request,
+            final ModelMap model) {
+        
+        return computeScoreboard(leagueId, null, request, model);
+        
+    }
+    
+    
+    
+
+    @RequestMapping("/scoreboard/{leagueId}/{roundId}")
+    public String scoreboardByLeagueAndRound(
+            @PathVariable("leagueId") final Integer leagueId,
+            @PathVariable("roundId") final Integer roundId,
+            final HttpServletRequest request,
+            final ModelMap model) {
+        
+        return computeScoreboard(leagueId, roundId, request, model);
+        
+    }
+    
+    
+    
+
+    private String computeScoreboard(
+            final Integer leagueId,
+            final Integer roundId,
             final HttpServletRequest request,
             final ModelMap model) {
         
@@ -107,17 +135,22 @@ public class ScoreboardController {
 
         final LeagueSelectorBean leagueSelectorBean = new LeagueSelectorBean();
         leagueSelectorBean.setLeagueId(leagueId);
+        leagueSelectorBean.setRoundId(roundId);
 
         final League league = this.leagueService.find(leagueId);
         
+        final List<Round> rounds = new ArrayList<Round>(league.getCompetition().getRounds());
+        Collections.sort(rounds);
+        
         final List<ScoreboardEntry> scoreboardEntries =
-                this.scoreboardService.computeScoreboard(leagueId, null, locale);
+                this.scoreboardService.computeScoreboard(leagueId, roundId, locale);
        
         model.addAttribute("scoreboardEntries", scoreboardEntries);
         model.addAttribute("user", user);
         model.addAttribute("league", league);
         model.addAttribute("leagueSelector", leagueSelectorBean);
         model.addAttribute("allLeagues", activeUserLeagues);
+        model.addAttribute("allRounds", rounds);
         model.addAttribute("showLeagueSelector", Boolean.valueOf(activeUserLeagues.size() > 1));
         
         return "scoreboard";
@@ -126,11 +159,14 @@ public class ScoreboardController {
     
     
     
-    
 
     @RequestMapping({"/selectScoreboard"})
     public String selectScoreboard(final LeagueSelectorBean leagueSelectorBean) {
         final Integer leagueId = leagueSelectorBean.getLeagueId();
+        final Integer roundId = leagueSelectorBean.getRoundId();
+        if (roundId != null) {
+            return "redirect:/scoreboard/" + leagueId + "/" + roundId;
+        }
         return "redirect:/scoreboard/" + leagueId;
     }
 
