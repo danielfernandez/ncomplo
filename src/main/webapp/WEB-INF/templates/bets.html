@@ -40,7 +40,7 @@
                     (${b.betWinner == b.gameSideA} ? 'bet_bet_winnerA' : '') + ' ' +
                     (${b.betWinner == b.gameSideB} ? 'bet_bet_winnerB' : '') + ' ' +
                     (${b.betDraw} ? 'bet_bet_draw' : '') + ' ' +
-                    (${b.winLevel} ? ('bet_winlevel' + ${b.winLevel}) : '')
+                    (${b.winLevel != null} ? ('bet_winlevel' + ${b.winLevel}) : '')
                     ">
                 
               <td class="bet_game_name">
