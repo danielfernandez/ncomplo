@@ -81,6 +81,14 @@ h2 {
     background-color: #c7f39e;
 }
 
+#scoreboard tbody td.scoreboard_position {
+    text-align: right;
+}
+
+#scoreboard tbody td.scoreboard_points {
+    text-align: right;
+}
+
 
 
 
