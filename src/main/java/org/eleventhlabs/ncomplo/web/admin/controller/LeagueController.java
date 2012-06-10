@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.eleventhlabs.ncomplo.business.entities.BetType;
 import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.Game;
+import org.eleventhlabs.ncomplo.business.entities.Game.GameComparator;
 import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.LeagueGame;
 import org.eleventhlabs.ncomplo.business.services.BetTypeService;
 import org.eleventhlabs.ncomplo.business.services.CompetitionService;
 import org.eleventhlabs.ncomplo.business.services.LeagueService;
-import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
 import org.eleventhlabs.ncomplo.exceptions.InternalErrorException;
 import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
 import org.eleventhlabs.ncomplo.web.admin.beans.LeagueBean;
@@ -97,7 +97,7 @@ public class LeagueController {
                 this.competitionService.find(leagueCompetitionId);
                 
         final List<Game> allGamesForCompetition = new ArrayList<Game>(competition.getGames());
-        Collections.sort(allGamesForCompetition, new DatedAndNamedEntityComparator(locale));
+        Collections.sort(allGamesForCompetition, new GameComparator(locale));
                 
         
         final LeagueBean leagueBean = new LeagueBean();

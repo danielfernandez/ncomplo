@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.eleventhlabs.ncomplo.business.entities.Bet;
 import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.Game;
+import org.eleventhlabs.ncomplo.business.entities.Game.GameComparator;
 import org.eleventhlabs.ncomplo.business.entities.GameSide;
 import org.eleventhlabs.ncomplo.business.entities.League;
 import org.eleventhlabs.ncomplo.business.entities.LeagueGame;
@@ -18,7 +19,6 @@ import org.eleventhlabs.ncomplo.business.entities.User.UserComparator;
 import org.eleventhlabs.ncomplo.business.services.BetService;
 import org.eleventhlabs.ncomplo.business.services.LeagueService;
 import org.eleventhlabs.ncomplo.business.services.UserService;
-import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
 import org.eleventhlabs.ncomplo.business.util.I18nNamedEntityComparator;
 import org.eleventhlabs.ncomplo.web.admin.beans.BetBean;
 import org.eleventhlabs.ncomplo.web.admin.beans.ParticipationBean;
@@ -128,7 +128,7 @@ public class ParticipantBetsController {
             
         }
         
-        Collections.sort(allGames, new DatedAndNamedEntityComparator(locale));
+        Collections.sort(allGames, new GameComparator(locale));
         
         if (bets != null && bets.size() > 0) {
 

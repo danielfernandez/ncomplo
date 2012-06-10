@@ -8,13 +8,13 @@ import java.util.Map;
 
 import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.Game;
+import org.eleventhlabs.ncomplo.business.entities.Game.GameComparator;
 import org.eleventhlabs.ncomplo.business.entities.GameSide;
 import org.eleventhlabs.ncomplo.business.entities.repositories.BetTypeRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.CompetitionRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.GameRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.GameSideRepository;
 import org.eleventhlabs.ncomplo.business.entities.repositories.RoundRepository;
-import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
 import org.eleventhlabs.ncomplo.business.util.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,7 +63,7 @@ public class GameService {
     public List<Game> findAll(final Integer competitionId, final Locale locale) {
         final List<Game> rounds = 
                 IterableUtils.toList(this.gameRepository.findByCompetitionId(competitionId));
-        Collections.sort(rounds, new DatedAndNamedEntityComparator(locale));
+        Collections.sort(rounds, new GameComparator(locale));
         return rounds;
     }
 

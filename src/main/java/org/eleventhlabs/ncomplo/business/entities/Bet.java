@@ -13,8 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.eleventhlabs.ncomplo.business.entities.Game.GameComparator;
 import org.eleventhlabs.ncomplo.business.entities.User.UserComparator;
-import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
 import org.eleventhlabs.ncomplo.business.util.I18nNamedEntityComparator;
 import org.eleventhlabs.ncomplo.business.util.JavaScriptBetEvaluator;
 import org.eleventhlabs.ncomplo.business.util.JavaScriptBetEvaluator.BetEvalResult;
@@ -380,7 +380,7 @@ public class Bet {
         
         private final Locale locale;
         private final I18nNamedEntityComparator i18nNamedEntityComparator;
-        private final DatedAndNamedEntityComparator datedAndNamedEntityComparator;
+        private final GameComparator gameComparator;
         private final UserComparator userComparator;
         
         
@@ -388,7 +388,7 @@ public class Bet {
             super();
             this.locale = locale;
             this.i18nNamedEntityComparator = new I18nNamedEntityComparator(this.locale);
-            this.datedAndNamedEntityComparator = new DatedAndNamedEntityComparator(this.locale);
+            this.gameComparator = new GameComparator(this.locale);
             this.userComparator = new UserComparator(this.locale);
         }
         
@@ -404,7 +404,7 @@ public class Bet {
             }
 
             final int gameComp =
-                    this.datedAndNamedEntityComparator.compare(o1.getGame(), o2.getGame());
+                    this.gameComparator.compare(o1.getGame(), o2.getGame());
             if (gameComp != 0) {
                 return gameComp;
             }

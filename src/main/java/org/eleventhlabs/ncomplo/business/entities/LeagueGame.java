@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.eleventhlabs.ncomplo.business.util.DatedAndNamedEntityComparator;
+import org.eleventhlabs.ncomplo.business.entities.Game.GameComparator;
 import org.eleventhlabs.ncomplo.business.util.I18nNamedEntityComparator;
 
 
@@ -97,14 +97,14 @@ public class LeagueGame {
         
         private final Locale locale;
         private final I18nNamedEntityComparator i18nNamedEntityComparator;
-        private final DatedAndNamedEntityComparator datedAndNamedEntityComparator;
+        private final GameComparator gameComparator;
         
         
         public LeagueGameComparator(final Locale locale) {
             super();
             this.locale = locale;
             this.i18nNamedEntityComparator = new I18nNamedEntityComparator(this.locale);
-            this.datedAndNamedEntityComparator = new DatedAndNamedEntityComparator(this.locale);
+            this.gameComparator = new GameComparator(this.locale);
         }
         
         
@@ -118,7 +118,7 @@ public class LeagueGame {
                 return leagueComp;
             }
 
-            return this.datedAndNamedEntityComparator.compare(o1.getGame(), o2.getGame());
+            return this.gameComparator.compare(o1.getGame(), o2.getGame());
             
         }
         

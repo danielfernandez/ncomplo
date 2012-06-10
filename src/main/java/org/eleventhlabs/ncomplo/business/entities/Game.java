@@ -1,5 +1,6 @@
 package org.eleventhlabs.ncomplo.business.entities;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -231,6 +232,62 @@ public class Game implements DatedAndNamedEntity {
         return (this.scoreA != null && this.scoreB != null);
     }
     
+    
+    
+    
+    
+    
+    public final static class GameComparator implements Comparator<Game>{
+        
+        
+        private final Locale locale;
+        
+        public GameComparator(final Locale locale) {
+            super();
+            this.locale = locale;
+        }
+        
+        
+        
+        @Override
+        public int compare(final Game o1, final Game o2) {
+            
+            final Integer o1Order = o1.getOrder();
+            final Integer o2Order = o2.getOrder();
+            
+            final int orderComp = o1Order.compareTo(o2Order);
+            if (orderComp != 0) {
+                return orderComp;
+            }
+
+            final Date o1Date = o1.getDate();
+            final Date o2Date = o2.getDate();
+            
+            if (o1Date != null) {
+                if (o2Date == null) {
+                    return -1;
+                }
+                final int dateComp = o1Date.compareTo(o2Date);
+                if (dateComp != 0) {
+                    return dateComp;
+                }
+            } else if (o2Date != null) {
+                return 1;
+            }
+            
+            final String o1Name = o1.getName(this.locale);
+            final String o2Name = o2.getName(this.locale);
+            if (o1Name == null) {
+                return 1;
+            }
+            if (o2Name == null) {
+                return -1;
+            }
+            return o1Name.compareTo(o2Name);
+        }
+        
+        
+    }
     
     
 }
