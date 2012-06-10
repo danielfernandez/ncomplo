@@ -27,6 +27,10 @@ public class GameBean implements Serializable {
 
     
     @NotNull
+    private Integer order;
+
+    
+    @NotNull
     private Integer roundId;
     
     
@@ -85,6 +89,16 @@ public class GameBean implements Serializable {
 
     public void setRoundId(final Integer roundId) {
         this.roundId = roundId;
+    }
+
+
+    public Integer getOrder() {
+        return this.order;
+    }
+
+
+    public void setOrder(final Integer order) {
+        this.order = order;
     }
 
 

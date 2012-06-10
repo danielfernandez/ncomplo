@@ -27,6 +27,11 @@
             </div>
             
             <div>
+              <label for="orderInput">Game order</label>
+              <input id="orderInput" type="number" th:field="*{order}" />
+            </div>
+            
+            <div>
               <label for="dateInput">Date</label>
               <input id="dateInput" type="date" th:field="*{date}" />
             </div>
@@ -73,12 +78,12 @@
             
             <div>
               <label for="scoreAInput">Score A</label>
-              <input id="scoreAInput" type="text" th:field="*{scoreA}" />
+              <input id="scoreAInput" type="number" th:field="*{scoreA}" />
             </div>
             
             <div>
               <label for="scoreBInput">Score B</label>
-              <input id="scoreBInput" type="text" th:field="*{scoreB}" />
+              <input id="scoreBInput" type="number" th:field="*{scoreB}" />
             </div>
             
           </fieldset>

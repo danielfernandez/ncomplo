@@ -11,11 +11,11 @@ import org.eleventhlabs.ncomplo.business.entities.Game;
 import org.eleventhlabs.ncomplo.business.services.BetTypeService;
 import org.eleventhlabs.ncomplo.business.services.CompetitionService;
 import org.eleventhlabs.ncomplo.business.services.GameService;
-import org.eleventhlabs.ncomplo.business.services.RoundService;
 import org.eleventhlabs.ncomplo.business.services.GameSideService;
+import org.eleventhlabs.ncomplo.business.services.RoundService;
 import org.eleventhlabs.ncomplo.business.util.I18nUtils;
-import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
 import org.eleventhlabs.ncomplo.web.admin.beans.GameBean;
+import org.eleventhlabs.ncomplo.web.admin.beans.LangBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -106,6 +106,7 @@ public class GameController {
             gameBean.setDate(game.getDate());
             gameBean.setDefaultBetTypeId(game.getDefaultBetType().getId());
             gameBean.setRoundId(game.getRound().getId());
+            gameBean.setOrder(game.getOrder());
             gameBean.setGameSideAId(
                     game.getGameSideA() == null?
                             null : game.getGameSideA().getId());
@@ -145,6 +146,7 @@ public class GameController {
                 LangBean.mapFromList(gameBean.getNamesByLang()),
                 gameBean.getDefaultBetTypeId(),
                 gameBean.getRoundId(),
+                gameBean.getOrder(),
                 gameBean.getGameSideAId(),
                 gameBean.getGameSideBId(),
                 gameBean.getScoreA(),

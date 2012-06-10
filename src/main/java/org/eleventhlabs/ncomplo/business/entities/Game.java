@@ -41,6 +41,10 @@ public class Game implements DatedAndNamedEntity {
     private Round round; 
 
     
+    @Column(name="GAME_ORDER",nullable=false)
+    private Integer order;
+
+    
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="DEFAULT_BET_TYPE_ID",nullable=false)
     private BetType defaultBetType; 
@@ -108,6 +112,16 @@ public class Game implements DatedAndNamedEntity {
 
     public void setRound(final Round round) {
         this.round = round;
+    }
+
+
+    public Integer getOrder() {
+        return this.order;
+    }
+
+
+    public void setOrder(final Integer order) {
+        this.order = order;
     }
 
 

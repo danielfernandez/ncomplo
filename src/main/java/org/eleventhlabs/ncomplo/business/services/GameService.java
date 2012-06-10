@@ -77,6 +77,7 @@ public class GameService {
             final Map<String,String> namesByLang,
             final Integer defaultBetTypeId,
             final Integer roundId,
+            final Integer order,
             final Integer gameSideAId,
             final Integer gameSideBId,
             final Integer scoreA,
@@ -100,6 +101,7 @@ public class GameService {
         game.getNamesByLang().putAll(namesByLang);
         game.setDefaultBetType(this.betTypeRepository.findOne(defaultBetTypeId));
         game.setRound(this.roundRepository.findOne(roundId));
+        game.setOrder(order);
         game.setGameSideA(gameSideA);
         game.setGameSideB(gameSideB);
         game.setScoreA(scoreA);
