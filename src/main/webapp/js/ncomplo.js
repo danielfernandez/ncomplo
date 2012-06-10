@@ -31,6 +31,8 @@ $(function() {
     
     
     $.org.eleventhlabs.ncomplo.scoreboard = {};
+    $.org.eleventhlabs.ncomplo.scoreboard.POSITION_SELECTOR = '#scoreboard tbody tr td.scoreboard_position';    
+    $.org.eleventhlabs.ncomplo.scoreboard.POSITION_CLASS_PREFIX = 'scoreboard_pos';
     
     $.org.eleventhlabs.ncomplo.lang = {};
     $.org.eleventhlabs.ncomplo.lang.prototypes = {};
@@ -116,7 +118,9 @@ $(function() {
     $.org.eleventhlabs.ncomplo.scoreboard.removeRepeatedPositions =
         function(langElementId) {
         
-            var scoreboardEntries = $('#scoreboard tbody tr td.scoreboard_position span');
+            var scoreboard = this;
+            
+            var scoreboardEntries = $(scoreboard.POSITION_SELECTOR);
             
             if (scoreboardEntries != null) {
             
@@ -125,12 +129,14 @@ $(function() {
                     scoreboardEntries.each(
                         function() {
                             var posElement = $(this);
-                            var pos = parseInt(posElement.html());
+                            var posSpan = posElement.find('span');
+                            var pos = parseInt(posSpan.html());
                             if (lastPos != pos) {
                                 lastPos = pos;
                             } else {
-                                posElement.html('');
+                                posSpan.html('');
                             }
+                            posElement.parent().addClass(scoreboard.POSITION_CLASS_PREFIX + pos);
                         });
                 })();
                 
