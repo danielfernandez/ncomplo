@@ -11,18 +11,18 @@
     
     <div id="content">
   
-        <h1>BETS</h1>
-        <h2>League: <span th:text="${league.getName(#locale)}">league</span></h2>
-        <h2>Bets for user: <span th:text="${user.name}">name</span></h2>
+        <h1 th:text="#{bets.title}">BETS</h1>
+        <h2 th:text="#{bets.title.league(${league.getName(#locale)})}">League: a league</h2>
+        <h2 th:text="#{bets.title.user(${user.name})}">Bets for user: a user</h2>
 
         <table id="bets">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Date</th>
-              <th colspan="4">Game</th>
-              <th colspan="4">Bet</th>
-              <th>Points</th>
+              <th th:text="#{bets.header.name}">Name</th>
+              <th th:text="#{bets.header.date}">Date</th>
+              <th colspan="4" th:text="#{bets.header.game}">Game</th>
+              <th colspan="4" th:text="#{bets.header.bet}">Bet</th>
+              <th th:text="#{bets.header.points}">Points</th>
             </tr>
           </thead>
           <tbody>
@@ -81,7 +81,7 @@
         </table>
         
         <div>
-          <a th:href="@{'/scoreboard/' + ${league.id}}">Go to Scoreboard</a>
+          <a th:href="@{'/scoreboard/' + ${league.id}}" th:text="#{nav.scoreboard}">Go to Scoreboard</a>
         </div>
         
     </div> 

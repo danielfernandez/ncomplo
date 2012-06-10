@@ -9,8 +9,8 @@
     
     <div id="content">
   
-        <h1>SCOREBOARD</h1>
-        <h2>League: <span th:text="${league.getName(#locale)}">league</span></h2>
+        <h1 th:value="#{scoreboard.title}">SCOREBOARD</h1>
+        <h2 th:value="#{scoreboard.title.league(${league.getName(#locale)})}">League: one league</h2>
 
         <div>
           <form th:if="${showLeagueSelector}" th:action="@{/selectScoreboard}" 
@@ -18,7 +18,7 @@
             <select th:field="*{leagueId}">
               <option th:each="l : ${allLeagues}" th:value="${l.id}" th:text="${l.getName(#locale)}">a league</option>
             </select>
-            <input type="submit" value="View league"/>
+            <input type="submit" th:value="#{scoreboard.league.form.submit}" />
           </form>
         </div>
         
@@ -27,10 +27,10 @@
                 method="post" th:object="${leagueSelector}">
             <input type="hidden" th:field="*{leagueId}" />
             <select th:field="*{roundId}">
-              <option value="">All rounds</option>
+              <option value="" th:text="#{scoreboard.form.round.allrounds}">All rounds</option>
               <option th:each="r : ${allRounds}" th:value="${r.id}" th:text="${r.getName(#locale)}">a league</option>
             </select>
-            <input type="submit" value="View round"/>
+            <input type="submit" th:value="#{scoreboard.form.round.submit}" />
           </form>
         </div>
         
@@ -39,9 +39,9 @@
           <table id="scoreboard">
             <thead>
               <tr>
-                <th>Pos</th>
-                <th>Name</th>
-                <th>Points</th>
+                <th th:text="#{scoreboard.header.position}">Pos</th>
+                <th th:text="#{scoreboard.header.name}">Name</th>
+                <th th:text="#{scoreboard.header.points}">Points</th>
                 <th></th>
               </tr>
             </thead>
@@ -57,7 +57,7 @@
                   <span th:text="${sc.points}">points</span>
                 </td>
                 <td class="scoreboard_actions">
-                  <a th:href="@{'/bets/' + ${league.id} + '/' + ${sc.user.login}}">view bets</a>
+                  <a th:href="@{'/bets/' + ${league.id} + '/' + ${sc.user.login}}" th:text="#{scoreboard.viewbets}">view bets</a>
                 </td>
               </tr>
             </tbody>
@@ -65,11 +65,11 @@
         </div>
 
         <div>        
-          <a th:href="@{/password}">Change password</a>
+          <a th:href="@{/password}" th:text="#{nav.changepassword}">Change password</a>
         </div>
         
         <div>        
-          <a th:if="${user.admin}" th:href="@{/admin}">Go to Admin</a>
+          <a th:if="${user.admin}" th:href="@{/admin}" th:text="#{nav.admin}">Go to Admin</a>
         </div>        
         
         

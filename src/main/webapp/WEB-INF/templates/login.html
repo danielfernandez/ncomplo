@@ -9,25 +9,28 @@
     
     <div id="content">
   
-        <h1>Authenticate</h1>
+        <h1 th:text="#{login.title}">Authenticate</h1>
 
         <form th:action="@{authenticate}" method="post">
         
           <fieldset>
             
             <div>
-              <label for="loginInput">Login</label>
+              <label for="loginInput" th:text="#{login.form.login}">Login</label>
               <input id="loginInput" type="text" name="login" required="required" />
             </div>
             
             <div>
-              <label for="passwordInput">Password</label>
+              <label for="passwordInput" th:text="#{login.form.password}">Password</label>
               <input id="passwordInput" type="password" name="password" required="required" />
+            </div>
+            
+            <div>
+              <input type="submit" th:value="#{login.form.submit}" />
             </div>
             
           </fieldset>
           
-          <input type="submit" />
           
         </form>        
         
