@@ -101,6 +101,24 @@ public class Bet {
     
     @Column(name="RESULT_MATTER",nullable=true)
     private Boolean resultMatter;
+    
+    
+    @Column(name="BET_IS_DRAW",nullable=true)
+    private Boolean betDraw;    
+    
+    
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="BET_WINNER_ID",nullable=true)
+    private GameSide betWinner;
+    
+    
+    @Column(name="GAME_IS_DRAW",nullable=true)
+    private Boolean gameDraw;
+    
+    
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="GAME_WINNER_ID",nullable=true)
+    private GameSide gameWinner;
 
 
     
@@ -258,7 +276,7 @@ public class Bet {
     }
 
 
-    public Boolean isSidesMatter() {
+    public Boolean getSidesMatter() {
         return this.sidesMatter;
     }
 
@@ -268,7 +286,7 @@ public class Bet {
     }
 
 
-    public Boolean isScoreMatter() {
+    public Boolean getScoreMatter() {
         return this.scoreMatter;
     }
 
@@ -278,7 +296,7 @@ public class Bet {
     }
 
 
-    public Boolean isResultMatter() {
+    public Boolean getResultMatter() {
         return this.resultMatter;
     }
 
@@ -288,7 +306,46 @@ public class Bet {
     }
 
 
-    
+    public Boolean getBetDraw() {
+        return this.betDraw;
+    }
+
+
+    public void setBetDraw(final Boolean betDraw) {
+        this.betDraw = betDraw;
+    }
+
+
+    public GameSide getBetWinner() {
+        return this.betWinner;
+    }
+
+
+    public void setBetWinner(final GameSide betWinner) {
+        this.betWinner = betWinner;
+    }
+
+
+    public Boolean getGameDraw() {
+        return this.gameDraw;
+    }
+
+
+    public void setGameDraw(final Boolean gameDraw) {
+        this.gameDraw = gameDraw;
+    }
+
+
+    public GameSide getGameWinner() {
+        return this.gameWinner;
+    }
+
+
+    public void setGameWinner(final GameSide gameWinner) {
+        this.gameWinner = gameWinner;
+    }
+
+
 
 
 
@@ -308,6 +365,10 @@ public class Bet {
         this.setResultMatter(Boolean.valueOf(betType.isResultMatter()));
         this.setSidesMatter(Boolean.valueOf(betType.isSidesMatter()));
         this.setScoreMatter(Boolean.valueOf(betType.isScoreMatter()));
+        this.setBetDraw(evalResult.getBetDraw());
+        this.setBetWinner(evalResult.getBetWinner());
+        this.setGameDraw(evalResult.getGameDraw());
+        this.setGameWinner(evalResult.getGameWinner());
         
     }
     

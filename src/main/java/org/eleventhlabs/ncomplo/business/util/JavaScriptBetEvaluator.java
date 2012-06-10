@@ -9,7 +9,6 @@ import org.eleventhlabs.ncomplo.business.entities.Competition;
 import org.eleventhlabs.ncomplo.business.entities.Game;
 import org.eleventhlabs.ncomplo.business.entities.GameSide;
 import org.eleventhlabs.ncomplo.business.entities.League;
-import org.eleventhlabs.ncomplo.business.entities.LeagueGame;
 import org.eleventhlabs.ncomplo.business.entities.Round;
 import org.eleventhlabs.ncomplo.exceptions.InternalErrorException;
 import org.mozilla.javascript.Context;
@@ -149,6 +148,10 @@ public final class JavaScriptBetEvaluator {
             ScriptableObject.putProperty(scope, "gameScoresDefined", Context.javaToJS(gameScoresDefined, scope));
 
             final BetEvalResult result = new BetEvalResult();
+            result.setBetWinner(betWinner);
+            result.setBetDraw(betDraw);
+            result.setGameWinner(gameWinner);
+            result.setGameDraw(gameDraw);
             
             ScriptableObject.putProperty(scope, "result", Context.javaToJS(result, scope));
             
@@ -195,6 +198,10 @@ public final class JavaScriptBetEvaluator {
         private Integer scoreAWinLevel = Integer.valueOf(0);
         private Integer scoreBWinLevel = Integer.valueOf(0);
         private boolean pointsAssigned = false;
+        private GameSide betWinner = null;
+        private Boolean betDraw = null;
+        private GameSide gameWinner = null;
+        private Boolean gameDraw = null;
         
         
         public BetEvalResult() {
@@ -259,6 +266,39 @@ public final class JavaScriptBetEvaluator {
             this.scoreBWinLevel = scoreBWinLevel;
         }
 
+        public GameSide getBetWinner() {
+            return this.betWinner;
+        }
+
+        public void setBetWinner(final GameSide betWinner) {
+            this.betWinner = betWinner;
+        }
+
+        public Boolean getBetDraw() {
+            return this.betDraw;
+        }
+
+        public void setBetDraw(final Boolean betDraw) {
+            this.betDraw = betDraw;
+        }
+
+        public GameSide getGameWinner() {
+            return this.gameWinner;
+        }
+
+        public void setGameWinner(final GameSide gameWinner) {
+            this.gameWinner = gameWinner;
+        }
+
+        public Boolean getGameDraw() {
+            return this.gameDraw;
+        }
+
+        public void setGameDraw(final Boolean gameDraw) {
+            this.gameDraw = gameDraw;
+        }
+
+        
         
         @Override
         public String toString() {
