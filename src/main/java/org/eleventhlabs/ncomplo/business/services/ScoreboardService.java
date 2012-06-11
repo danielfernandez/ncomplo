@@ -75,14 +75,15 @@ public class ScoreboardService {
         Collections.sort(scoreboard, new ScoreboardEntryComparator(locale));
         
         int position = 0;
+        int treated  = 0;
         int lastPoints = -1;
         for (final ScoreboardEntry entry : scoreboard) {
+            treated++;
             if (entry.getPoints().intValue() != lastPoints) {
-                entry.setPosition(Integer.valueOf(++position));
+                position = treated;
                 lastPoints = entry.getPoints().intValue();
-            } else {
-                entry.setPosition(Integer.valueOf(position));
-            }
+            } 
+            entry.setPosition(Integer.valueOf(position));                       
         }
         
         
