@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.eleventhlabs.ncomplo.web.util.SessionUtil;
 
 public class AuthenticationFilter implements Filter {
@@ -31,14 +32,19 @@ public class AuthenticationFilter implements Filter {
 
         if (!SessionUtil.isUserAuthenticated(httpServletRequest)) {
 
-            if (!httpServletRequest.getServletPath().endsWith("/login") &&
-                    !httpServletRequest.getServletPath().endsWith("/authenticate") &&
-                    !httpServletRequest.getServletPath().endsWith("/css/ncomplo.css") &&
-                    !httpServletRequest.getServletPath().endsWith("/js/ncomplo.js")) {
-                
-                ((HttpServletResponse)response).sendRedirect("/login");
-                return;
-                
+        	if (!httpServletRequest.getServletPath().endsWith("/login") &&
+        			!httpServletRequest.getServletPath().endsWith("/authenticate") &&
+        			!httpServletRequest.getServletPath().endsWith("/css/ncomplo.css") &&
+        			!httpServletRequest.getServletPath().endsWith("/js/ncomplo.js")) {
+
+        		String contextPath = httpServletRequest.getContextPath();
+        		String redirect = (StringUtils.isBlank(contextPath) ? StringUtils.EMPTY
+        				: contextPath)
+        				+ "/login";
+
+        		((HttpServletResponse) response).sendRedirect(redirect);
+        		return;
+
             }
             
         }
