@@ -183,32 +183,44 @@ h2 {
 }
 
 #bets tr.bet_computed.bet_winlevel2 td.bet_bet_sideA,
-#bets tr.bet_computed.bet_winlevel2 td.bet_bet_sideB {
+#bets tr.bet_computed.bet_winlevel2 td.bet_bet_sideB,
+#bets tr.bet_computed.bet_sideAwinlevel2 td.bet_bet_sideA,
+#bets tr.bet_computed.bet_sideBwinlevel2 td.bet_bet_sideB {
     background-color: #77d245;
 }
 
 #bets tr.bet_computed.bet_winlevel2 td.bet_bet_scoreA,
-#bets tr.bet_computed.bet_winlevel2 td.bet_bet_scoreB {
+#bets tr.bet_computed.bet_winlevel2 td.bet_bet_scoreB,
+#bets tr.bet_computed.bet_sideAwinlevel2 td.bet_bet_scoreA,
+#bets tr.bet_computed.bet_sideBwinlevel2 td.bet_bet_scoreB {
     background-color: #77d245;
 }
 
 #bets tr.bet_computed.bet_winlevel1 td.bet_bet_sideA,
-#bets tr.bet_computed.bet_winlevel1 td.bet_bet_sideB {
+#bets tr.bet_computed.bet_winlevel1 td.bet_bet_sideB,
+#bets tr.bet_computed.bet_sideAwinlevel1 td.bet_bet_sideA,
+#bets tr.bet_computed.bet_sideBwinlevel1 td.bet_bet_sideB {
     background-color: #a7f37e;
 }
 
 #bets tr.bet_computed.bet_winlevel1 td.bet_bet_scoreA,
-#bets tr.bet_computed.bet_winlevel1 td.bet_bet_scoreB {
+#bets tr.bet_computed.bet_winlevel1 td.bet_bet_scoreB,
+#bets tr.bet_computed.bet_sideAwinlevel1 td.bet_bet_scoreA,
+#bets tr.bet_computed.bet_sideBwinlevel1 td.bet_bet_scoreB {
     background-color: #a7f37e;
 }
 
 #bets tr.bet_computed.bet_winlevel0 td.bet_bet_sideA,
-#bets tr.bet_computed.bet_winlevel0 td.bet_bet_sideB {
+#bets tr.bet_computed.bet_winlevel0 td.bet_bet_sideB,
+#bets tr.bet_computed.bet_sideAwinLevel0 td.bet_bet_sideA,
+#bets tr.bet_computed.bet_sideBwinlevel0 td.bet_bet_sideB {
     background-color: #f4b190;
 }
 
 #bets tr.bet_computed.bet_winlevel0 td.bet_bet_scoreA,
-#bets tr.bet_computed.bet_winlevel0 td.bet_bet_scoreB {
+#bets tr.bet_computed.bet_winlevel0 td.bet_bet_scoreB,
+#bets tr.bet_computed.bet_sideAwinlevel0 td.bet_bet_scoreA,
+#bets tr.bet_computed.bet_sideBwinlevel0 td.bet_bet_scoreB {
     background-color: #f4b190;
 }
 
@@ -218,15 +230,21 @@ h2 {
     text-align: right;
 }
 
-#bets tr.bet_computed.bet_winlevel2 td.bet_points {
+#bets tr.bet_computed.bet_winlevel2 td.bet_points,
+#bets tr.bet_computed.bet_sideAwinlevel2 td.bet_points,
+#bets tr.bet_computed.bet_sideBwinlevel2 td.bet_points {
     color: #77d245;
 }
 
-#bets tr.bet_computed.bet_winlevel1 td.bet_points {
+#bets tr.bet_computed.bet_winlevel1 td.bet_points,
+#bets tr.bet_computed.bet_sideAwinlevel1 td.bet_points,
+#bets tr.bet_computed.bet_sideBwinlevel1 td.bet_points {
     color: #a7f37e;
 }
 
-#bets tr.bet_computed.bet_winlevel0 td.bet_points {
+#bets tr.bet_computed.bet_winlevel0 td.bet_points,
+#bets tr.bet_computed.bet_sideAwinlevel0 td.bet_points,
+#bets tr.bet_computed.bet_sideBwinlevel0 td.bet_points {
     color: #f4b190;
 }
 

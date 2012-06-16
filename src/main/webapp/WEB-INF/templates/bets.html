@@ -40,7 +40,9 @@
                     (${b.betWinner == b.gameSideA} ? 'bet_bet_winnerA' : '') + ' ' +
                     (${b.betWinner == b.gameSideB} ? 'bet_bet_winnerB' : '') + ' ' +
                     (${b.betDraw} ? 'bet_bet_draw' : '') + ' ' +
-                    (${b.winLevel != null} ? ('bet_winlevel' + ${b.winLevel}) : '')
+                    (${b.winLevel != null} ? ('bet_winlevel' + ${b.winLevel}) : '') + ' ' +
+                    (${b.sideAWinLevel != null} ? ('bet_sideAwinlevel' + ${b.sideAWinLevel}) : '') + ' ' +
+                    (${b.sideBWinLevel != null} ? ('bet_sideBwinlevel' + ${b.sideBWinLevel}) : '')
                     ">
                 
               <td class="bet_game_name">
