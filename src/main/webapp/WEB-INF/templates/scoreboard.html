@@ -42,6 +42,7 @@
                 <th th:text="#{scoreboard.header.position}">Pos</th>
                 <th th:text="#{scoreboard.header.name}">Name</th>
                 <th th:text="#{scoreboard.header.points}">Points</th>
+                <th th:text="#{scoreboard.header.todayGames}" colspan="2">Today</th>
                 <th></th>
               </tr>
             </thead>
@@ -56,6 +57,24 @@
                 <td class="scoreboard_points">
                   <span th:text="${sc.points}">points</span>
                 </td>
+                <td>
+                  <span th:if="${sc.game1SideA}" th:text="${sc.game1SideA}">game1sideA</span>
+                  &nbsp;
+                  <span th:if="${sc.score1SideB}" th:text="${sc.score1SideB}">score1sideA</span> 
+                  &nbsp; - &nbsp;
+                  <span th:if="${sc.score1SideB}" th:text="${sc.score1SideB}">score1sideB</span>
+                  &nbsp;
+                  <span th:if="${sc.game1SideB}" th:text="${sc.game1SideB}">game1sideB</span> 
+                </td>
+                <td>
+                  <span th:if="${sc.game2SideA}" th:text="${sc.game2SideA}">game1sideA</span>
+                  &nbsp;
+                  <span th:if="${sc.score2SideB}" th:text="${sc.score2SideB}">score1sideA</span> 
+                  &nbsp; - &nbsp;
+                  <span th:if="${sc.score2SideB}" th:text="${sc.score2SideB}">score1sideB</span>
+                  &nbsp;
+                  <span th:if="${sc.game2SideB}" th:text="${sc.game2SideB}">game1sideB</span> 
+                </td>                
                 <td class="scoreboard_actions">
                   <a th:href="@{'/bets/' + ${league.id} + '/' + ${sc.user.login}}" th:text="#{scoreboard.viewbets}">view bets</a>
                 </td>
